@@ -18,7 +18,7 @@ ZIPS = [
     ("random-20260622T160649Z-3-001.zip",  "random"),
 ]
 
-OUTPUT_DIR = Path("compressed")
+OUTPUT_DIR = Path("results")
 
 SKIP_SUBTYPES = {
     "bot_message", "channel_join", "channel_leave", "channel_purpose",
