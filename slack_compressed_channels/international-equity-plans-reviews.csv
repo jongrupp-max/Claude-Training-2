@@ -1,0 +1,534 @@
+u,t,m
+1346,2025-07-10 17:27,"Per discussion < we will use this channel for PR reviews. I'll update the github teams and mapping such that when we use the ""notify team reviewers"" tag in a PR, it'll redirect to here. You can still post PRs manually if you like, but please do it on this channel over the private channel"
+1244,2025-07-10 18:03,Are we splitting ownership between the two international pods? if not we may want to have a shared reviews channel?! Bc `international-team-public` includes us all
+1346,2025-07-10 18:13,"Based on my discussions with , my understanding is that we are becoming separate teams than separate pods. I think regardless of that, I'm planning to have a dedicated PR review channel so we can lessen the noise of the public channel. That channel seems to be more oriented towards team updates, bugs, some RD, and social. It seems like PR reviews from either pod are not being posted here but in the private pod channels atm, and PRs from other teams are posted in the I'm ok with this channel being used by both pods and for external teams. cc"
+1346,2025-07-10 18:29,"I plan to do the same with members of the other pod after i'm done here. I plan to converse with afterwards once i have something up to share. Since this is being brought up now, i wonder what is your opinion Pawel?"
+1346,2025-07-10 18:40,Two PRs out regarding the team PR changes if we're proceeding: • update github team members: < • channel mapping change: < Gonna merge the first PR anyway because we missed a few folks on the pod
+1346,2025-07-10 19:16,< on the team repository access> in PR btw and if team would like to follow-up
+684,2025-07-11 11:53,The < for the witness signature events that could use a couple of
+1245,2025-07-11 13:28,< to remove dead code from Witness signature service
+1346,2025-07-11 17:37,going to merge the second PR after staff and dx approvals. I can iterate depending on other pod's feedback
+1346,2025-07-11 18:48,hm.. i need ’s codeowner approval but he's MTO until Jul 27... going to ping to see if i'm unblocked
+1244,2025-07-11 19:50,Updating API contract implementation for sign witness request API: <
+1346,2025-07-11 22:14,"Hey team, can get a review on < It's for SECINT-720 Update import template spreadsheets to use mmm/dd/yyyy date format. A review from `securities-international-team` is required. Thanks! (copying automated message from the other channel. Seems like the mapping is not deployed/working yet)"
+1346,2025-07-11 22:18,looks like the < most recent tag> was from last week. Tho let me see if tags are being used at all
+1126,2025-07-14 11:32,Can I also get some eyes on < please?
+1244,2025-07-14 12:46,Hey Kenny! Do we have to undo any of the logic introduced for the (now removed) extra header row?
+1125,2025-07-14 12:56,I think I agree with Leo that as long as the github team is `securities-international` it should group both pods and also should map to the common pr channel.
+1125,2025-07-14 13:02,"I wouldn't mind having a common github team and code reviews channel for both pods. The things we're working on are closely related so I imagine we could benefit from code review ""cross-pollination""."
+1346,2025-07-14 14:07,"i have a comment on the PR description. The gist of it is that since we're using the metadata tags, we should be fine. I was testing on local to double check but ran into some env issues. Will continue on that"
+1346,2025-07-14 14:16,That sounds good to me. I also prefer both pods being on the same github team also. I'll have a follow-up PR to add the other pod into <
+1244,2025-07-14 14:42,My bad. I missed that. Do you mind to file a tech debit ticket to remove it case we are not using? Just so it’s harder for us to just forget
+1245,2025-07-14 14:49,< PR> to add 2 new columns to the WitnessSignatureRequest table. Will remove the deprecated fields once the application layer is sorted out
+1346,2025-07-14 15:04,that's a fair point. Will do
+1346,2025-07-14 15:39,FYI updating github teams for the the other pod: < carta-ci auto merged it already
+1346,2025-07-14 17:46,"Gonna keep it in the same epic for now, tho the ticket is more suited for the Q1 2026 epic which is not created yet"
+1244,2025-07-14 19:47,Updating contract of API to fetch witness signature request details: <
+1346,2025-07-14 22:29,"Hi team, I updated the onboarding spreadsheets PR to have the newer date formats : <"
+1244,2025-07-15 15:09,Hey team! Can I have some on this one? I’m inverting the dependency between `Approver` and `WitnessSignatureRequest` . The reasoning is in the PR description: <
+1244,2025-07-15 15:10,"cc , would you mind to take a look at this one? You also proposed this when we were discussing the DB design but wanted to make sure you also agree with the reasons I gave there"
+1345,2025-07-15 15:16,"PR to update the WitnessSignatureService to expose a method that links the WitnessSignatureRequests to use the Approver/ApprovalGroup rather than the document_id. Once this is in, I will start on deleting all the code that uses the document_id as the link: <"
+1346,2025-07-15 15:21,`notify-review-teams` tag now maps to this channel properly. Just add our team onto your PR then use the tag and it'll look like this
+110,2025-07-15 15:34,"Yeah, let me"
+110,2025-07-15 15:39,"Nice, I like the indexing reason. Didn't think about it so it makes even more sense now."
+1244,2025-07-16 18:47,/ this one just got merged… You’ll likely have to update the PRs you have in flight
+1244,2025-07-16 22:29,Can I have one more on this one team?! <
+1245,2025-07-17 17:26,< to add witness to approval group on OptionGrant Issuance
+1244,2025-07-18 14:39,"Hey team! < PR> is assigning some of the code we created to our ownership. This will not only require our review for code changes but can be leveraged on datadog for specialized alerts, dashboards, etc. Are you aware of any other directories / subdirectories we should we can include to the list?"
+1244,2025-07-18 14:40,cc <!subteam^S072EFBU8MQ|@intl-equity-plans-engineers>
+1123,2025-07-18 14:44,"I think the only new thing from us would be issuables/asas, but it hasn't been merged yet"
+1244,2025-07-18 14:45,Cool. I’ll let you know once this is merged so you can just add that to the list in your PR
+1346,2025-07-18 14:54,"hm.. just thinking about the approvals ownership and whether the team now have the business and tech knowledge of it? I think by saying ownership, we are now going to be maintaining it, support future product features, and answer anyone's inquiries on the subject. I did notice the blurb on that line, but just making sure what our commitment levels should be by adding ownership"
+1244,2025-07-18 14:54,< same> but for the frontend platform repo
+1244,2025-07-18 14:55,", just removed that… can you take a look?"
+1346,2025-07-18 14:56,"oh tyty. To be clear I'm not saying we shouldn't own it, just thinking about what expectations we have when we add code ownership"
+1346,2025-07-18 14:57,Is the Intl PR tag new?
+1244,2025-07-18 14:59,TBH I think it’s old and meant for a different team… but I’ve been using it. Not sure if I should though
+1346,2025-07-18 15:02,"I'm cool with using it actually, especially because i think we have a higher proportion of PRs making changes in existing areas than net new and they might not be owned by us. Could be because of my current work specifically tho"
+1346,2025-07-18 15:18,gonna ping this again at the op tools channel for their
+1245,2025-07-21 12:57,Bumping this up for review
+1345,2025-07-21 13:45,Looking for re-reviews on this: < - Update WitnessSignatureService to get witness signature request by security
+1245,2025-07-21 20:44,< to update witness FF to utilize corp_ids
+1247,2025-07-21 21:24,"Hi team, can I get reviews for PR on SECINT-674 Bulk Update Grant Expiration Dates And Last Date To Exercise < thanks!"
+1346,2025-07-22 16:18,PR for Cohort 3 for import template updates: < Mostly focused on investor services importers
+1346,2025-07-22 20:30,"Hey team, I got a PR to disable a flaky test <"
+1345,2025-07-22 21:07,Refactored witness signature flows to fully replace document_id logic with security_id-based methods: <
+1245,2025-07-24 19:04,< to update approval group on Witness creation and Witness Signing (utilizing events)
+1245,2025-07-24 19:05,I have some mypy tests to fix but its ready to review
+1245,2025-07-24 21:50,"[SECM-3269] - ESR to mark a ""stuck"" share class conversion as failed to unblock a company: <"
+1244,2025-07-25 12:18,Added this to the PR but: do we already know how the record got stuck in this state?
+1245,2025-07-25 12:27,"No, we tried to figure that out while we were on the bugs / ESR call. I'm considering it a fluke because once I ran the script on sandbox i was able to convert those two securities"
+1244,2025-07-25 12:31,ok… let’s keep an eye out case it happens again
+1244,2025-07-25 15:24,Hello team! Can I have some on this one? < Two points to highlight: • The PR is 900 lines long but majority of it is just tests; • ~Spoiler alert: There are raw SQL queries~ ~. I have a docstring there with proper context but pls let me know if you disagree with the approach~ abandoned the raw sql approach
+1126,2025-07-28 11:24,Can I please get a review on < PR> that adds the backup equity plan model?
+1346,2025-07-30 17:55,From the Investor Services PR earlier but now with more tests and importers: <
+1345,2025-07-31 21:22,[SECINT-660] Optimization of is_witness_signature_required to no longer depend on WitnessSignatureService. There are further optimizations to be done that I have in a separate PR but just wanted to get this one in first as it would have the most direct impact by getting rid of the witness signature service dependency: <
+1245,2025-08-01 12:35,< to create cron job to expire WitnessSignatureRequests
+1345,2025-08-01 20:35,Just looking for one more review - <
+1245,2025-08-04 13:44,< to update nudge view based on our latest eng designs.
+1244,2025-08-05 12:59,Hello team! Can I have another on this one? <
+1346,2025-08-05 22:27,"Hey Team, I split this PR up into 4 PRs hoping to get more traction with investor services team to review, tho a quick look by the team is also appreciated : Original but shortened to main changes +1 importer: < wave 2: < wave 3: < wave 4: <"
+1247,2025-08-06 15:59,"Hi team, may I have one more review on this < Thanks!"
+1244,2025-08-06 16:45,Hey ! Thanks a lot for this one! Big improvement over what we have rn. I made a few more suggestions but let me know if any of them is too confusing or if you disagree
+1245,2025-08-06 20:11,"Hey team, can I get some eyes on these new event consumers? < Im going to build a box to make sure everything works as expected, getting inconsistent results locally"
+1247,2025-08-06 20:37,Thank you for the helpful suggestion! I have address them. Would you mind taking another look when you have a moment? Thanks!
+1245,2025-08-06 20:52,"Small < to remove using ""Witness"" twice in Approval Group"
+1244,2025-08-07 14:17,Hey Abi! I suggested we kill the methods we’re not using anymore but looks good I see had a question about atomic transactions… was that discussed over slack?
+2002,2025-08-07 14:27,"Hey , it wasn't discussed, but I wanted to get your opinion on it. My question is about the three separate database writes. I'm concerned that if the final write fails, the first two might not roll back, which could lead to data inconsistency. I could be mistaken about the writes happening in different transactions, or maybe a simple retry would be enough to fix it. Is this something we should be concerned about?"
+1244,2025-08-07 14:37,"When we use nested `transaction.atomic()` blocks, the lower one just join the upper one. so if any failure happens everything is still rolled back. The only case where that doesn’t happen is if we handle the exception explicitly. Example: ```@transaction.atomic def outer_block(): model_a = MyModel.objects.create(...) try: with transaction_atomic(): model_b = MyModel.objects.create(...) model_c = MyModel.objects.create(...) except Exception: pass``` If I’m not mistaken, in this example if something bad happens when creating `model_c` , `model_b` would be reverted but `model_a` would still be created. But I can find the ref on the docs to share… 1 sec"
+1244,2025-08-07 14:39,For completeness: ```@transaction.atomic def outer_block(): model_a = MyModel.objects.create(...) try: with transaction_atomic(): model_b = MyModel.objects.create(...) model_c = MyModel.objects.create(...) except Exception: pass model_d = MyModel.objects.create(...)``` if something bad happens when creating `model_d` then everything is rolled back.
+1244,2025-08-07 14:40,Here is the doc ref: <
+2002,2025-08-07 14:42,"Thanks, Leo! I just asked because `bulk_add_witnesses_to_approval_groups_and_create_requests` doesn't have an `@atomic` annotation itself, but maybe another function or layer that calls this method has it"
+1244,2025-08-07 14:44,"Ah! Sorry. I see your point. We usually assume the entrypoint of the operation is handling atomicity (so service entrypoint, views, etc) but let me check how is this being handled in this case."
+1244,2025-08-07 14:45,< It’s being applied in the service entrypoint
+2002,2025-08-07 14:48,"Thanks so much! That occurred to me while I was reading some PRs to get more familiar with the project, and i wanted to check for future reference"
+1244,2025-08-07 14:49,For sure! Always feel free to ask
+1346,2025-08-07 16:17,i think the mypy error might be blocking
+1244,2025-08-08 12:53,"Hello team! This one is preventing witness signature if the security is canceled, terminated, etc: <"
+1244,2025-08-08 19:07,"Hey team, this is just a quality-of-life improvement. Our test suite is taking to long to run and this will cut in half the runtime of the most expensive test file: <"
+1345,2025-08-08 20:09,"Some minor tweaks on the WitnessSignatureService 1) We don't need corporation_id or portfolio_id to retrieve security data if we're requiring the security_id, removing them simplifies the query a bit 2) Tried to move the explicit OptionGrant query logic over to one consistent place: <"
+1244,2025-08-12 15:10,Hello team! Can I have some on this one? It adds a `issuer_id` filter to the endpoint responsible for returning requests by portfolio: <
+2002,2025-08-12 19:15,Hello team! Could I get a review on this PR? It removes the `SECINT_330_FILLABLE_TEMPLATE_DOC_SET_FILTER_FIX` FF <
+1346,2025-08-12 20:01,tweaks from QA feedback
+2002,2025-08-12 20:33,Here's another small PR that removes the `SECINT_561_REGENERATION_BUG_FIX` FF <
+1126,2025-08-13 13:05,Can I please get a review on <
+1244,2025-08-13 19:35,Hey folks! Tiny one to show witness’ emails for staff users in the security modal: <
+1244,2025-08-14 17:22,Hey folks! The refactor I mentioned earlier is ready for review: <
+1346,2025-08-14 22:38,"Hey team, i have a PR for bulk update form of option grant agreements < This is modified from a previous script to handle the given input file better and a few other things"
+1245,2025-08-14 22:44,WitnessSignature FF < I had laying around
+1346,2025-08-14 23:03,got a box to test the functionality on: <
+1247,2025-08-15 12:36,"Hi team, can I get reviews for the PR for [SECINT-718] Update the attach document staff tool to incorporate witness signature: < Thanks!"
+1247,2025-08-15 12:42,Quick demo of attaching document with witness signature
+1346,2025-08-15 19:49,Wondering if I can get some views for this script PR? We pushed the deadline to Monday (Tuesday in client's time) due to weekend + timezones and we want to at least show this on sandbox.carta.team. <
+1346,2025-08-16 01:01,"Hey Team, follow-up to the above PR to remove some typehints <"
+1346,2025-08-16 01:02,"Never have i thought that adding typehints to the autorun constants results in them not being read, therefore the job will skip the script entirely but says that it's successful"
+1126,2025-08-18 12:29,"Hey team, can I please get a 2nd review on <"
+1244,2025-08-20 15:57,Hello team! This is the PR replacing JWT with UUID: < Thanks for the help with tests and pr details
+1126,2025-08-31 10:07,Can I please get another review on < PR>? Thanks
+1126,2025-09-01 13:47,Can I please get another review on < PR>? Thanks
+1244,2025-09-02 12:15,Good morning team! The doc for < spike> is ready for : <
+1126,2025-09-02 14:12,I'll take a look first thing tomorrow morning!
+1244,2025-09-02 16:03,A data model migration ready for review: <
+1126,2025-09-03 04:54,"Looks great to me, very straightforward. Great job"
+1245,2025-09-03 21:09,I think it makes sense and I agree with the approach
+1244,2025-09-04 15:18,"Hello team! Can I have your on < It’s adding the `Secondary options signatory` to the settings page (for non-us companies). Also, I’m adding a service method to centralize the logic to show/hide jurisdiction-based features."
+1247,2025-09-04 18:58,"It seems like this PR is set to merge into < instead of master, was this intentional?"
+1244,2025-09-04 19:06,"Yup. it depends on those changes and, if I based on master, it would show diff from both prs… once I merge 820 I can point it to master"
+1244,2025-09-05 14:43,Hey team! Moved to < PR> some code from my last PR that don’t need to be blocked by the DB column. Can I have some ?
+1244,2025-09-05 14:43,cc / you have already looked at this in the other pr
+2002,2025-09-05 14:48,"Thanks! It's going to help us a lot. However, claude noticed that the feature flag definition is missing"
+1244,2025-09-05 14:49,ah good catch… addressing
+1247,2025-09-05 14:54,looks good! Thank you for splitting out the FF helper
+1244,2025-09-05 15:44,"Just merged this one. If you need to validate against this project’s FF or need to check if some feature needs to be enable for a given corp, pls update your branch."
+1244,2025-09-05 21:19,Hey team! This one is unifying the code used by the views responsible for signing grants. Just so we have a single place to make our changes: <
+1126,2025-09-09 10:23,bump please
+1247,2025-09-10 17:11,"Thank you team for the comments! I have addressed them, and just bumping the PR"
+1244,2025-09-11 13:26,Hello team! Simple FF removal: <
+278,2025-09-11 13:26,Did you vibe code it
+1244,2025-09-11 13:27,Hahaha best vibe coding application?!
+278,2025-09-11 13:30,It was the topic of the vibe coding session. You can even create a `/remove-ff` command to do it
+1244,2025-09-11 13:32,ah nice! I missed that session. Do you know if it was recorded?
+2002,2025-09-11 13:37,This is from the session we had: <
+1126,2025-09-11 13:43,"hey team, can I please get another review on <"
+1245,2025-09-11 17:37,small PR to remove subscription requirement for fillable template: <
+1245,2025-09-11 18:39,FF removal PR: <
+1126,2025-09-12 04:57,Can I please get some reviews on: • < • <
+1247,2025-09-12 13:08,"Bump, may I have eyes on the requested changes please, thanks! cc."
+1126,2025-09-15 10:26,< - can I please get a review on this? it's already been approved but I had to re-open the PR due to so many merge conflicts
+1126,2025-09-15 10:27,< - and this as well please!
+1244,2025-09-15 14:58,Tiny one improving some language: <
+1245,2025-09-16 14:17,PR to add secondary signer to approval group on option issuance: <
+1244,2025-09-16 20:21,"Hey team, a quick fix for a bug I found while testing: <"
+1126,2025-09-17 04:40,Can I please get one more review on <
+2002,2025-09-18 12:37,"Hey team, a quick fix for a bug: <"
+1247,2025-09-18 17:51,"Hi team, can I get reviews for the PRs for *[SECINT-825] Raise an error when the user selects one of the secondary signatory variables but have not yet provided one*, thanks! *carta-web:* < *carta-frontend-platform:* <"
+1246,2025-09-18 20:15,Hey team can I get some reviews here: <
+1126,2025-09-22 12:25,"had to recreate the < PR> which has been sitting there since last Wednesday, can someone please take a look? thank you"
+1246,2025-09-22 16:36,I updated the PR with feature flag logic if you could take another look still waiting for CW staff access to make the ff in flipper
+1245,2025-09-22 16:45,ah ok good to know. I can go into flipper and add your FF there.
+1245,2025-09-22 16:46,"also, whenever you create a new FF, we try to create a ticket for removal. Can you do that as well? Similar to this, the description can be as simple as ""Remove SECINT_779_US_FILLABLE_TEMPLATES feature flag"""
+1246,2025-09-22 16:47,"Yes I'll do that, thanks for adding the ff for me"
+1245,2025-09-22 16:48,FF created in flipper
+1246,2025-09-22 16:54,Made the < ticket>
+1245,2025-09-23 15:00,do you mind checking this out?
+1244,2025-09-23 18:02,"Hello team, can I have your on < one>? It turns adding the secondary signatory to the approval group synchronous"
+1245,2025-09-24 15:36,PR to add composite fillable template variables (variables with extra meta data): <
+1247,2025-09-24 15:55,"Hi team, can I get review for the *carta-web* PR for [SECINT-825] Raise an error when the user selects one of the secondary signatory variables but have not yet provided one, thanks! *carta-web:* < *carta-frontend-platform:* <"
+1246,2025-09-25 18:22,"Hey team, can I get some on this PR <"
+1126,2025-09-26 13:27,"Hey team, I just created my first PR in the protobuf registry repo - < It should be fairly straightforward, but if I missed anything, please let me know (cc )"
+1246,2025-09-29 15:37,"Hey team, bumping this if you could take a look , I addressed your comments"
+1245,2025-09-29 15:37,yup will check it out now. Thanks
+1126,2025-09-30 10:37,"Can I please get a review on < (cc I would need a db one too anyway, if you have some time please )"
+1244,2025-09-30 13:22,"hey ! Just so I better understand the plan for this: Is the FE going to have two different sizes for vars? one for `is_composite=False` and another if `is_composite=True`? If so, I’m wondering if would it be too much effort to return the height / width of the block. The idea being, as the format of that content is dictated by the BE, I thought the size of the block could/should also be defined by it (as one is related to the other). So if the formatting change we only need to change one place. Does it make sense?"
+1244,2025-09-30 13:31,I believe this table isn’t as busy as options’ one was but I guess safer is better… haha Are you going to ping Muru and/or Brian to help you with that?
+1245,2025-09-30 13:45,"Yes that is the plan, the size of the box would be dependent on if is_composite is True of False. Since we only have two potential sizes, I thought to speed things up we just go with this approach, and if we get to the point we have many sizes then we could enhance the endpoint to specify a size."
+1244,2025-09-30 16:10,Hey! That’s fair. just wanted to make sure we were doing an intentional trade off decision: effort to have versatility vs tech debit that will delay us a bit as we have more variables. If we did then I’m onboard.
+1126,2025-10-01 09:33,"actually, now that it's ready to be merged, I was thinking - looking at the data, indeed the option draft sets is muuuch smaller and much less accessed than option grants. it shouldn't pose any issues. considering that I'll need the SRE team to run the migrations for option grants anyway, in order to speed it up, should I just merge it?"
+1247,2025-10-01 14:14,updated the < box>
+1244,2025-10-01 16:06,"not sure if I get it. In addition to this migration do you also have another one for options that will require SRE? If not and this is the only one. Since you already have it ready for a after hours release, I’d ask what Muru or Brian think. If they are good with this being a regular migration I’d just update it to have the regular django migration (w/o raw sql)."
+1246,2025-10-06 16:14,< here's the PR to update your FE work
+1244,2025-10-07 16:18,"Sorry Abi… I didn’t notice we had brought this one to the sprint. I was planning on doing an analysis on the actual need of this one before moving forward. Discussing it with now I feel like we’re better off without this. My thought process: • It’s not clear to me why we have this for other options in the first place. It feels like at some point we didn’t know where the source of a bug was (causing options to be missing approvers) and used this step to fix it; • This operation will be somewhat expensive for little return, given most of the options in the app won’t need secondary signatory and we’ll loop through all of them (for a given corp), try to fetch fillable templates and analise the vars to understand if there’s something to fix or not; • There’s a chance that the final result is also surprising to customers as it’s not very intuitive that changing the signatory will fix such a data issue. So I’d suggest we kill this w/o merging. What do you think?"
+1244,2025-10-07 17:01,Small one to adjust which regions will get the double signature stuff: <
+2002,2025-10-07 17:26,"Hey team, can I get a review here please: < It's a really small pr that adds the emi/csop feature flag result to one of our endpoints to be used on the FE"
+1245,2025-10-07 17:53,"For double signatures do we only care about the country of incorporation to determine the feature use? More specifically, this isn't a situation that if a employee is located in one of these regions the feature should be enabled?"
+686,2025-10-07 17:56,"I'd say that the double-signature or witness requirements originate from company law, so the relevant factor is the company’s jurisdiction, not the location of the individual employees / option holders"
+1247,2025-10-07 18:21,Thank you for clarifying Leo! Yes I think your thoughts make sense. I tested on my local and it seems like the users will very unlikely hit this edge case. I could close the ticket and PR
+1244,2025-10-07 18:27,Thanks for checking Abi. Were you able to reproduce that condition without messing with the DB?
+1247,2025-10-07 18:28,Nope I wasn't able to make it happen with normal UI operations
+1126,2025-10-08 10:22,"hey team, can I please get some reviews on < it's the segmentation logic for EMI/CSOP grants. thanks a lot!"
+1246,2025-10-08 19:50,Hey team can I get a review please < it's for refactoring composite variables to be more extensible
+1246,2025-10-08 19:50,cc I believe you two had a conversation about this work
+1245,2025-10-08 20:24,will check this out in a bit
+1245,2025-10-08 20:24,well probably the morning unless I finish my reviews earlier tonight
+1245,2025-10-09 15:02,small PR to update the size of signature hash / date: <
+1126,2025-10-10 13:14,"Hey team, can I please get some reviews on <"
+1246,2025-10-10 14:02,Hey team can I get a review here < adding an initialization api to fillable templates so the frontend can receive feature flags
+1126,2025-10-13 11:34,"Hey team, can I please get some reviews on < Thanks!"
+1247,2025-10-14 19:37,"Updated < box,> bump"
+1126,2025-10-16 10:19,"hey guys, can I please get a review on < thanks"
+1246,2025-10-20 13:59,Hey team can I get some reviews here please: < < It's for adding ESOP option types to the issue equity modal
+1247,2025-10-21 18:52,"Hi team, short PR to pass country information to simple issuance flow (for ""SECINT-961 Remove stakeholder relationship copy for INTL corps"" and some other relevant FE tickets in epic < <"
+1247,2025-10-21 18:54,Thanks for providing the information
+2002,2025-10-21 20:27,"Hi team, can I get some revies here: < It’s a pretty short PR to adjust a few things on the modal"
+1126,2025-10-22 10:53,Can I please get some reviews on < and < Thank you
+1126,2025-10-22 13:34,"< - if you guys can take a look, thank you! (cc , , ) a simple rename so the name is a bit clearer"
+1246,2025-10-22 17:49,I addressed your comments if you could take another look
+1246,2025-10-22 18:37,"I also pushed SECINT-962 to this branch, it now has all the copy changes for INTL corps"
+1247,2025-10-23 15:53,"Hi team, 1 line change to pass so_type data to simple issuance draft set < thanks!"
+278,2025-10-23 16:13,Let it be known that I said so before Claude aha <
+110,2025-10-23 16:49,And that I'm the last one _*AFTER*_ everybody else: <
+1246,2025-10-23 16:51,"Bump on the frontend PR, backend one is merged"
+2002,2025-10-23 17:47,"Hi team, can i please get some reviews on this PR: < I just renamed two emi_spreadsheet columns"
+1245,2025-10-23 18:26,How are we added these new files? Are we using git LFS?
+1245,2025-10-23 18:27,I cant remember if this is a requirement or not. Been a long time since I updated / added spreadsheets
+2002,2025-10-23 18:35,"I believe we are not using LFS for this file. Looking at .gitattributes, LFS is only configured for: • eshares/onboarding/importer_template_v2*.xlsx • static/lib/eshares/example_importer_template_v2*.xlsx the draft importer spreadsheets in static/lib/eshares/draft_importer/ use regular git"
+1245,2025-10-23 18:36,"alright cool, thanks for checking. I remember running into issues with this in the past, probably was for the importer template then"
+2002,2025-10-23 18:40,Anytime! Thanks for pointing this out
+1244,2025-10-24 16:48,Hey folks! A two liner to (explicitly) disable money movement for migrated corps (cc ) <
+1126,2025-10-28 11:13,"hey guys, can I please get some reviews on <"
+1247,2025-10-28 15:45,"Hi team, quick fix for a missing field in frontend tests for Secint-970: <"
+1246,2025-10-29 13:57,"I made some more changes here, could you take another look please"
+1247,2025-10-29 15:09,"Hi team, cam I please get reviews on PR for SECINT-958 Adapt static spreadsheets for Australian ESOP customers <"
+2002,2025-10-30 14:44,"Bump I have your approvals on this PR, but I’ve changed the logic quite a bit. Mind giving it another look? I’ll ping Cody as well"
+1246,2025-10-31 17:22,Hey team! Small PR to change the FF sent to simple issuance <
+1126,2025-11-04 09:57,"Hey team, can I please get some reviews on <"
+2002,2025-11-04 13:59,"Bump could you take another look at the PR? I updated it to reuse the frontend logic, so the spreadsheet builds dynamically based on the SO type"
+2002,2025-11-04 20:32,"Hey team, could you please review this PR adding HMRC columns to the onboarding spreadsheets: <"
+1247,2025-11-05 19:07,"Hi team, may I please get reviews for PRs for *[SECINT-952] Adapt UI spreadsheet for Australian ESOP customers*: • frontend: < • backend: <"
+1246,2025-11-06 15:15,"Heads up I merged my frontend PR for esop simple issuance, might have some conflicts with the openapi specs"
+1246,2025-11-06 16:46,Bump added updated the logic to show federal exemption field for US stakeholders and Australian option types
+2002,2025-11-06 19:52,"Hey team, could I please get reviews on < I need another PR to be merged first, but the implementation is ready for review"
+1126,2025-11-07 13:06,< - can I please get a review here? thanks
+1245,2025-11-07 13:11,"sorry about that, I reviewed it the other day but didn't hit approve"
+1247,2025-11-07 16:08,"Adding a backend PR to apply per-row currency validation (useful when draft set is ""any"" type) <"
+1126,2025-11-10 11:40,"hey team, can I please get another review on <"
+1244,2025-11-10 12:53,Small one creating a FF: <
+1244,2025-11-10 13:14,Another tiny one for intl’ feature resolver: <
+1244,2025-11-10 13:55,Fixing a flaky test causing the other two PRs to get stuck: <
+1126,2025-11-10 13:57,< - I have the same flaky test blocking all releases fixed in my PR as well
+1126,2025-11-10 13:57,but please let me know if you manage to merge yours first so I can revert mine and rebase master
+1244,2025-11-10 13:58,haha sure. case your’s go first I just close this one
+1244,2025-11-10 14:14,Just merged
+1126,2025-11-10 14:14,"wohohooo I'll merge with master, thanks Leo"
+1247,2025-11-10 15:00,"Merged the backend validation, bumping frontend <"
+1126,2025-11-10 15:49,"hey team, can I please get another review on < (cc , , ) thank you!"
+2002,2025-11-11 18:45,"Hi team, PRs to add the new ESS filling card: *BE:* < *FE:* <"
+1246,2025-11-12 21:20,Hey team can I get some reviews here < it's an export script for CE UK valuations
+1247,2025-11-12 21:21,started a new PR that merges into <
+1244,2025-11-13 12:38,For some reason I couldn’t get this branch to pass an unrelated test Had to create a new one: < Would you folks mind to give it a review again?
+1245,2025-11-13 16:28,small PR to enable US fillable templates to ~50% of the population <
+2002,2025-11-13 18:56,"Hey team, can I get some reviews here < adding the ABN field to the company settings page"
+1247,2025-11-13 20:05,"Hi team, can I get reviews on < [SECINT-987] Add support_reference_id and support_reference_type to AssetValue proto (UK Valuation), thanks!"
+1246,2025-11-14 15:13,Hey team can I get a review here < hiding federal exemption dropdown for non-US/AUS stakeholders
+1126,2025-11-14 15:31,< - can I please get a review here?
+2002,2025-11-14 20:12,"Hey team, can I get a review here < locking currency field for Australian and UK SO types"
+1126,2025-11-17 11:58,< - can I please get some reviews on this PR?
+1126,2025-11-18 09:29,< - can I please get some reviews here?
+1246,2025-11-18 14:35,Hey team can I get a review here < skeleton layout for UK valuations
+1245,2025-11-18 17:38,small PR to remove dead code <
+1246,2025-11-19 18:21,"Hey team, can I get a review here < initial implementation for recent valuations"
+1245,2025-11-20 12:48,~PR to do gradual rollout for US fillable templates < (doing a different approach than Modular math)~ Will do an ESR
+1244,2025-11-20 12:58,I think we only need to run this once via script… I think flipper takes care of everything once the bucketer is created
+1245,2025-11-20 12:59,"oh ok. I'll do an ESR, thanks"
+1244,2025-11-20 12:59,A few examples: <
+1245,2025-11-20 13:24,Small PR to update code ownership on projects within `/issuers` directory owned by Securities team (Fillable Templates as an example) <
+1245,2025-11-20 15:17,Script to enable gradual rollout for US fillable template <
+1246,2025-11-20 17:28,I addressed your comments if you can take another look
+1247,2025-11-20 19:44,"Hi team, can I get reviews on < super small change to add NON_CARTA Report Type"
+1244,2025-11-20 19:57,Adding new permission action for int’l vals: <
+1247,2025-11-20 21:17,"Hi team, can I get a review for the corresponding CW update to add NON_CARTA report type enum: < thank you!"
+1246,2025-11-20 23:32,Hey team can I get some reviews here < import script for UK valuations
+1126,2025-11-24 11:04,can I please get another review on < thanks!
+1246,2025-11-24 13:31,"could you take a look please whenever you have some time, thanks!"
+1126,2025-11-24 13:41,absolutely!
+1126,2025-11-24 13:54,"< - and i have another one please, thank you"
+249,2025-11-24 21:17,"I have a question regarding this PR you put up: < It appears that the importer runs into an < >because the exported data for the `companies` has the shape `""incentive_pool_available"": ""37424.0""` which throws an error because you can't cast that as `int()`. Is it okay if I change this to `Option[Decimal]` in < since it looks like you are < it into decimal for the option grant calculations anyway?> Just want to double check to ensure you didn't plan to use it anywhere else."
+1126,2025-11-25 10:54,"absolutely, sounds good to me"
+695,2025-11-25 13:29,"I ran into something similar before, to solve it I cast to Decimal first and then int. So something like `int(Decimal(value))`"
+1126,2025-11-28 11:26,"hey team, can I please get some reviews on < and < thanks!"
+249,2025-11-28 14:16,"Hi team, may I get some on these small PRs for Capdesk. They are to include acceptance data for option grants and convertibles to the corresponding migration script. • Option Grants: < • Convertibles: <"
+1246,2025-12-02 20:28,"Hey team, tiny PR adding valuations to the full export script in capdesk <"
+1245,2025-12-04 16:09,small ticket to add new feature flag and feature flag util: <
+1245,2025-12-04 19:32,PR to skip flaky test <
+2002,2025-12-05 13:45,bump! One more review
+1245,2025-12-05 16:47,PR for adding backend service layer for manual UK valuations: <
+249,2025-12-08 14:15,"Hi team, may I please get some reviews on the auto-acceptance of Option Grants and Convertibles CE migrations: • Option Grants: < • Convertibels: < These are ideally going to be included in the migration for our companies tomorrow. I will be keeping an on eye linter errors, so reviews on the content would be much appreciated"
+1244,2025-12-08 17:13,Updating some copy: <
+1247,2025-12-08 17:42,"Hi team, can I get reviews for PRs to link International Valuation with CAT hub (< Thanks! Frontend: < Backend: <"
+1245,2025-12-08 17:50,"~PR to sample how many corps have a feature flags thats enabled: < I don't need a review for this, just ran it in jupyter"
+1244,2025-12-09 13:17,Hey team! Can I get some reviews on this one including 409a’s to the export script for vals? <
+1244,2025-12-10 19:26,Hey / would you mind to give another look at this one? I’ve incorporated the price conversion for 409a’s when applicable following the decision we’ve made <
+1246,2025-12-15 16:53,can you please take a look at this when you get some time?
+1246,2025-12-15 17:03,thank you!
+1247,2025-12-15 20:42,"Hi team, can I get reviews for PR to Update export script to handle edge cases < thank you!"
+2002,2025-12-15 22:10,"Hi team, a short PR to fix our endpoint so it correctly retrieves the FMV overrides <"
+1244,2025-12-16 17:22,I was also thinking about having one FF for each phase but I wonder now if is better to keep a single one since we don’t have any real intent to release the 0.5 portion alone
+1246,2025-12-16 17:25,"That makes sense if we're not releasing 0.5 alone, are the api services using the phase 1 ff?"
+1245,2025-12-16 17:26,"yeah it is, but can update that in another PR"
+1245,2025-12-16 17:26,"actually I still have a pending PR, I can update it there"
+1246,2025-12-16 17:27,"I don't think we need an init api yet then, I'll remove that and just show the add valuation button all the time"
+1246,2025-12-16 17:27,Since the page is already guarded by the 0.5 ff
+1244,2025-12-16 17:37,agreed! sorry for misleading you guys… we can probably rename that FF too at some point but no rush
+1247,2025-12-16 18:33,I'll close < since we already have 0.5 FF
+1247,2025-12-16 18:58,"Hi team, can I get review for PRs to Remove SECINT_779_US_FILLABLE_TEMPLATES feature flag, thank you! • BE: < • FE: <"
+1247,2025-12-16 21:51,"Hi team, another add-on PR to remove SECINT_779_US_FILLABLE_TEMPLATES for FE: <"
+1244,2025-12-17 16:56,Hey team! Can I have some on this script to send out custom email messages? <
+1244,2025-12-19 13:02,Hey team! I had reverted this one bc I thought we wouldn’t need it anymore but turns out we do. Can I have some ? <
+1244,2025-12-22 14:18,Hey team! Can I have some careful review on < one>?
+1123,2025-12-22 18:23,"hi team would love a review in < PR> as I'm again making some changes to the generate filing task used by ESS, in order to make it more generic for SH01 (cosec filing) the PR is huge but the most relevant files for review would be ess_file_generator.py, filing_exporter.py and tasks.py. thanks!"
+1246,2025-12-23 15:16,Hey can I get some review here < Abstracting val code and making an init api for 409a manual submission
+1245,2025-12-23 15:23,"seems good to me, except should we use a feature flag instead of completely abstract out the OG endpoint logic?"
+1246,2025-12-23 15:25,Add a feature flag to the og endpoint logic?
+1245,2025-12-23 15:28,"within `eshares/valuations/views/views.py` have a feature flag, if enabled use the new service, if disabled use the original code. So instead of removing the original code in the view just put it behind a disabled feature flag. Once we clean up the feature flag thats when we remove the code. Might be overkill but a bit safer. If you and or thinks its too much I'm fine ignoring it"
+1244,2025-12-23 18:00,Hey team! Can I have some on the PR enabling Warrant’s as a new `so_type`? Keep in mind that is pointing a few constants that should include our new type but we’re intentionally leaving it out of some features to limit the scope of this change. <
+1244,2025-12-23 18:00,"cc whenever you have some time, can you also take a look at this one?"
+1348,2025-12-23 18:30,looks good just gotta fix the tests and add in that protobuf change
+1246,2025-12-24 14:46,"Looks like there's an issue with the claude review job, I've ran it multiple times but keeps failing"
+110,2025-12-24 14:49,Let me try to help
+1246,2025-12-24 14:50,"It's working now, 7th time's the charm I guess. The earlier failures were all with the curl attempts when the job installs the codeowners tool and ast-grep binary"
+1245,2025-12-24 15:32,small < to remove backend validation for phone number on doc generation
+1245,2025-12-24 17:11,< to add tax year filtering for stakeholder details report download in ESS filing.
+1244,2025-12-26 13:13,"Looking good. Left a couple of small suggestions though. For the future PRs I’d suggest we break these into smaller pieces even if we build them all together. It could be sliced in ~4 PRS (like API specs, EMI, CSOP, 409a). Just so we have easier and more reliable reviews"
+73,2026-01-05 18:24,hey team! I'm helping with Sales Demo Data for UK companies Can I ask your review on this PR making it possible to create UK SMB accounts for the sales box? <
+1245,2026-01-06 19:22,small script to add missing currency codes to some SAFES. <
+687,2026-01-07 21:51,"I canceled the workflow cus I forgot to select the envs, so this is intentional"
+694,2026-01-09 16:45,Cross-posting for reviews: <
+1246,2026-01-12 15:32,"Hey team, small refactor to show 7 decimals when editing EMI/CSOP valuations <"
+1246,2026-01-12 15:33,backend part is already merged <
+1247,2026-01-12 20:26,The change will not take any effect until the ticket <
+1245,2026-01-13 16:34,"Bumping this, hoping to get this merged in today"
+1245,2026-01-13 19:21,small < to update proto version in api-reporting-service
+1247,2026-01-13 20:05,"Updated the International Valuation to use `EmiCsopEligibilityResolver` (follow < logic>), as the features in the current phase are UK-centric"
+695,2026-01-14 15:05,why does this show up in this channel
+687,2026-01-14 16:34,Cus I configured it this way
+687,2026-01-14 16:35,Other apps were pointing here am very lazy
+1246,2026-01-14 20:25,Can I get a review < fixing race condition for errors between fillable template and document set apps
+1247,2026-01-14 20:35,"Hi team, can I get reviews for PR's to roll out international CAT hub for non-US companies: • frontend: < • backend: < Thank you!"
+1246,2026-01-16 17:34,can you take a look please
+278,2026-01-20 16:50,"Pair of PR for relaxing document set requirements for international and migrated companies: • < • < While international companies already had relaxed requirements, it wasn't propagated to the FE cc"
+1247,2026-01-20 20:58,"Hi team, can I get reviews for PRs to create Data Model, Service, and UI for a *minimal request international valuations flow*, thanks! • backend: < • frontend: <"
+1249,2026-01-21 16:41,"Hi Team, requesting review on PR - < - Freebie 10 line UI update PR"
+278,2026-01-21 18:43,applied your comment: <
+1246,2026-01-21 18:46,"Thanks, approved"
+1246,2026-01-22 16:16,Hello! Small PRs to send valuation requests 2B feature flag to frontend < <
+1249,2026-01-27 16:55,"Hi Team, looking for review on a small PR -> <"
+1246,2026-01-28 19:31,"Hey team, last 2 PRs for UK Valuations 2A: < <"
+1247,2026-01-28 19:56,"Hi team, a quick follow up for UK Valuation 2A: < thanks!"
+1246,2026-01-30 20:10,"Hey team, can I get reviews on these two PRs for handling edge cases regarding UK valuations < <"
+1244,2026-02-03 14:07,Hello team! I’m still testing this locally but can I have some on this PR fixing the export of “unrestricted” authorization pools? <
+1247,2026-02-03 15:15,"Hi team, can I get reviews for PRs to: Create Segment for UK 409A in Val station, and Route UK 409A requests to standard 409A form, thanks! • FE: < • BE: <"
+278,2026-02-03 17:32,< if someone has a minute
+278,2026-02-03 17:33,(somme comments from Claude about the feature being incomplete are valid. This will be taken care of in follow up PR. This is behind a ff)
+1247,2026-02-03 19:47,"May I have 's eyes on it please, as it would need reviews from Carta Web Database Migration Reviewers, thanks in advance!"
+1245,2026-02-03 20:48,< ESR> to fix not being able to delete plan amendments for migrated corps. Will have a separate PR in Carta web for a forward fix for the new batch of migrations we do
+684,2026-02-03 20:50,"We might need to do a second ESR for the batch we migrate tomorrow, just flagging!"
+1245,2026-02-03 20:53,cool no problem.
+694,2026-02-04 13:56,"Could I get reviews in < Adding share price valuation to the CE importer. This doesn't require an approval from this team, but we recently added new valuations to the importer as well"
+1245,2026-02-04 16:45,Script to turn on reports for migrated corps <
+1249,2026-02-04 21:37,"Hey team, can I get a review on < to add row actions to HMRC reports table"
+1245,2026-02-06 13:10,"small PR to change ""Migrate"" -> ""upgrade"" <"
+1244,2026-02-06 13:59,left a < suggestion>
+1247,2026-02-06 14:17,"Would need more reviews for the BE, thanks!"
+1244,2026-02-06 16:34,Hey team! Can I get a review on this one adding some data points we need to process EBT when importing grants? <
+1244,2026-02-06 17:31,Hey team! Another one related to fully diluted mismatches due to EBT handling: <
+1249,2026-02-09 15:51,"Hi team, can i get a review on < for adding HMRC report filters"
+1244,2026-02-09 19:34,Hey team! Tiny one enabling double signatories for `LUX` -based companies: <
+1246,2026-02-09 19:36,"Hey I finished up the spike for draft/resume flow for UK val requests, put up a PR with a design doc and new tickets created here <"
+1245,2026-02-10 19:12,< to export an excel spreadsheet containing valuation request data
+1247,2026-02-10 21:33,"Hi team, may I have 1 more review on the backend PR please? Thanks!"
+694,2026-02-12 12:35,"Share Price valuation service layer implementation: < This won't have any usage right now, but it's mimicking the business rules that exist in CE. , it'd be great to get your review here."
+1244,2026-02-12 13:31,Hey team! Can I have some on this one adding a validator for imported plans? <
+1245,2026-02-12 15:39,Confirmation email <
+1246,2026-02-12 15:42,"mind taking a look at this when you get the chance? Flow now is we always create a request model in DRAFT state when users navigate to the request form, as they fill it out we patch updates to this row. When submitting we run a serializer to verify what's saved in the request then change the state to SUBMITTED"
+1245,2026-02-12 15:43,"nice, ill check i tout now"
+1245,2026-02-12 15:49,I want to make sure I understand the PR. Is it saying a corp can only have 1 draft at a time between both EMI and CSOP? or only 1 draft per valuation type?
+1246,2026-02-12 15:49,Per valuation type
+1245,2026-02-12 15:49,cool thanks
+1246,2026-02-12 15:57,"Also after this work we'll need to remove a good amount of code, mainly everything in the create views since the only flow now will be DRAFT - SUBMITTED"
+1249,2026-02-13 15:32,"Hi team, can i get a review on < for HMRC success screens"
+1249,2026-02-13 16:25,Also another carta-web backend PR for HMRC init endpoint - <
+1246,2026-02-17 18:17,can you take a look at this please? 12 files are just config changes so looks bigger than it is
+1246,2026-02-18 14:29,Hey can you give this a review? < its for fillable templates
+249,2026-02-18 14:46,"Hi team, can may I get some reviews on this PR to add ability to migrate multiple entities locally at once. Short QoL improvement. <"
+1245,2026-02-18 14:50,I think I'm out the loop here. What is the Fillable template LLM analysis feature? is this to auto set variables on a documents?
+1246,2026-02-18 14:51,"Yes we're calling an LLM to get variable positions, if you remember it's the one vibe coding session we did. We're implementing it in app as a side project"
+1245,2026-02-18 14:51,"cool cool, yeah I remember. Thanks"
+1245,2026-02-18 14:55,sorry more follow up questions. Is this live or behind a FF? Did we test this against real docs? Does this actually set the variables now or just collecting data in the background?
+1246,2026-02-18 15:02,"This flow will get called as a celery task so it doesn't impact the current flow. We have a feature flag gating this task from being called on the frontend. We did test against real docs and the results were good after iterating on the prompt. This ticket implements the LLM call, no variables are being set yet"
+1245,2026-02-18 15:06,"great, thanks for context"
+1246,2026-02-18 15:08,"Np, the final flow will be user adds a document to their set then clicks next. Before loading the existing fillable template page we will start this task and poll it waiting for the results. Frontend will get variable suggestions with X confidence from claude, if the confidence is over a certain threshold we will populate the page with the variable. These suggestion variables don't get persisted until the user clicks save"
+1245,2026-02-18 15:09,"ok cool, that makes sense. almost done with the review"
+1245,2026-02-18 15:10,"I see confidence is set on the variable level. Will it have to be a aggregate confidence for any variables to be placed on the doc, or is it set on a variable by variable basis?"
+1246,2026-02-18 15:11,Confidence is on a variable basis
+1246,2026-02-18 15:11,"So X confident ""company name"" goes here"
+1245,2026-02-18 15:14,"yup that part I get. Also this is out of scope of this PR, I'm just curious. If company_name variable has a confidence of .9 and stakeholder_name has a confidence of .1. Will company_name get set and stakeholder name get ignored. Or will nothing get set since we aren't confidence about one of the variables. I'm assuming its the former right?"
+1246,2026-02-18 15:15,Yeah I think the former makes more sense
+1245,2026-02-18 15:16,"Looks good, one very minor comment that could be ignored"
+1246,2026-02-18 15:17,"I also want to change it to Sonnet 4.6 once that gets added to carta-ai package, apparently it's a significant upgrade in visual performance from 4.5"
+1246,2026-02-18 18:23,"Thanks for reviewing, just pushed some changes and made a generic autoSave() hook. I think this is a lot better than what we had before"
+1247,2026-02-18 22:07,"Hi team, I have split the < [SECINT-1314] Update CAT hub for UK Valuation into 4 smaller PR's for easier reviews: • < 1: Add API spec + types + helpers> • < 2: Add data fetch hook + ukValuations2BEnabled prop on 409A components> • < 3: New UK Valuation card components> • < 4: Integration with CAT hub Landing Page> May I have eyes on them? Thank you!"
+1244,2026-02-19 12:23,Hey team! Can I have some on this one exporting dynamic doc data? <
+1244,2026-02-19 13:07,The counterpart to the PR above (to import dynamic docs): <
+1244,2026-02-19 13:48,"Also, can I have 1 more on < one>?"
+1245,2026-02-19 21:03,"a couple PR to fix the preferred shareclass issue during migrations: < And to backfill the data: < There are 3 migrated companies who based on their `preference_multiplier` value should be preferred share class, but based on the name it would seem otherwise. I excluded them from the script and left a comment. Also there are two shareclasses where we dont have the mapping ID, for the corp or shareclass. My guess this is one of the corps we started but did not complete I put the data in this < sheet>"
+1246,2026-02-19 21:47,"Hey team, can I get some reviews on these 2 PRs: < < Enabling redirect to existing 409A valuation requests for phase 2A"
+1249,2026-02-20 14:37,"Hi team, HMRC backend PRs, requesting some reviews for these init - < EMI report generation - <"
+278,2026-02-20 14:41,could you have a look
+1249,2026-02-23 15:10,"incorporated your reviews, please take a look when you have some time - <"
+1247,2026-02-23 21:19,"Hi team, updated PR links for *[SECINT-1314] Update CAT hub for uk val* (split into smaller PRs for readability)*:* • < 1: Add API spec + types + helpers> • < 2: Add data fetch hook + ukValuations2BEnabled prop on 409A components> • < 3: New UK Valuation card components> • < 4: Integration with CAT hub Landing Page> • < 5: Add in_progress state > May I have Val engineers' review on them? Thank you!"
+1244,2026-02-24 17:15,Small one adding back the `2nd signatory name` fillable template var: <
+1245,2026-02-25 00:57,Script to remove collateralization on a cert that is not in the outstanding state: <
+1246,2026-02-26 19:55,can you take a look?
+1246,2026-03-02 15:14,Can I get a review here please
+1249,2026-03-02 20:13,"Hi team, can i get a review on < - it's been waiting for a bit now (adding a endpoint)"
+1246,2026-03-02 20:46,Sorry didn't realize you addressed the comments. I find it helpful to ping people directly after addressing their comments and asking them for another review.
+1249,2026-03-02 20:46,"mb will do that, from here on out"
+1249,2026-03-02 20:47,Thanks for the review
+1247,2026-03-02 21:26,"Hi team, can I get reviews on < Small PR to fix AMV/UMV ordering and expired value display in UK Valuation card. Thanks!"
+278,2026-03-02 23:36,"I did this, I could very well deploy to prod btw"
+1244,2026-03-03 13:01,Small one adding a new fillable template variable: <
+1247,2026-03-03 14:48,"Hi team, can I get reviews on PR's to Compact multi-share-class 409A valuations into single row for UK Valuation? Thanks! • frontend: < • backend: <"
+1246,2026-03-04 15:30,another bump here this one is quick just deleting a bunch of dead code
+1245,2026-03-04 19:53,Script to backfill original issue price and a couple other fields on migration preferred shareclasses <
+1246,2026-03-05 15:28,Small PR adding Netherlands to double signature feature resolver <
+1244,2026-03-06 14:42,Adding a new subtype under `Certificate` model for Growth Shares and related infrastructure work: <
+1244,2026-03-06 17:05,Adding a new variable for holder email to fillable templates: <
+1244,2026-03-13 14:19,Fixing the our CI pipeline for migration reviews: <
+1246,2026-03-13 20:53,Hello! Script for converting migrated EMI valuations to either CSOP or Share Price: <
+1246,2026-03-13 20:54,cc (for monday)
+1244,2026-03-16 12:15,thanks for working on this Matthew
+1246,2026-03-16 14:07,Have a fix for a migration edge case here can I get a review <
+259,2026-03-17 17:23,This PR fixes a jest test in `apps/cosec/registers/src/register-setup/pages/__tests__/RegisterSetupPage.test.tsx`.
+1245,2026-03-17 19:43,< to backfill ~200 securities from INTL - Unapproved
+1244,2026-03-18 18:45,Adding field required for growth shares to the custom equity language infrastructure: <
+1249,2026-03-18 21:32,"Hi Team, can i get a review on < super small PR, 10-year old KnockoutJS bug"
+1247,2026-03-19 15:25,"Hi team, can I get a review for < tiny changes for [SECINT-1489] Show UK Valuation CAT hub card for non-subscribed companies in Phase 2B. It is the last piece to enable UK Valuation for non-subscribed users. Thanks!"
+1244,2026-03-20 14:25,Hey team! Can I have some on this script to toggle investors warrants on/off for a list of companies? <
+1244,2026-03-20 16:37,^ the counterpart for the script above so we disable investor warrants for migrated companies with employee warrants moving forward: <
+1247,2026-03-20 19:39,"Hi team, can I have reviews on < it is to Create export script for growth share, thanks!"
+694,2026-03-23 11:21,"Adding the ability to select ""flexible issue date"" on a draft-basis: < <"
+1247,2026-03-23 18:07,"Can I have and ’s eyes on the export script too, thanks! (when you are available)"
+1244,2026-03-24 12:07,Hey team! Can I have some on this one? <
+694,2026-03-24 16:30,bumping for reviews
+694,2026-03-24 17:08,and a follow-up PR for the drafts v2: <
+1245,2026-03-24 20:33,"< script> to set the `enable_option_secondary_signatory` property to True for corps originating from countries (NZL, AUS, LUX, and NLD) that already have double signatory feature enabled"
+694,2026-03-25 13:29,Consolidating Yes/No enums in simple issuance: < cc:
+1246,2026-03-25 14:16,Didn't realize it'd be so many files
+1245,2026-03-25 15:13,< to> temporarily increase decimal precision on a migrated company to get them unblocked with grant issuance on fillable templates
+1245,2026-03-25 15:13,Their exercise price is .00000005. We had a PR merged yesterday to address this but the deploy did not go out so we are doing this workaround until the release later today
+1245,2026-03-25 15:25,friendly bump
+1244,2026-03-25 16:20,Should we include a country-based logic to the migration script so we auto-enable this for those corps?
+1245,2026-03-25 16:22,oh yes thats a good idea. I can create a ticket then do that
+1244,2026-03-25 18:03,Applying custom equity language to the app’s side nav: <
+1246,2026-03-26 18:20,Script to mark migrated certificates as accepted that were missed <
+1244,2026-03-27 17:45,Using the custom language framework on drafts page so we can customize the term “threshold” to “hurdle” on growth shares: • Backend: < • Frontend: <
+1244,2026-03-30 11:46,would be nice to already have a task to kill this in the next sprint
+1245,2026-03-30 12:44,ill create that. thanks for the review
+1244,2026-03-30 19:23,"Adding the custom equity language framework to the missing tabs in Warrants modal (exercise history, vesting and documents): <"
+694,2026-03-30 19:28,Is the recommendation to always include the plan when touching anything related to securities?
+1244,2026-03-30 19:29,I don’t think so. I did it bc I’ll have to have different PR’s in this case. So it felt better to have it versioned so either I or other person working on the next PRs can work based on the same plan
+1249,2026-03-31 19:15,"Hey team, can I get a review on < It's for [SECINT-1527] Bootstrap HMRC Limits backend. Thanks!"
+1245,2026-03-31 19:22,"can I get a review for this < that updates a witness signature email, and also resends the witness email to the new email account"
+1245,2026-04-01 12:19,"small < to move cron job scheduler to `BASE_TASKS` , the current location is not being run on production"
+1245,2026-04-01 19:06,didn't mean to repost. Sorry bout that
+1244,2026-04-06 19:39,Updating PIU ledger to use the custom language framework: • BE: < • FE: <
+1244,2026-04-07 12:59,Just a sanity check: are we ok with the extra delay the external api call may cause to the migration flow?
+694,2026-04-07 13:04,"Yep. These are also executed after all changes are pushed to the DB, so these extra calls aren't a problem"
+1249,2026-04-07 14:38,"Hey team, can I get a review on (*URGENT*) < this PR fixes a bug that was raised with HMRC filings, also did some more testing in sandbox and ironed some more (about 6ish) listed in the PR description. Thanks!"
+1244,2026-04-07 14:39,Allowing staff users to enable the “Growth Shares” language (instead of PIU) for a given company: <
+1246,2026-04-07 17:13,"Left a comment, looks good just some quick questions"
+1249,2026-04-07 17:14,"Thank you, taking a look"
+694,2026-04-08 16:57,Auto-enabling UK valuations as part of the migration script: <
+1249,2026-04-08 18:14,"Hi team, can I please get reviews on these set of stacked PRs (please go in order from top to bottom) (These PRs pretty much cover LIMITS frontend) #21378: < #21381: < #21447: < (<- this one is bit chunky but is one big component so will not help much if i break it down, sry about that)"
+1246,2026-04-08 21:55,Left some comments on the first 2
+1249,2026-04-09 14:58,made all the changes requested in PRs 1 2. Please take a look when you have some time
+1244,2026-04-09 17:07,Adding the custom language framework to a couple more places: <
+1244,2026-04-09 18:20,^ Same vibe but for the FE apps: <
+1246,2026-04-12 20:39,Left comments on the third one
+1249,2026-04-13 13:48,Thank you! taking a look
+1247,2026-04-14 16:18,We will addressing existing bugs as part of separate PRs to avoid growing even more this PR
+1247,2026-04-15 14:40,"Bump, super small PR"
+694,2026-04-16 15:42,Some PRs to unblock the next migration cohort: • < Skip news without a title • < Remove `_get_plan_outstanding` override from share grants importer • < Fix `external_id` type mismatch crashing CE migration backup • < Fix inactive share grant cancellation heuristic to check CE outstanding
+694,2026-04-17 15:58,Enabling PIUs (grow shares) by default for companies with share grants in CE + applying growth share language: <
+1246,2026-04-17 22:08,Migration export and importers for HMRC filings < <
+1246,2026-04-17 22:20,"I'd appreciate a review of this < specifically>. The PR involves dropping a unique index, adding a new column, building a new unique index with the new column"
+694,2026-04-20 10:25,Linking remaining PIU to option plan after partial share grant cancellation as part of the importer: <
+1249,2026-04-20 18:53,Corresponding small frontend change - <
+1247,2026-04-21 14:39,"Hey team! May I have reviews on the UK Simplified Exercise Flow PRs, thank you! *Why the flow is needed ASAP:* For migrated Carta Europe customers, the existing full offline exercise flow needs a regulatory review that will take significant time. Without a workable exercise flow, those customers may either experience retention risk, or their migrations get delayed. We have received the legal team's confirmation on below solution. *The Simplified Exercise Flow:* - Feature flag `UK_SIMPLIFIED_EXERCISE_FLOW` per issuer (company) - New simplified exercise endpoint that sends two confirmation emails (holder + admin) - Holdings page: ""Notify administrator"" card replaces ""Exercise"" for UK holders - Exercising model: simplified single-step modal → confirmation screen *Open PRs:* 1. < — UK intent endpoint + emails 2. < — ExerciseTile UI changes 3. < — Simplified modal + confirmation"
+694,2026-04-22 17:40,", small change in the importer to not create empty draft sets when the company has no growth share drafts"
+1246,2026-04-22 19:32,bump on this export pr <
+694,2026-04-23 15:58,Update `fix_security_portfolio_linkage` script to default execution for all CE migrated companies: <
+1246,2026-04-24 17:31,Can I get a review on this script < Backfilling the new `equity_plan_id` column for filings models. Note this can only be ran after < is released on Monday
+1246,2026-04-24 17:40,Another two PRs for hooking up limits report generation < <
+1244,2026-04-28 14:59,Fixing some upper vs lower case equity names in the holder’s portfolio: <
+1247,2026-04-28 18:11,"Hi team, may I have reviews for PR < ? It is to auto enable UK Simplified Exercise Flow for UK + CE companies, thank you!"
+1247,2026-04-29 13:25,"Would need 1 more review please (so it could aim for today's release), thanks!"
+1247,2026-04-29 14:24,cc. if you have time
+1244,2026-04-30 16:11,Hey team! A small one to fix PIU > Growth Shares language in the “manage employees” page: <
+1247,2026-04-30 20:43,"Hey team, may I get a review on < It's for [SECINT-1546] Vesting graph for EU warrants holder portfolio. Thanks!"
+1244,2026-05-07 14:09,"Hey team, a quick script to convert Growth Shares (PIUs) to RSAs: <"
+1247,2026-05-07 15:39,"Hi team, can I get a review for < it is a backfill to create portfolio for 2 users missing portfolio in company 4256268, due to email change in CE. Thank you!"
+1247,2026-05-07 15:39,cc. (please feel free to look at it next week after the offsite)
+1244,2026-05-11 16:46,"Hello team, can I have on this one? It’s updating our script to change witness signature name/email: <"
+1246,2026-05-11 18:34,Hey team can I get a review here < Moving UK limits notifications from celery to temporal and some bug fixes
+110,2026-05-11 18:56,That's great. Do we need QA for this? Any special plan to roll this out?
+1246,2026-05-11 19:23,"Limits isn't released so there's no live traffic to this celery task making it safe to cleanly move it to temporal. For QA I deployed test boxes and the temporal workflows are completing successfully, they can be seen here <"
+110,2026-05-11 19:30,"Alright, let's keep an eye on this when releasing Limits."
+1246,2026-05-11 20:14,Small one populating EMI company limit split when missing a UMV valuation <
+1247,2026-05-11 20:16,Would like to bump it as it is part of a ESR
+1244,2026-05-12 15:06,Hey team! This script sets the default permission for founders to Restricted for all migrated corps <
+1246,2026-05-12 17:30,Including stakeholders with options not exercised in stakeholder details report for ATO filings: <
+1244,2026-05-12 18:11,Applying the same levels to the migration importer: <
+1244,2026-05-13 18:53,Hey folks! This one is fixing disqualifying events logic on RLC tab of EMI annual returns <
+1246,2026-05-14 12:55,Bumping these 2 < <
+1246,2026-05-14 14:48,"Hey team, small PR for findings from limits qa session <"
+1247,2026-05-14 17:10,"Hi team, can I get a review for backfill script to create portfolio for users missing portfolio: • For individual stakeholders: < • For organization stakeholders: <"
+1247,2026-05-14 17:16,"This is a list of all of the migrated stakeholders missing portfolios: < I have tested using the script to backfill all of above missing portfolios (only skipping 2, with notes) in the sandbox: < Our first step is to run backfill for and unblock the companies reporting the issue. We have received < that the sandbox result looks good"
+1247,2026-05-14 17:16,"cc. , when you have time"
+694,2026-05-15 12:06,", left some minor comments. Sorry for the long feedback loop here, happy to jump on a call if you want to move faster"
+1244,2026-05-15 12:47,Sorry Abi. I’m still a bit concerned with the PortfolioCorporation creation. I saw you mentioned it doesn’t show up without it but I had never seen it being used in this context. Not saying it is wrong but would be worth double checking we indeed create those for regular stakeholders in-app. Were you able to confirm it?
+1244,2026-05-15 13:33,Fixing INTL Unapproved logic: <
+1247,2026-05-15 13:36,"Thank you for bring up the concerns! My understanding is that PortfolioCorporation is a record that represents investor X holds securities in company Y, happy to jump on a call!"
+1244,2026-05-15 17:12,The script to fix the grants mistakenly migrated as INTL: <
+1247,2026-05-15 21:13,"Hi team, can I get reviews for the following CE migration transfer split fix? • (Higher priority) *Backfill script to reverse and re-apply incorrectly split certificates for already-migrated companies:* < • (Lower priority since we already migrated most of the companies) *Importer fix to prevent the same split from happening in future migrations:* <"
+1247,2026-05-19 14:56,"would you mind checking the first PR? Since you have been working on company 4197401 related issues as well and might have more context, thanks!"
+1246,2026-05-20 15:57,Adding HMRC limits and filings to the nightly segmentation feature job <
+1246,2026-05-20 20:51,Updating the eligibility for the display emi/csop/esop feature flag in the segmentation job <
+686,2026-05-22 12:58,cc: for small filing season fixes
+1246,2026-05-26 15:15,"Enabling ATO filings for all APAC Grow, Scale and Custom plans <"
+1246,2026-05-27 20:07,Fixes for draft issuances for HMRC/ATO options < <
+1246,2026-05-28 15:15,these are small mind taking a look? I'd like to get them in for today's release
+1246,2026-05-29 15:59,PRs for EMI plan creation frontend < <
+1246,2026-05-29 17:18,Adding support for term period and grant expiration period to EMI plans <
+1246,2026-06-01 14:29,Frontend PRs for creating EMI plans < < <
+1246,2026-06-01 15:11,Adds scheme type for EMI documents to the preview documents endpoint <
+686,2026-06-02 13:43,/ if you can help with reviews while you catch up
+1244,2026-06-02 16:58,"Thanks for sharing the doc . Do we have any engineering doc going over how we plan to implement it? Or, most critically, what db and conceptual changes will be required around equity plans? cc"
+1246,2026-06-02 17:18,yes Abi wrote up a doc here < also added you to
+1247,2026-06-02 21:11,"Hi team, can I get reviews for PR's to add ""Add approval dates"" form and ""View equity plan"" to EMI equity plan success page? Thank you! • FE: < • BE: <"
+1246,2026-06-03 21:00,"Hey team, 2 PRs related to HMRC filings backfill < fixes the regular importer to attach the proper document to filings models < script that will be used to fix the attached documents to migrated filings"
+1246,2026-06-03 21:01,I'd appreciate your reviews here
+686,2026-06-03 23:55,"Hey team, can I have a review <"
+1247,2026-06-04 13:45,"Hi team, can I get reviews for adding ""Draft and send board consent"" and ""Add board approval date"" actions to EMI plans? Thank you! <"
+1246,2026-06-04 14:11,Small one adding equity plan names to HMRC filings table <
+1247,2026-06-04 19:09,"Hi team, can I get reviews for Adding fillable EMI template types and auto-creation in document set build? Thank you! . <"

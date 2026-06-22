@@ -1,0 +1,4 @@
+u,t,m
+699,2026-03-19 15:20,`api/mobile/v2019-04-29/organizations/{organizationId}/holdings/companies/`
+1996,2026-03-19 15:21,again for reference android is trying to call: `/api/mobile/v2019-04-29/accounts/organizations/{organizationId}/holdings/companies/`
+995,2026-03-19 15:28,"Current status - 11:28 AM ET • Team is investivating, why this url was dropped ( `/api/mobile/v2019-04-29/accounts/organizations/{organizationId}/holdings/companies/` )"

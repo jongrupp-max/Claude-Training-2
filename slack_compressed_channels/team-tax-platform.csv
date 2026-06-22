@@ -1,0 +1,462 @@
+u,t,m
+191,2025-01-01 11:02,"Happy New Year! The following tax rate withholding defaults have been updated for 2025 • Social Security Max income-Was $168,600 now $176,100 • Iowa: was 5.7% now 3.8% • Indiana: was 3.05% now 3% • Louisiana: was 4.25% now 3% • Mississippi: was 4.7% now 4.4% • Missouri: was 4.8% now 4.7% • Canada-Prince Edward Island-now 9.5% (assumes subject to 110(1)(d) deduction) We might see updates to North Carolina and West Virginia in the next couple of days for supplemental compensation (I’ll update this thread if so)."
+2188,2025-01-02 18:02,Hey ! Wondering if we should include the current default rates in the support articles. Is there an official source to check their state/ withholdings we could refer customers to?
+191,2025-01-02 18:25,hi they can download them all out of their tax rules area (there's an export button showing what's in our system at any time) the rules change frequently enough that it might not make sense to include them as static in our support articles-some jurisdictions have mid year changes
+191,2025-01-02 18:26,(the export tax rates for all countries button here if done in a prod company)
+191,2025-01-02 18:27,or view via the ux in that same screen (they can see our defaults any any overrides they've done)
+191,2025-01-03 18:00,"*The tax team has updated tax threshold information for the in-app Exercise Simulator to reflect 2025 values.* Note: This update is different from the tax withholding rate updates we did on Jan 1 2025 and applies exclusively to the Exercise Simulator located in stakeholder portfolios: • The Exercise Simulator now reflects 2025 AMT exemptions, thresholds, and values at which the AMT tax rate increases from 26% to 28% • Federal progressive tax rate structures have been updated for 2025 for all covered taxpayer types in the simulator (Married Filing Jointly, Single, Married Filing Separately, Head of Household). ◦ These are used to approximate the standard tax that tax payers are expected to pay based on inputted income level. This gets compared against AMT calculations to determine the approximate AMT obligation related to a modeled exercise This is live now, and participants using the exercise simulator will see up to date 2025 values and calculations."
+191,2025-01-06 17:07,"Some additional updates have been made for 2025: • North Carolina: now 4.25% • South Carolina: now 6.2% • West Virginia: now 4.82% • California Disability-1.2% (increased from 1.1%) • Threshhold for Mass rate change increased to $1,053,750 There were also some minor changes in threshholds/rates for other state's disability insurance (RI as example) or minor adjustment of thresholds for rate increases"
+941,2025-01-07 00:34,"Hi team, I’m seeing some consistent failing tests related to form 3922, can someone take a look? <"
+191,2025-01-07 00:37,"hi, 3922 was a public markets only form for ESPP that's been deprecated for a while (over a year) cc <!subteam^S02DZBAE5PU|@tax-platform-devs> to look but business wise there are no companies using this tool any more"
+941,2025-01-07 00:38,Ok can we skip the test to unblock folks and then follow up by deleting the appropriate code?
+191,2025-01-07 00:39,that should work!
+952,2025-01-07 00:40,I am working on another PR unrelated to this I can skip the tests in my PR tomorrow.
+941,2025-01-07 00:40,Let’s get an isolated one up
+941,2025-01-07 00:41,right now it appears folks can’t merge prs if they’re based on a recent master commit because tests are consistently failing
+191,2025-01-07 00:41,works for me! as long as this is specific to 3922 (dead feature that was for public ESPPs) and not for 3921 (feature still in high use)-wanted to doublecheck
+952,2025-01-07 00:41,Okay creating a PR to skip the tests now.
+952,2025-01-07 00:56,could you take a <
+952,2025-01-07 00:57,sorry forgot to add. Edited above
+941,2025-01-07 00:59,"I think you’re skipping the wrong test, the failing test I’m seeing is `test_send_email_when_form_3922_are_generated`"
+941,2025-01-07 00:59,This is skipping `test_send_emails_to_portfolio_owners`
+941,2025-01-07 01:00,"Also can you make the comment say that the test is flakey/failing? Normally “not used anymore” isn’t a reason to skip a test, but I do get the context here."
+952,2025-01-07 01:00,Let me check again but for me this `test_send_emails_to_portfolio_owners` is the one showing failed <
+941,2025-01-07 01:01,"oh gross, looks like a lot of this is failing. I’m seeing this fail here <"
+952,2025-01-07 01:04,Ahh is there a way we can see all failed tests?
+941,2025-01-07 01:11,I think they’re just flakey
+941,2025-01-07 01:12,so they fail sometimes and other times pass
+941,2025-01-07 01:12,you could look at to see where it has failed recently
+952,2025-01-07 01:12,Should I just skip them all?
+941,2025-01-07 01:12,"if the feature is unused and they’re flakey, I think that makes sense"
+941,2025-01-07 01:13,and then follow up with removal
+952,2025-01-07 01:14,Yes will create the task for removal after this. <!subteam^S02DZBAE5PU|@tax-platform-devs> skipping all the tests from `tests/backend/tax_center/tasks/test_form_3922_tasks.py` since they are randomly failing.
+952,2025-01-07 01:41,PR is merged. Thanks !
+120,2025-01-08 17:29,"Hi Team - Full access admin from < Labs, Inc> says that the 'United States - California - Disability Insurance Tax' (under California) has a start date of 1/6/25 when it should be 1/1/25. She's having issues approving two exercises that came in between 1/1-1/5. Is this something we can assist in reviewing or let them know we cannot update that (she can't edit that start date on her end)."
+191,2025-01-08 19:00,"hi! 1/6/25 is the date that I actually updated the record (the ADP source I use wasn't available when I did the main update on the morning of 1/1/25). Any new transactions will hit that, but the calculations are point in time (we had not updated Cal SDI until 1/6/25). unfortunately that date doesn't drive what is used to calculate the withholding (that was grabbed at the point of exercise entry)"
+191,2025-01-08 19:19,they should be able to update the calculation at exercise review step though to reflect the slightly different rate. if taxes end up being slightly higher you might need to temporarily enable allow_raising_taxes_on_exercise
+188,2025-01-08 19:24,"And we are generally ok with leaving the allow_raising_taxes_on_exercise enabled, as long as you disclose everything to them (outlined in < card)"
+120,2025-01-08 19:26,Thank you both! I had offered this solution when speaking to her but she wanted me to ask first to see if that can be updated so that way she can keep the Tax raise feature disabled and she wouldn't have to do any manual updates. Thank you I will let her know!
+120,2025-01-08 22:03,", tagging you here for more context regarding the email from Notion Labs."
+1060,2025-01-09 15:54,Thanks . Let me know where I can help out
+1209,2025-01-14 19:52,Hey team! How's it going? Want to check with you about < new Sentry error> that is assigned to this team We are currently in the middle of the release and just wanted to check in with you if this is a known issue or really something to worry about. Can you help us here? Thanks in advance!
+942,2025-01-14 20:02,I think this is related to the testing of 1099b we were doing with Bryan earlier. The user id implies so but want to get more eyes
+276,2025-01-14 20:03,"Nothing to worry about, we were testing large batch fetching for tax statements through a staff tool! good to proceed!"
+1209,2025-01-14 20:13,Thank you so much!
+260,2025-01-15 19:24,"hi team, I found this thread as it was linked to < issue> I was trying to enable the feature flag for client-side routing in appshell, and we noticed that after the feature flag was enabled in `production` the tabs on `/form-3921` didn't work anymore. The issue was very inconsistent as tabs would work on `test` , `demo` and `local` (though sometimes they didn't work on local too) I did some digging and while I'm not certain I found the root cause - I noticed that the < router component> for `tax-center` will create a new instance of `history` on every new render and I don't think it is an intended use of `Router` + `createBrowserHistory` combo and just a `BrowserRouter` should be used instead. The CSR will potentially have more renders of a top-level component and I wonder if this is what caused the browser history to stop working as the new instances of it were created on every render. I made a < switching the tax-center to `BrowserRouter` instead which fixed the issue on `local`. I will be building the testbox next - is there a set of e2e tests I can run on it to verify the switch didn't break things?"
+260,2025-01-15 19:30,"no worries , this is super weird bug Are there e2e tests I can run to verify all works or how it would be best to test it?"
+952,2025-01-15 19:34,"I don't think so if we have e2e tests, I might be wrong I think switching between the tabs which were causing issue before would be a good start. any pointers here on how to test this?"
+191,2025-01-15 19:36,"^that's been the only way i've been able to replicate it (start on one tab, switch to another and notice that no action takes place until forcing a refresh)"
+260,2025-01-15 19:39,while this switch is pretty simple and shouldn't break anything (famous last words) I would make sure the navigation for the whole `tax-center` works as intended. I'll build a box and if you guys can click around between different tabs and routes it would be very helpful
+260,2025-01-15 20:03,here's the < with fars override> (please double check the branch version of `tax-center` is loaded). Could you click around and see if you can spot any issues with navigation?
+191,2025-01-15 20:36,"testing now, cc if you have time to check too"
+191,2025-01-15 20:39,"1. clicking between withholding overview and tax jurisdiction and rates works / no stickiness 2. form 3921-clicking between the 3 top nav menu items- generated forms, stakeholder details, exclude transactions- works/ no stickiness"
+1273,2025-01-15 20:52,"It’s weird…followed the < posted by above and after logging in, the page loaded without the Tax Rules banner and without the two tabs: `Withholding overview` and `Tax jurisdictions and rates` . If you go back to cathub and go to Tax Rules, the page loads normally"
+260,2025-01-15 20:53,"hmm maybe the link is wrong, I just appended `/tax-center` manually"
+191,2025-01-15 20:53,^oh i just hit it from the cat hub
+260,2025-01-15 20:55,or maybe it's because it has `?fars-override` in URL params Ie if you go to < is it the same issue?
+260,2025-01-15 20:55,(just check that DevTools still show an override)
+191,2025-01-15 20:56,^following that link we hit the same issue (no top nav tabs)
+191,2025-01-15 20:57,however this url (link from cat hub) works <
+260,2025-01-15 20:57,I think it's the same on `test` so I wonder if the URL is wrong <
+260,2025-01-16 14:41,thanks for poking around so far. How things are looking otherwise than the above URL issue?
+191,2025-01-16 15:01,"looks great other than the URL issue-hitting the tool from the ""normal"" path is working as expected"
+260,2025-01-16 15:02,"thanks a lot for taking a look! I will be merging it once I get . What is the release process for `@carta/tax-center`, can I deploy the app to all envs after this is merged?"
+191,2025-01-16 15:03,cc can you help with that release process question ^
+276,2025-01-16 16:01,Yes absolutely!
+260,2025-01-16 16:02,"sounds good, will deploy. could you approve the above PR please?"
+952,2025-01-16 16:27,Approved . I don't think so you'll be able to deploy since tax-team is the code owner. I can deploy let me know if we are good to go.
+260,2025-01-16 16:31,merged! I'll wait for CI and then I can kick off deploy - the `fe-platform` team has permissions to deploy other team's apps as we sometimes need to deploy config changes
+260,2025-01-16 17:44,Kicked off deploy <
+276,2025-01-16 17:45,"Apologies, totally missed pr approval but glad it got merged!"
+120,2025-01-23 18:23,"Hi Team, I know the account number on Form 3921 is auto-populated by Carta using a unique, randomly generated number. One of our Enterprise accounts (Egnyte) would like a list of each of the assigned account numbers listed on COPY B for stakeholders for tracking purposes. They’ve escalated the request and are saying they will incur additional fees from the third party they are using if the third party they are using have to take the additional time required to get each of those account numbers."
+191,2025-01-23 18:26,"hi, we use the transaction id for these. how many transactions does this company have? would it be possible for delivery to just create a list based on the PDFs?"
+191,2025-01-23 18:30,we don't have a system report for this (outside of doing a one off eng query)
+120,2025-01-23 18:33,Hey ! It's 198 pdfs. I'll look into it and will get back to you. Thank you!
+191,2025-01-23 18:44,"ok awesome, if there is a request for eng to run something one off please log a ticket and and I will pull it over. we haven't built anything to optimize for clients doing this type of hybrid filing (statements through us and exporting the actual account nums on our forms to excel) so we'd need to build something if we do need to accommodate it"
+1312,2025-01-23 19:18,"Small correction: it's actually tied to Carta's resulting certificate primary key (not the _label_) not random, but also not super clear for the customer."
+120,2025-01-23 19:26,"Ah great! I'm still reviewing this with the team but that was the admin's initial ask was, 'If there was an Excel sheet they can download with the information on the forms 3921.'"
+191,2025-01-23 19:26,"we have one, it just doesn't have the account number"
+191,2025-01-23 19:26,has all the other fields for boxes 1 to 5 but we don't put the account number on it
+191,2025-01-23 19:35,in the meantime we're doing a short investigation to see if it will be easy to tack on the values here: <
+1279,2025-01-23 20:55,"Hello, team. I have an ENT customer (< that has the following scenario: • Currently the Country of Incorporation in the platform is US but they are registered in AUS • They are trying to generate Form 3921 but since they have US in the company details, it is required to have tax id and an address so they keep getting this error • They also want to update their notice address to NY USA but it also requests the tax ID - which they do not have. How can we proceed in this case? TIA SF Case number: 02201870"
+191,2025-01-23 21:16,are you seeing that error upon generation? i just ran a batch for them in sandbox without issue
+191,2025-01-23 21:19,could be due to a placeholder EIN in company details-do they not have a US EIN?
+1279,2025-01-23 21:26,They do not have a Tax ID in company details as they are incorporated in Australia and this is preventing them to generate Form 3921
+191,2025-01-23 21:27,looking at their older batches they had included one at the time (the one ending in 997)
+191,2025-01-23 21:30,it should be the same EIN associated with the TCC that they have in their profile currently
+191,2025-01-23 21:30,cc <!subteam^S02DZBAE5PU|@tax-platform-devs> for eyes
+952,2025-01-23 22:03,Is there anything engineering should be looking into ?
+191,2025-01-23 22:50,"I don't think so, the tool requires an EIN for filing in order to apply for their TCC they would have needed an EIN. I see in some of their older docs they have one ending in 8997-maybe that's still active?"
+191,2025-01-24 19:08,we ran a one off query and attached it to the ticket linked above (first comment) that should work for the client. thanks!
+1279,2025-01-28 13:58,"Hey , could you please point out which document you found this EIN ending in 8997?"
+191,2025-01-28 15:28,you can see it in their old efiles (it's in the T record within the text file itself)
+191,2025-01-28 15:28,(downloaded from their previously filed batches-copy A text files)
+191,2025-01-28 15:30,field positions 7-15
+191,2025-01-28 15:32,I blocked out part of it just for privacy but it's here
+1279,2025-01-31 16:02,"Hello again, team. A < reached out saying that a cashless exercise is not being reflected when generating Form 3921 and the deadline to deliver copy B is today as you may know. Is there a way to file this kind of exercise or any workaround that I am not aware of? Thank you."
+1279,2025-01-31 16:03,I would appreciate your support on this.
+191,2025-01-31 16:06,hi what transaction are they expecting to see that is not there?
+430,2025-01-31 16:07,"Hey team, < Therapeutics Cayman Limited> is on Scale, has Form 3921 on their subscription but it's not visible on their account. Is this because they are incorporated outside the US (Cayman Island)? If so, is their a way to facilitate the form for them? CC:"
+191,2025-01-31 16:10,looking now
+191,2025-01-31 16:12,has_form3921 corp property was off. I just turned it on
+191,2025-01-31 16:13,they should be able to see it now
+430,2025-01-31 16:13,can you follow up with the client? Feel free to keep me on the loop
+191,2025-01-31 16:15,"oh, for this one there are a bunch of transactions that were purposefully inhibited (liquidity client)"
+191,2025-01-31 16:17,"checking our liquidity records they have ""suppress 3921"" set to yes so either they (or liquidity ops as a service) inhibited those on purpose as contingent exercises cc"
+191,2025-01-31 16:18,"if they did want to include those they'd just have to uncheck the ""exclude from filing"" on each one (undo the action that was done on them earlier) but going off of our tracker this exclusion looks to have been intentional more background: most of our liquidity clients elect to have 3921s for contingent exercises in a liquidity event excluded"
+532,2025-01-31 16:25,pls submit a liquidity support request in with the details. liquidity support will take a look and loop in the appropriate parties on our side if needed. Thank you!
+1453,2025-01-31 16:32,"Yup, it worked! Thank you and !"
+297,2025-02-03 17:54,Working on deprecating the ProfileEvent that is emitted by the profile-service. tax-platform-service is a < but the flag TXP_1963_CONSUME_PROFILE_EVENT was never enabled it looks like. Is it ok if we (IAM team) remove the consuming of the event?
+952,2025-02-03 18:06,cc: <!subteam^S02DZBAE5PU|@tax-platform-devs>
+297,2025-02-03 18:15,"FWIW production is just spewing: ```{""message"": ""Does not process ProfileEvent event since ff is disable."", ""time"": ""2025-02-03T1847.464290"", ""level"": 20, ""status"": ""INFO"", ""logger"": {""name"": ""tax_forms_service.kafka.apps.profile_service_profile_event_consumer""}}``` So I think its safe. But would like to double check"
+276,2025-02-03 18:16,Will double check and let you know shortly!
+276,2025-02-03 18:28,"looks like it was originally implemented to use a `ProfileEventProtoDataAdapter` in tax-forms-service but given that it was never turned on, feel free to remove the FF. We’ll review as a team to see whether the implementation is necessary. Thanks for flagging!"
+297,2025-02-03 18:30,"Ok, i have a PR in the works that does remove the implementation. The Event itself its getting deprecated so if you need it for some reason, please let me know!"
+276,2025-02-03 18:30,"No worries, you can move forward!"
+1248,2025-02-03 18:50,Hi team ! Do you know why these tests fail locally but not in the CI? Maybe some service or configuration? ```FAILED tests/backend/tax_center/api/v1/form3921/test_views.py::TestForm3921ReportsView::test_GET_returns_403_if_user_is_not_company_admin - assert 200 == 403 FAILED tests/backend/tax_center/api/v1/form3921/test_views.py::TestListTransactions::test_get_returns_403_when_not_company_editor - assert 200 == HTTPStatus.FORBIDDEN: 403```
+952,2025-02-03 19:30,I think it is related to `client = get_unauthorized_client(corporation)` . do you know?
+1312,2025-02-03 19:39,That's the first time I see the issue happening only on local and not the CI
+1312,2025-02-03 19:40,I don't have much context and am caught with smth else at the moment can't investigate now
+385,2025-02-04 20:28,"Today I'm planning on merging a few Dependabot PRs , verify them and deploy them. If we can get this merged in the next couple of hours I can make it part of the same batch."
+385,2025-02-04 20:30,"Also, a reminder that the FF needs to be removed from Flipper _*after* these changes have been deployed to all envs (including Prod)._"
+846,2025-02-11 18:11,Hey team! Very quick question. I got< an admin> asking from where we pull the data contained under the Tax Rules page (Tax Jurisdictions and Rates). Is there a specific source or should I say that our tax team inputs that date based on official channels of each respective jurisdiction?
+191,2025-02-11 18:18,"hi , we are maintaining that table manually (ADP is the main source I reference, but there are others). there is no systematic integration with anything. For international rates Rutlen Associates provides us with some flat rate defaults every quarter. issuers should review the rates and override anything that doesn't meet their needs"
+846,2025-02-11 18:19,Thank you very much!!
+276,2025-02-12 00:44,"Good evening Tax Platform R&D team! We have successfully delivered 1099B, 1099B supplemental, and Revenue Procedure tax forms for the 2024 tax season for both CINC and CCMX companies! Thank you all for your exceptional efforts, this was a major milestone for our pillar! In the coming days we expect to have people reach out with individual requests, but we have completed our due diligence to deliver these forms to employees before the IRS deadline of Feb. 18. Thank you, thank you, thank you to <!subteam^S02DZBAE5PU|@tax-platform-devs>, , , the delivery and ops team led by , and to the old tax team and for the technical and operational support leading up to delivery! So glad to be a part of such a thrilling release! Congratulations again team, hope everyone has a fantastic night!"
+2103,2025-02-12 03:56,"HUGE thanks to for her work to see this through and to all of the <!subteam^SANMGEFM4|@dealcaptains> for their help chasing down answers from all of our companies! Team effort all around. It’s A LOT of work each year, so we should all take a second and appreciate the effort that went into it!"
+191,2025-02-13 15:46,Good morning! crossposting from ’s DM Here are a couple PRs to fix a squeezed UX on the tax documents page for investors. <!subteam^S02DZBAE5PU|@tax-platform-devs> could we get reviews? < <
+1868,2025-02-13 17:15,"Pushing out the FEP changes to sandbox, preprod, and prod right now (already deployed to demo and test and confirmed the changes are working there)"
+191,2025-02-13 21:53,"hi , mentioned that you were testing some changes in app.test.carta.rocks and hit an issue running Emily Wilson's portfolio (I replicated this). How can I help test? preprod is looking normal for me right now/I can hit portfolios similar to Emily for ""real"" people that have 1099-Bs"
+1868,2025-02-13 21:54,"Tagg Palmer had this error in test, when viewing it Krakatoa Ventures. But worked fine in demo."
+191,2025-02-13 21:55,"yeah demo looks great, preprod looks great"
+1868,2025-02-13 21:56,"So either something is messed up with kong in test, or TFS isn't running in test. Those are the only things I can think of."
+191,2025-02-13 22:00,prod looks great too
+1273,2025-02-13 22:02,Automated test failed because of it: <
+942,2025-02-13 22:12,"Im tailing the < logs> for TFS, looks like TFS is just continuously spinning…"
+1261,2025-02-17 19:58,"Hey Team! < company> has 3921 in their subscription, but we do not see the button to generate forms, they have a TCC added and tax id. We did some investigating and it seems that some pages are timing out: we can't open the stakeholder details, we get a 502. And if we use the generate form url we also get an error message. Company is really big, they have 29 pages of exercises. Can someone take a look please? TY salesforce case for breaking the glass: 02237554. cc:"
+191,2025-02-18 15:23,cc <!subteam^S02DZBAE5PU|@tax-platform-devs>
+191,2025-02-18 15:26,"this one's strange, it does look to be some type of timeout"
+1337,2025-02-18 15:28,thank you Team. I raised a tkt <
+191,2025-02-18 15:29,"oh, i just logged a parallel ticket on the tax board: <"
+191,2025-02-18 15:38,cc for when you triage the other one-i was able to replicate the problem and we're working off of my ticket above
+1312,2025-02-18 15:58,"Interesting, I don't recall hitting this in previous tax seasons for ""available years"" (request that is yielding 504)"
+191,2025-02-18 15:59,^first time from my memory too
+1312,2025-02-18 16:00,"Just saw the API, it actually fetches all exercises to know the ""possible"" tax years, which explains why it's timing out (this is my fault btw ) (although it's curious we've never had this issue before, so this company really has *many* exercises )"
+1312,2025-02-18 16:03,"For engineers -- any chance recent changes made the `get_exercise_datapoints` method slower? Anything we can check on Datadog? ( might be worth it adding this to the ticket, just to make sure we are actually fixing the bottleneck)"
+952,2025-02-18 16:54,The only change made is fetching fmv which may also be making the API slower. (But wasn’t report generation already had fmv?) We should definitely limit the records for the available year and see if that makes any difference.
+1344,2025-02-18 18:52,"Hey Team - I know this is being actively worked on, just wanted to relay that the admin has reached out asking for an update. I let her know we are actively working on it and would provide an approximate ETA as we have one. cc"
+1337,2025-02-18 18:55,Thank you I had a drafted response to them but for some reason it was not sent. Sending an update right now.
+952,2025-02-18 19:00,"Hi team, we are working on it. We will provide an update soon."
+952,2025-02-18 19:42,We have a PR out with a possible quick fix. We also discussed a long term solution which will require sometime to implement. If the PR doesn't get merged before today's CW release we will have to run a script to generate the forms for this customer. cc:
+1337,2025-02-18 20:11,"Thank you so much . The company is concerned as they continue to field inquiries from stakeholders who are needing this information to file their tax returns and have no idea how many may have already filed their returns without it, which could result in significant fines and penalties. They said they need to get these forms out to our stakeholders asap and appreciate our diligence and communication in assisting with this critical matter. FYI."
+1754,2025-02-18 20:52,Is this the correct team to flag this to?
+374,2025-02-18 20:55,"Thanks, ! Team, my bad, had too many windows open and accidentally posted to the QSBS channel instead."
+191,2025-02-18 20:55,hi! the proj-83b channel is probably the best one for this
+374,2025-02-18 20:56,"On it, thanks!"
+952,2025-02-18 21:01,Got it. The PR made it to release but release is not done yet. I am writing a script to generate the forms manually.
+191,2025-02-18 21:02,is the participant data for this issuer's 2024 3921s all in a good state (not missing any SSNs/addresses etc?)
+191,2025-02-18 21:03,or is there a way to trigger the download from the stakeholder details page since it is failing to load? we could check there (we want to see if anyone in the 2024 list has valid stakeholder=false due to one or more fields missing)
+191,2025-02-18 21:04,"since all the stakeholders can't currently load, the issuer can't see any alerts for participants prior to generating the batch, and if we skip the workflow to generate the batch the UX won't alert them there either"
+1337,2025-02-18 21:12,No missing info Team.
+191,2025-02-18 21:14,the concern I have is that the page that would tell us that can't load (the stakeholder details page)
+191,2025-02-18 21:15,To test we ran an export out of sandbox (no ssn data unfortunately) and vlookup'd against a bulk update stakeholder spreadsheet and I have a handful with null SSNs at least on the issuer side
+1337,2025-02-18 21:18,I tried to filter the exercises of 2024 by excluded on the “modify transactions”tab. Wouldn’t it show any exercises excluded due to missing info?
+191,2025-02-18 21:23,that filter is just for deliberate exclusion by the admin
+191,2025-02-18 21:24,our fix made it into the < that's being pushed now/we should be able to check in prod shortly
+191,2025-02-18 21:42,it should be working in prod now note: there are some people missing SSNs or other data (the tool is highlighting them)
+191,2025-02-18 22:22,is everything working now for you and the client?
+1337,2025-02-18 23:15,The button is showing up! Thank you ! You are awesome!
+608,2025-02-20 00:59,hey team Does this team own `Tax advice` page?
+90,2025-02-20 01:04,Cross linking with this post: <
+191,2025-02-20 01:07,hi! this team does not own the tax advice page. The tax advisory team can be found in this channel:
+608,2025-02-20 21:18,Hi team I noticed 1099-Bs page for LP (Emily Wilson) is frozen in loading state and shimmer. Can someone please take a look? cc:
+608,2025-02-20 21:18,This is the link in main test - <
+191,2025-02-20 21:19,cc <!subteam^S02DZBAE5PU|@tax-platform-devs> this sounds like a similar issue that was hitting ~demo~ app.test.carta.rocks environment a couple days ago
+191,2025-02-20 21:19,that raised <
+942,2025-02-20 21:20,can you please help look into this?
+952,2025-02-20 21:25,The issue was happening in test env and not in demo. I think the test env issue never resolved.
+952,2025-02-21 18:30,"FYI, I am still debugging this couldn't find the root cause yet. Its happening only for Emily's portfolio. I am going to sync with later to see if he has any context on this. cc"
+276,2025-02-21 21:28,"and I have isolated the issue! Digging into the DB we found that Emily’s portfolio on test has 8344 documents of which 8127 are from the year 2022 and the remaining 217 are from 2021. In demo, she only has 434 documents of which 267 are from 2022 and the remaining 167 are from 2021. Soft deleting a majority of the the docs causes Emily’s portfolio in test to behave normally as seen in the screenshot below. The error on test is confirmed to be caused by the number of docs that we’re trying to fetch for Emily. Next step is to see why the test db snapshot is not a clone of the demo environment. cc"
+942,2025-02-21 22:05,why does soft deleting the majority of the docs help to restore the page?
+276,2025-02-21 22:09,Unfortunately our logging isn’t clear enough and no visible errors are thrown in datadog or directly shelled into the pods. Given that we were seeing a 500 error we thought it could be a request size issue that’s causing the service to die or not respond in a timely manner. That’s when we observed the number of docs in both environments were drastically different. When viewing the CDS logs in datadog we see the requests being made to fetch infinitely until the error is thrown in the browswer and then the requests stop but no errors in the CDS logs either
+276,2025-02-21 22:10,We should def look into why the test env has so many more records and what are CDS request limits are and perhaps introduce some sort of pagination into the request
+276,2025-02-21 22:11,"i don’t see a use case where it would be helpful for a user to see more than 10 docs at a time for a given tax year anyways given that at most you can only have 1 valid file for 1099b, supplemental, and rev proc at a time"
+942,2025-02-21 22:19,Interesting. I wonder how we got to 8344 docs in test. Rate limit from CDS is definitely plausible and thanks for digging to the bottom of this
+846,2025-02-27 19:04,"Hey team! Hopefully quick question Do we have somewhere the list of States that have State Ordinary Income taxes for ISO exercises? I know by heart that NY and PA are one of these, but if we had a list it would be very helpful for our <"
+90,2025-02-27 19:06,"William, the answer is not that neat and the answer is ""it depends"""
+90,2025-02-27 19:07,"Because it can depend on the structure, etc. which tax regime applies to which portions."
+846,2025-02-27 19:13,"Got it! Thank you very much ! That's very helpful to know I asked this because sometimes we get some admin questions on why we're requesting FMV for ISO exercises to be submitted through the platform. Usually it is because of the state taxes, so if we had a list that we need to pay more attention to like ""`these states could have state taxes, thus the FMV need for exercise to be submitted`"" it would be handy for our support reps to suggest the company to check with their tax advisors with more certainty. Again, thank you very much for clarifying!"
+90,2025-02-27 19:21,Does our usual language flag that this is important for federal taxes in particular (AMT liability mostly)?
+90,2025-02-27 19:22,"And yeah, it's hard to keep up with the state laws, and we don't help with the tax compliance for folks there for a reason so the most we do is a nudge for them to consider on their own with their advisors."
+1347,2025-03-04 18:34,quickie to bump backup/restore charts <
+1347,2025-03-04 21:45,<!subteam^S02DZBAE5PU|@tax-platform-devs> require one more review on this if someone can check. Thanks
+179,2025-03-06 19:30,"Hello! I have a customer who's asking how to add a county tax rate. I reviewed < helpful thread>, and I wanted to ensure I'm providing the correct technical guidance. Here is the customer's request: _*For Kentucky I need to add 1.05% Campbell County OLF (Occupational License Fee)*_ _*To give you some backstory we have an employee (Jacob Weyer) who exercised his stock options however his holding weren't calculated correctly and need to include 1.05% Campbell County OLF (Occupational License Fee)*_ _*1.0% City of Cold Spring OLF (Occupational License Fee)*_ From my understanding, the customer would select 'Multi-Regional Tax Jurisdiction.' They could name the Jurisdiction, ""Occupational License Fee,"" or something along those lines. Add Campbell and Cold Spring as cities. And then upon exercise, Carta would compare the stakeholder's city with the cities associated with the custom tax rate, and then automatically apply 1.05 % and 1% accordingly. Am I understanding this correctly? Or would the admin need to create two Multi-Regional Tax Jurisdictions if they need to apply both rates to the holder's exercise? One for Campbell and another for Cold Spring? Thank you for your assistance!"
+191,2025-03-06 19:56,"hi! 1. for The Campbell County one, he'd add that as a Multi Regional one and add in any affected cities. Then add the rate of 1.05% to it (that applies to all cities in the county) 2. For The city of Cold Springs specific tax, that one should just be added as its own jurisdiction with its rate (since it only applies to Cold Springs and not across cities). Apply a 1% rate to that-which does not get shared with other cities"
+191,2025-03-06 20:02,for example:
+191,2025-03-06 20:03,then create a rate for the county
+191,2025-03-06 20:05,and then create the rate specific to the city as a city tax (single jurisdiction)
+179,2025-03-06 20:21,"Sweet! Thanks a ton, !!"
+179,2025-03-06 20:43,"Quick follow-up question, . Does the effective date impact what exercises are tied to the rate? For example, if they enter the effective date as of today, and they go to enter an off-platform NSO exercise for someone in City of Cold Spring from last month, will their custom rate populate for that exercise?"
+191,2025-03-06 20:55,the effective date does not impact that-it will use the latest value in there (it won't time travel)
+191,2025-03-06 20:56,at the point of transaction creation
+845,2025-03-06 22:24,"Hello Team,Quick question: It’s not possible to disable tax withholdings in the US, correct? The only option would be to manually adjust the rates for each state?Additionally, is there a specific reason I can provide to the customer to explain why this is not possible? Thanks a lot!"
+90,2025-03-06 22:42,"Felipe, can you give more context for where you are looking at this?"
+191,2025-03-06 22:43,"hi, that is correct the reason is: when we rolled this out initially there was concern from business/ops that companies would inadvertently disable withholding in the US (which is required)"
+90,2025-03-06 22:43,"Felipe, that rationale should not be shared externally."
+90,2025-03-06 22:43,"The response to the customer is that correct, that's hard coded into the product and is not modifiable. And leave it at that."
+845,2025-03-06 22:45,"Thanks a lot, and ! I will let them know that it is not possible to update it, but they can adjust the exercises individually and manually modify the withholdings for each state."
+191,2025-03-06 22:46,"rather than set the rates to 0, the easiest way they can modify this is just unchecking the withholding events per jurisdiction"
+179,2025-03-08 01:20,"Hey team! I have a customer who asked what we mean by ""Regular wages"" in our import payroll spreadsheet (demo template attached—column D). They asked, ""_on the payroll import template in carta, it asks for Regular Wages. Is that Taxable Wages or wages that aren't supplemental?_"" Is this question appropriate for this channel, or should I post this somewhere else? Thank you, and apologies if I'm in the wrong place."
+191,2025-03-08 01:34,"hi , our tax tool expects regular + supplemental = Gross wages Select buckets use gross (social security/medicare) while the vast majority of others (fed withholding, state etc) use Supplemental in tax rules you can see which rule is configured to which bucket (note that this can be overridden by the client) these values only matter for tax rules with progressive rate structures (as opposed to flat rates)"
+191,2025-03-08 01:35,if clients want to just populate supplemental and gross that will work too (none of the buckets are actually based on the regular column itself)
+532,2025-03-08 03:04,"Team - additional context from LOPs playbook in case its helpful *YTD Gross Compensation* • Defined on Carta as: ◦ Total year-to-date gross compensation earned by the employee ◦ The USD amount used to calculate FICA _before_ any deductions have been applied ◦ YTD Social Security Taxable Wages (Box 3), YTD Medicare Taxable Wages (Box 5) *YTD Supplemental Compensation* • Defined on Carta as: ◦ Total year-to-date supplemental compensation earned by the employee (examples: bonus, stock option income, signing bonus, commission, reimbursement, relocation wages, etc.) *YTD Regular Compensation* • Defined on Carta as: ◦ Total year-to-date regular wages earned by the employee, calculated as YTD Regular + YTD Supplemental = YTD Gross"
+179,2025-03-10 22:57,"Hey ! The admin I was working with added those rates to the live account (see attached picture). She denied the initial exercise request and asked the stakeholder to resubmit it so the new rates could be applied. However, when I tested an exercise for that grant (ES-1126) in sandbox, the new rates don't seem to be applying. The original exercise request that was denied has the same 'cash paid' amount as the one I submitted in the sandbox with the new tax rates (example photos attached). The holder's address had a city listed as 'Cold Sprgs Highland Hts,' so I thought the city name might be the issue. However, even after changing the address in the sandbox to 'Cold Springs' and 'Cold Spring,' and resubmitting the exercise, the taxes still appear to be the same (i.e., missing the custom rates). Any idea what might be going on with this?"
+191,2025-03-10 23:01,taking a look now
+191,2025-03-10 23:43,i was able to replicate your issue. i'll log a ticket on our side one explanation is: we use Google Geocoding to match up addresses. It could be having a problem finding Cold Springs as a google address. Actually I'll sub in some other address in sandbox temporarily in KY and a related stakeholder address and see what happens
+191,2025-03-10 23:50,that did work-it does seem to be a geocoding issue what I did to prove this: • I changed his address to Louisville City Hall's address in sandbox/stakeholder level: 601 West Jefferson Street Louisville KY • Added a custom 1% rate for Louisville • that custom rate shows up when simulating an exercise (I did this one via manual exercise but it's the same call to the tax engine)
+191,2025-03-10 23:57,"just throwing the address into Google I get Newport, KY as the proper city for that address with right zip code and everything"
+191,2025-03-10 23:57,that's probably the problem. testing that out now
+191,2025-03-11 00:05,that did it Summary: • our tax engine uses google geocoding to better match jurisdictions to addresses • Google shows that participant's address as being in Newport KY as opposed to Cold Spring KY • Thus the tax engine isn't finding Cold Spring to associate the $1.15 in taxes to it since Google doesn't recognize the address What will work *(edit-see downthread for an easier fix than this)*: 1. ~Add tax rules for Newport KY~ 2. ~Update the stakeholder address on the issuer's side to Newport KY~ 3. ~The tax rules will pick it up there since the address is recognized~
+191,2025-03-11 00:38,"^after writing that out, creating the Newport rule, then changing the address back to Cold Springs, that also is working now the issue does seem to be related to Geocoding but it's tough to see exactly what Google is evaluating to"
+191,2025-03-11 00:50,"Ok so easier fix discovered (vs using Newport which seems to be Google's first choice) 1. Make sure the tax jurisdiction created is titled Cold Spring (not Cold Springs) 2. Get rid of the newer Cold Sprgs Highland Heights stakeholder address which is confusing geocoding (and that is the ""latest"" address now which the tool will grab due to its later effective date) 3. the exercise should then grab Cold Springs"
+191,2025-03-11 00:52,and that does work (getting rid of that malformed new address) screenshot from preprod-Google is able to evaluate the participant's 2021 version of the address to Cold Spring
+179,2025-03-11 15:14,"Thanks a ton, ! Do you know if there's a way to delete custom tax jurisdictions? It looks like they'll have to re-do the custom rates, so I was hoping to help them clean up their errors so they don't have duplicate tax rates."
+191,2025-03-11 15:19,yes if you delete the child tax rates below it (delete tax rate) then delete the jurisdiction itself (delete jurisdiction) that will work
+179,2025-03-11 15:19,Aha! Thank you!
+191,2025-03-11 15:20,if you're testing in sandbox I just deleted the county rate for this company successfully (just in case you were testing and wondering where it went)
+846,2025-03-11 16:45,"So, for the holders, we do show < wording> when they can submit the exercise request. However, when the company doesn't have an FMV in the system and the holder is from a state that might have tax wtihholdings, we currently block the holder from submitting the exercise request (Screenshot attached from Demo). This page is one step before the tax withholdings step of the exercise request. On the company's end, they only know their online transactions is turned on and they have no active FMV. Usually support would receive a call from the admin asking why their holder cannot exercise even though they have online transactions setup And then we explain the tax withholdings possibility and that because of it, we do not allow the holder to submit the exercise request if the company doesn't have an active FMV"
+90,2025-03-11 16:47,"William, what's your recommendation here? Do you want to change this product presentation and/or product logic? Our administrative users understand (and rely) on that block that's been in place for years now (it effectively raises this as a flag for them to add an FMV or consider state taxex) so am personally inclined to move with deliberation here and take small steps, but want to understand more."
+846,2025-03-11 16:53,"I don't see a problem with the product logic, blocking it might be better given they don't have an FMV. On staff's end, like on a guru or something like that, we could have a resource highlighting to our ICs that the reason for the block is the address. When we're investigating, we need to do kind of a checklist of what could be generating that error and most of the time we give the answer about the address without necessarily knowing that it is in fact due to it. Like, I personally have learnt from answering lots of calls that NY is one of the states that will cause that block. But only experience (and taking CEP lvl 1) taught me that We probably already have a list on the backend to generate that block, would it be harmful to share that list through a guru card with our support team? And again, thank you very much for answering these questions"
+90,2025-03-11 16:59,+1. There is a Delivery Enablement team that could/should tackle this if you can work with them to tackle. and I would be more than glad to review their drafts before they are published for internal use.
+850,2025-03-11 17:31,I can work with you and put in our request to the enablement team on it. cc and
+1337,2025-03-17 20:28,"I just had a call with an admin from < Labs>, and they inquired about whether our tax rates are up to date. I came across a < thread >mentioning updates made at the beginning of the year, but they recently received information from ADP stating that: • Arizona no longer withholds taxes. • North Carolina’s tax rate is now 4.35%, whereas we currently have it listed as 4.25%. Their main question is: Can they rely on Carta to maintain the most up-to-date tax rates? Could we confirm if Rutlen is the source for our tax rate updates? Additionally, how frequently do we update our tax rules? Please let me know if this is the right place to ask, or if I should post this elsewhere. Thanks!"
+191,2025-03-17 21:15,hi! Rutlen is not the source of our tax rates domestically. We are maintaining them manually and update them quarterly (or as needed for one offs). For Arizona we are using the flat income tax withholding rate from 1/1/25 and NC currently reflects the personal income tax rate. I'll do some research and report back if I make any global default updates. I think they are right
+191,2025-03-17 22:47,summary cc 1. for Arizona we're using the flat withholding rate of 2.5% shown in this < doc since Arizona does not have a supplemental income provision (< 2. For North Carolina we had previously been using their flat income tax withholding rate of 4.25% for 2025. North Carolina does have a supplemental rate of 4.35% as of 2025 and I have now updated our defaults to reflect 4.35%.
+1337,2025-03-18 13:49,Good morning Thank you so much for your help! I guess I need a credential to access < doc>. I am unable to open the page.
+191,2025-03-18 14:37,can you hit this link? < to EY report>
+1337,2025-03-18 14:41,Yes! Thank you!
+191,2025-03-18 14:43,any time! that and ADP's rates < are two of the main sources that are referenced in determining default rates (aside from the jurisdictions' departments of revenue themselves)
+1337,2025-03-18 14:44,This is really great to know. Very helpful for future requests. I really appreciate.
+1475,2025-03-20 20:12,"Hello team, I hope you are all doing well today! My name is Wing from the Equity Advisory team. I am reaching out as the Point of Contact (POC) from TidalWave Tech has an NSO tax withholding question regarding an employee based in HKG and is seeking insights... • The employee submitted an NSO exercise request, and the Carta App is prompting for tax withholding (W/H). • The POC would like to confirm: a) If tax withholding is required, given that all work was performed in HKG. b) Whether Carta has an automated feature for tax W/H calculations based on option type, employee classification, and location. Appreciate any insights -- thank you! CC:"
+191,2025-03-20 20:16,"Hi , • Carta does not have any default rules or rates for Hong Kong. The tool does allow issuers to add in flat rates for international jurisdictions (like Hong Kong) but Hong Kong isn't a jurisdiction that we provide any defaults for-the issuer would have to create the rule/rate itself if they deemed it appropriate. • Carta can withhold on either NSOs or ISOs based on stakeholder address and employee relationship. • in the exercise approval step you have screenshot, if the issuer deems it appropriate they can add in a withholding value manually."
+1177,2025-03-20 20:18,Hi Team! I have a company admin that has the following question:
+1177,2025-03-20 20:18,"Hi, we are looking to figure out whether Carta has the capability to handle tax compliance of option exercises of employees located in India or if the platform is merely providing advice to companies but still asks that companies handle tax matters related to option exercises in India on their own?"
+1177,2025-03-20 20:19,I am looking for information to be able to best answer this question! Thanks
+1475,2025-03-20 20:19,Thank you so much for the clarification! I will reply to the POC now!
+191,2025-03-20 20:38,"hi! the platform can do the following: 1. Carta can withhold for participants in India at a flat rate. We currently have this set to 39% at the federal level per our advisors at Rutlen. Note that this rate might not be appropriate for all companies-companies should review rates and can override, remove or add anything that does not meet their needs 2. Issuers can add additional jurisdictions and tax rates/rules that they determine are appropriate in their tax rules section, and upon exercise our tool will use the rates/rules that issuers create to calculate tax estimates 3. India functions like other international jurisdictions in Carta-participants with stakeholder addresses in India will hit the rules that the company has set up in Tax Rules for that jurisdiction"
+1177,2025-03-20 23:05,Is all of them okay for me to share with the company admin?
+191,2025-03-20 23:17,"I think so. There's also a < article> that covers this in more detail. we don't have India-specific tax functionality-just a default rate at the Indian fed level that they can override. Like all countries, issuers have the ability to create jurisdictions, rates, and rules for jurisdictions in India"
+1177,2025-03-20 23:29,Thank you! This was very helpful!
+191,2025-03-31 14:26,Good morning! We have one change to our international tax rate defaults as of this morning (Source-Rutlen Associates) 1. Spain: was 47% now 47.19%
+479,2025-04-01 16:55,This message was deleted.
+90,2025-04-01 16:57,"Deirdre, I saw the question in a few places - lets consolidate the discussion in (and please help us by not duplicating immediately)."
+40,2025-04-01 16:58,Sorry Natasa wasnt sure which was the correct channel. Will remove from here and follow along in proj-83b
+655,2025-04-02 19:07,"Hi team! I am looking at an < exercise> for a Scale AI stakeholder. The NSO income is greater than $200,000 but additional Medicare was not figured into the calculation. Do we know why this might be the case?"
+191,2025-04-02 19:35,hi! if the person does not have YTD comp values configured then the tool will fall back to the flat rate - that's probably what is going on
+191,2025-04-02 19:38,"that is what's happening: there is no payroll value for the participant our tax tool allows companies to set the ""no payroll rate"" if they want this participant to show 0 YTD comp prior to the transaction then the issuer can upload that (and we will start counting YTD values beyond that)"
+191,2025-04-02 19:39,also interesting: this company has a custom rate structure set up for medicare
+655,2025-04-02 19:40,"so they're setting the rate at 1.45% only, no matter what the amount of income?"
+191,2025-04-02 19:41,"correct, but only if the YTD comp value for the person is null. it's a fallback value (if there is no payroll data for the participant to go off of)"
+191,2025-04-02 19:43,note: this rate is set up custom for them (our normal flat rate default if no payroll data is provided for that bucket is 2.35% to be more conservative and the issuer can adjust it downward in the exercise review step) that blue indicator on my screenshot is an indication of a custom rate set for the issuer (either by them or by Carta staff for them via the front end)
+655,2025-04-02 19:43,"Got it! This is super helpful, thank you!"
+191,2025-04-02 19:47,"summary: • if the participant had YTD comp values uploaded, we jump the rate from 1.45% to 2.35% at the 200k comp mark • since the participant has no YTD comp values uploaded, normally we'd withhold at 2.35% flat, but the issuer's tax rules have been overridden to use 1.45% in this instance • the issuer can revert the rule back to our default in the hamburger menu to Restore tax default (or set it to any rate that they want custom). Note: before doing this they'll have to go through the review tax rates flow in the blue banner at the top of the screen"
+1337,2025-04-08 19:12,the client reverted asking if we can review the following jurisdictions: D.C. - 8.95% Hawaii - 7.90% Idaho - 5.70% Utah - 4.65% Thank you.
+191,2025-04-08 19:28,checking now/will respond in 30 min
+191,2025-04-08 19:38,Responses cc : DC: some conflicting values between rate tables. Updated based on higher < of 10.75% (changed) Hawaii: left at 7.90 per HB 2404 < link> (no change) Idaho: left at 5.695% per < (no change) Utah: Updated rate to 4.55% (changed)
+1337,2025-04-08 19:40,Thank you sooooooo very much!
+2015,2025-04-17 19:03,"Hi team, happy Thursday! Is there any known issue with the Tax rates report? LOPs is experiencing a hard time to download this report for liquidity customers, as it's taking 20 min to load, regardless of company size. cc"
+191,2025-04-17 19:41,hi! no known new issues though we did notice something similar a week or so ago cc <!subteam^S02DZBAE5PU|@tax-platform-devs>
+191,2025-04-17 19:42,the only alert that has hit us today was < which looks to be just a duplicate city entry/not related I don't think
+191,2025-04-17 19:43,the last blocking instance of this (timeout) that hit our board was a couple weeks ago: <
+1868,2025-04-17 19:52,I imagine this was prod. Does it happen in the non-prod environments?
+2015,2025-04-17 20:00,"that one for Missouri tax rate was me there was an old tax rate from a previous tender offer which I didn't see and the rate was created in duplicate, but I removed the dupe"
+2015,2025-04-17 20:01,"let me test! this has been happening in Prod for the past week or so. For every company we click to download the report, it just keeps downloading for solid 20min, even for small companies"
+2015,2025-04-17 20:02,I'll test in sandbox and revert back in a min
+2015,2025-04-17 20:14,"it loads faster in Sandbox. tested with two companies with different sized and in Sandbox it works better, so the issue seems to only affect Prod"
+1868,2025-04-17 20:15,Interesting. Good to know. It might help with troubleshooting. Is using preprod or sandbox an acceptable workaround until we can fully investigate?
+2015,2025-04-17 20:18,"There is a timeframe gap between adding a custom local tax rate and having it reflected in Sandbox before we can download the updated report (and we need it to share it with the customer and have them confirm the rates), but I think we can manage to use Sandbox while this is being investigated. Let me know if you'd like us to file a ticket and we can do that too!"
+1868,2025-04-17 20:20,It'd be available the next day. The prod database doesn't get cloned and copied into preprod/sandbox until a nightly job occurs.
+1868,2025-04-17 20:21,"And yes, we should have another ticket. One quick recommendation that I had recommended was referenced in that soft timeout thread: <"
+1568,2025-04-17 20:43,< reopened and put it into this sprint cc:
+1568,2025-04-29 20:49,"Just FYI, I've enabled the FF `TXP_3433_TAX_RATES_REPORT`for the query fix for this report in prod. Tested on < and downloaded pretty quick."
+191,2025-04-29 20:50,"cc ^ the tax rate export should be faster now, thanks !"
+532,2025-04-29 21:00,thank you <!subteam^S03P6B55J8J|@liquidity_ops> appreciates you!!
+1279,2025-05-20 20:45,"Hey, team. I would like to know if there is a way to audit who enabled the tax mobility tool and when it became effective. I'm looking at < Systems, Inc> and this was a request from and admin that works as their Equity Advisor. I've tried using the system audit tool and have been unable to locate this information myself. Is this data accessible or would it be appropriate to submit an ESR to retrieve it? Thanks in advance for your help!"
+188,2025-05-20 20:49,"Please enter a jira ticket and post it here so I can triage appropriately. Please make sure to give us a good priority level in the ticket, too~"
+188,2025-05-20 21:01,"Is there a valid reason for the priority being high? I will bring this to the team tomorrow afternoon for triage, it'll help to know if it's a ""this is holding something up"" situation or ""we are panicking and we really want to know"" situation. Also, if they don't want it turned on, please guide them to turning it off."
+1279,2025-05-20 21:06,"They are not panicking as they do want the Tax Mobility tool enabled. But they reached out after receiving an exercise request involving multiple tax jurisdictions and wanted clarification on how the system was calculating the taxes. I explained that the holder has records tied to multiple locations, and since Tax Mobility is enabled, the system is behaving as expected. They just needed a bit more context on how and when it was enabled."
+188,2025-05-20 21:07,"Ok, so far I can see it was enabled on 6/1/2021"
+188,2025-05-20 21:08,"I can't see who did it, and am curious if that admin no longer works there and was removed. I will need to lower the priority, but hopefully knowing it's been turned on for 4 years helps."
+1279,2025-05-20 21:08,"It is super helpful! Thanks, Adrian!"
+1868,2025-05-20 21:24,"Usually ""Unknown user"" means it was done from an ESR. Running of our old gists didn't log the engineer who ran it."
+188,2025-05-20 21:31,it doesn't seem like a task that would've needed an engineer to enable. I've experienced it being more from the admin being removed. But I sincerely just can't confirm from my access atm
+1868,2025-05-20 21:33,"It could've been for a bulk backfill, or possibly a naming change"
+1868,2025-05-20 21:34,"Because that screenshot looks like we renamed `""has_tax_mobility""` to `""use_stakeholder_addresses_history_for_taxes""` . So `""has_tax_mobility""` could have been enabled even earlier than that."
+188,2025-05-20 21:35,"ah, interesting"
+1868,2025-05-20 21:37,"Or... wait, they are separate."
+1868,2025-05-20 21:37,"Let me dig further into it, but I have a feeling that it was an ESR that changed the values in your screenshot"
+1868,2025-05-20 21:41,"Back on Jan. 7, 2021 someone was doing a bulk change (via ESR) and made a mess of things. So I think it was originally intended to have it implemented in bulk for a group of companies back then."
+1868,2025-05-20 21:46,Found it. < ticket> and <
+188,2025-05-20 21:47,"ah, so that's when that tool came to life... or was updated to it's current state"
+1279,2025-05-20 22:13,"So, back then when the tool was created, our team enabled it for some companies, correct?"
+1295,2025-05-20 22:14,"i'm a bit concerned about how this information will come across to the customer, can you please send your drafted response to myself, , and the CSM?"
+1868,2025-05-20 22:16,"Yes. This was done half a year prior to my joining the company, but might (low possibility, given how much time has passed) remember what criteria went into deciding who would automatically be enabled as part of the ticket."
+191,2025-05-20 22:20,"Hi, upon initial release of tax withholding mobility was defaulted to be ON (decision at the time/years ago). We changed this default to OFF for new companies some time later."
+191,2025-05-20 22:23,so companies live at the time we rolled this out will still be ON unless they (or we) set it to OFF.
+188,2025-05-20 22:26,Bam. All hail and his memory!
+191,2025-05-20 22:26,The rationale at the time was: companies keeping date effective addresses were doing so to support matching addresses to tax jurisdictions We later set the default for new companies for mobility to OFF after finding that the majority of our companies were not tracking multiple addresses and mobility was experiencing low adoption We didn't shut it off for existing companies at that time though
+685,2025-05-20 22:53,"Thanks all! I'm guessing we didn't send comms to companies when we turned that on ( TL;DR — in the event you remember how we rolled out tax mobility and whether we communicated anything to companies since we switched it on, I'll do some searching as well). Echoing Anisa here that it would be great to review your copy to ensure we share the right level of information (cc for when he's back from being sick)"
+1295,2025-05-20 22:56,"Team, it seems I didn't catch Mari in time but we are in the clear on this one. Response from the customer below;"
+685,2025-05-20 22:57,"Thanks for sharing! If they don't want to drill into the ""who"" and are okay with the ""when"" no issue on my end"
+188,2025-05-27 18:05,"Just looping back around, I will close this ticket out!"
+1261,2025-08-07 20:28,Hey Team!! The Hire and Retain Team is working on adding new relationship types to our stakeholder ledger. Mainly ex-board member and ex-international employee. Is there anything we need to keep in mind in regards to taxes? cc:
+191,2025-08-07 20:31,hi! yes we will need to determine if we want the new relationships to be TAXABLE or NONTAXABLE since our tax engine uses relationship to calculate/ignore calculation of taxes I think we'd probably set ex-board member to NONTAXABLE and ex-internationl employee to TAXABLE (based off similar existing relationships) but we'll want to do it consistently
+1261,2025-08-07 20:37,"Is the relationship _other_ taxable, ?"
+191,2025-08-07 20:37,I'm not sure if the taxable/nontaxable relationship is done on the new relationship itself or on our side (on the tax engine)-it's been a while since we introduced a relationship <!subteam^S02DZBAE5PU|@tax-platform-devs> in case a teammate knows/if this is readily available if it is on our side we'll need to add this info prior to the Hire and Retain team introducing a relationship type
+1868,2025-08-07 20:39,"By default, we tax all relationships unless it appears inside a certain list."
+1868,2025-08-07 20:40,"Realistically we should have that list configurable, but at the moment it's hard-coded inside our codebase. So if the new relationship is inside the code we can add it there, prior to it being used."
+1868,2025-08-07 20:41,For reference: <
+191,2025-08-07 20:41,yes OTHER is taxable
+191,2025-08-07 20:45,"this is a list of our non-taxable relationships RELATIONSHIP_ADVISOR, RELATIONSHIP_EX_ADVISOR, RELATIONSHIP_BOARD_MEMBER, RELATIONSHIP_CONSULTANT, RELATIONSHIP_EX_CONSULTANT, RELATIONSHIP_INVESTOR, so if we agree that ex-board member should be nontaxable (like board member is not taxable) we need to add it to our list"
+191,2025-08-07 20:46,when will this be added?
+1261,2025-08-07 20:46,"Yep, makes sense!"
+191,2025-08-07 20:46,and what exactly will it be called?
+1261,2025-08-07 21:14,"Hey we kicking this off next week, I think. We'll keep you in the loop!"
+532,2025-08-07 23:19,<!subteam^S03P6B55J8J|@liquidity_ops> ^ we’ll need to follow the status of this release so we can update our CTR and tax config processes and procedures. Thanks!
+297,2025-08-13 15:56,This 2 year old Confluence article on the < of profile collection> cites that 300+ tax filings are rejected each year due to bad profile data. Anyone know where I can find data on this? Metabase somewhere?
+191,2025-08-13 16:00,hi! we get that data back from the IRS itself/usually on a physical piece of paper. the 300+ quote is inflated since we had an issue back in 2021 (downstream effects of it hitting late 2022) that was outsized. These are caused by the IRS not recognizing the name/social security match we send it for 1099-Bs.
+191,2025-08-13 16:01,we deal with these on a project basis (transpose them all into a google sheet and do an outreach to each participant per instructions of the IRS to minimize fines/give us the ability to appeal fines)
+191,2025-08-13 16:01,i can get you counts from the last couple years but the data isn't connected to CWEB/has just lived on a google sheet since the data comes to us via IRS in the form of a physical letter
+191,2025-08-13 16:05,B notice populations for liquidity TY 2023 we had 48 rejects (note: we implemented more proactive QA steps this year which helped catch more issues upfront) TY 2022 we had 116 rejects we should get the 2024 ones back from the IRS sometime in October'
+297,2025-08-13 17:21,"Got it. Just curious, whats the total number of filings for those years? And you say that most rejects (all?) are IRS not recognizing name/SSN match. Does this match only need name, or is the address part of it? Finally, would you say the rate of rejections is a top-of-mind problem in terms of user friction?"
+191,2025-08-13 17:30,"1. 2023: 10,098 trades filed not including corrections (trivial amount) also includes public for the portion of the year we had that business up 2. 2022: 12,805 trades filed not including corrections (trivial amount) includes a full year of public trades 3. All rejects from the IRS are due to the name/TINs not matching what they have in their database. They don't match on address-it's only name and TIN 4. The rate of rejections affects Carta more than users in this case at least initially-since Carta is required to take action to follow up on the rejects. We have to follow up with a B notice outreach for each one of these and then use this as evidence when responding to penalty notices for the IRS. It's an important problem from a tax filing perspective"
+297,2025-08-13 17:32,Swtich user friction with carta friction
+191,2025-08-13 17:33,it's a pain point for sure if you're available right now would you like to meet on zoom and I can give more details?
+297,2025-08-13 17:34,Ya give me 2 min
+1204,2025-08-25 13:41,"Hi team, heads up that we plan to release the new stakeholder relationship types today. Please let us know if there are any needed changes we should add, or if you have any questions!"
+1868,2025-08-25 13:51,"Hi ! I think the only changes required on our side would be if the any of the new relationship types are non-taxable. If they are, we just need to update this set <"
+1261,2025-08-25 13:53,"Hey and thank you! As per above, ex-board member should be non-taxable and ex-international employee taxable."
+532,2025-08-25 13:53,<!subteam^S03P6B55J8J|@liquidity_ops> ^
+532,2025-08-25 13:54,<!subteam^SANMGEFM4|@dealcaptains> ^
+1868,2025-08-25 14:10,Think this is all that's required. Quickly put together a PR: <
+191,2025-08-25 14:36,i see we already have a ticket to track <
+1868,2025-08-25 14:48,"PR is merged now, and should be included with todays release."
+1209,2025-08-25 18:59,Hey team! We are getting this new Sentry error in Preprod Environment < `_InactiveRpcError of RPC that terminated with: status = StatusCode.INTERNAL` Just wanted to do a quick check if this is not a real issue. Can you take a look so we can proceed with release? cc: <!subteam^S02DZBAE5PU|@tax-platform-devs>
+1313,2025-08-25 19:20,any context on this? not sure if this is intermittent or if tfs is down
+276,2025-08-25 19:23,all good to proceed!
+1209,2025-08-25 19:23,Thank youuu all
+942,2025-08-25 19:27,the context here is that there is tfs batch that runs every 2 hrs in preprod and can fail if a pod is being cycled during release. Vijay brought this to my attention and so we should change the cadence of this batch to run only once a day at a non office hour time
+984,2025-08-26 20:22,"Hi team, we want to add new fields for the portfolio merge event which is currently used in tax-form-services. Would the Kafka event proto forward compatible?"
+191,2025-08-26 20:37,cc <!subteam^S01SRULDC8L|@transactions-eng-oncall>
+1568,2025-08-26 20:39,cc: do you know ^
+276,2025-08-26 20:40,I haven't directly interacted with the portfolio merge logic in TFS but may know!
+276,2025-08-26 20:40,when can we let you know by? Can investigate a bit further today to get more context here!
+1568,2025-08-26 20:46,"I see you are adding `source_portfolio_uuids` and `target_portfolio_uuid` Do the int portfolio ids apply to your case at all? If not, it might be better to add a new event especially if you plan to add additional fields. Typically, it is backward compatible as long as the fields are optional and/or nullable."
+984,2025-08-26 20:47,Got it. In this case I think we can create a new one. We need the UUIDs instead of the ids
+984,2025-08-26 20:47,Thanks for your help team!
+1868,2025-08-26 22:20,"Apologies, was spending time focusing in my own world. Usually an update to the protobuf definition is forwards compatible. So carta-web could be deployed with an updated protobuf definition but TFS still on the old one. The new fields will just get ignored in TFS until we deploy an update."
+551,2025-08-26 22:58,CW's event deserializer was not forward compatible until I updated it < So might worth to double check.
+984,2025-08-27 14:46,It might be better to avoid duplicate events. Let me know if we are ok to update it team. Thanks in advance!
+1868,2025-08-27 14:55,"I think that's more of a carta-web issue than an issue with the micro-services. IIRC, because carta-web doesn't receive the events directly from the broker, but rather through a connector. I think < was the documentation I was referred to when I last implemented an event consumer in carta-web."
+551,2025-08-27 14:56,would you be against adding the uuids into the existing event?
+551,2025-08-27 14:57,I don't see much issue on my end because it's still just ID and it's not extra information about the portfolios.
+551,2025-08-27 14:58,"And this event seems to be what our kyc-service should be listening to exactly, so it does not make much sense for create another event just for the sake of having UUID"
+1868,2025-08-27 14:58,"I wouldn't be against it, if it's possible (we should confirm with ). I remember only reviewing the original PRs (a couple of other engineers on the team at the time did the implementation). I did find it strange the portfolio merge event was using PKs instead of UUIDs, since the other portfolio and profile events used UUIDs."
+551,2025-08-27 14:59,"I did find it strange the portfolio merge event was using PKs instead of UUIDs, since the other portfolio and profile events used UUIDs. Yeah agreed"
+551,2025-08-27 15:00,Can you get some feedback from the on the PR?
+984,2025-08-27 19:30,Got signoff from events platform for adding the new parameters: < Would you have other concerns?
+984,2025-08-27 19:30,If not I will go ahead and merge it
+191,2025-08-27 19:37,"Hi! for those interested, I went through the new 83(b) IRS online flow in IRS PROD (right up until actual submission) and screenshotted it over in < thread>-you can see what the flow looks like for clients filing via the new IRS online flow (vs physical mail)"
+1568,2025-08-27 20:04,No concerns from me
+984,2025-08-27 20:05,Thanks! Merged
+845,2025-08-28 18:37,"Hello team, Quick question—a company has asked whether the tax rates we provide are based on Income Tax Bands or Capital Gains Tax Bands. Is this something you can help clarify?"
+191,2025-08-28 19:05,hi they are based on ordinary income tax withholding
+984,2025-09-11 18:37,"< Hi and , we are updating the event publish. Could you help review? Thanks"
+191,2025-09-25 20:40,From the new < 1220>: the IRS is targeting 2027 to sunset the FIRE system in favor of a newer intake system (IRIS) TY 2026 will be the last year that records can be filed through FIRE This won't directly impact anything for this tax season (2025 TY records to be filed in early 2026) but will impact some future decisions: 1. Our 3921 tool won't be usable after TY 2026 in its current state (we'll need to switch to an IRIS-type file which has a friendlier interface anyways and supports easier corrections. they will need IRIS specific TCCs though) 2. Our 1099-B records won't be fileable through FIRE after TY 2026-though for this there are relatively inexpensive 3rd parties that we will be able to use in place of going directly to FIRE (similar to what the Fund Admin team uses for other tax form filings)
+191,2025-10-01 14:59,Good morning! There was a small change in Irish tax rates that goes into effect today (10/1/2025). Our defaults have been updated: 1. Before: Irish PRSI 4.1% 2. Now: Irish PRSI 4.2%
+1336,2025-11-13 18:36,Hey Team - I'm wanting to check which countries Carta will provide the default tax rates for clients. Glean has provided the following countries below: United States (including state-level jurisdiction management) India United Kingdom Germany France Sweden Denmark Are there any other countries Carta provides the default tax rates?
+191,2025-11-13 18:40,hi! we don't provide rates for Sweden or Denmark We provide default rates for: Canada Germany Spain France UK India Ireland Netherlands US Note that international rates are flat rates and are provided as a convenience only. Clients should review all defaults and update any that don't meet their needs
+1336,2025-11-13 18:45,"Thank you so much, Bryan and confirming the correct countries."
+1336,2025-11-14 19:04,Hey Team - Quick question: Does the tax mobility feature work with double trigger RSUs where there is a time based vesting and performance condition?
+191,2025-11-14 19:06,hi! we don't calculate any taxes for RSUs currently
+1336,2025-11-14 19:07,"Thank you, Bryan. I figured it would only do option grants. With this in mind, does it assist with double trigger option grants?"
+191,2025-11-14 19:08,"after a performance condition is achieved, if an option is exercised and mobility is on, it will use the same logic that is used for options without performance conditions"
+191,2025-11-14 19:08,it will match the jurisdictions to the time vesting of each tranche
+1336,2025-11-14 19:09,"Thank you again, Bryan. Much appreciated."
+291,2025-11-15 00:44,"Hello , Can I get some reviews and testing help on Jupyter upgrade PR ? • PR: < • Help test : < (For Dummy Authentication on test - any username/ < ) • < about what changes and why"
+179,2025-11-17 18:09,"Just got a call from a customer about this change. Shoutout to you, , for posting this so I had something to refer to!"
+291,2025-11-17 20:59,"Hello team, a gentle BUMP since this was a late Friday post Need some help with review and testing"
+1868,2025-11-18 14:53,One approval. <!subteam^S02DZBAE5PU|@tax-platform-devs> for another
+291,2025-11-18 17:08,thank you!
+256,2025-11-18 19:05,"Howdy, may I please have a PR review on migrating the database-backup/restore from iam keys to iam roles <"
+291,2025-11-18 19:35,"Thank you, addressed the comments, can someone with prod access run below lines in *separate* cells in `prod` jupyter for verification before I merge this? Please share the screenshot here in the thread ``` !jupyter server extension list !jupyter nbextension list !jupyter bundlerextension list```"
+942,2025-11-18 20:51,"Hi Team, can we get 1 more review on this: < <!subteam^S02DZBAE5PU|@tax-platform-devs>"
+1336,2025-11-18 21:04,"Hi team— I’m looking for your guidance on why exercise tax withholding wasn’t calculated for a stakeholder for < Energy Inc>: • Stakeholder: Thane Osterdahl (Pennsylvania resident; PA taxes ISO exercises) • Exercise submitted: 09/30/2025; approved: 10/03/2025 • FMV at exercise: $11.83 • Context: The company updated tax rules earlier this year, and everything has worked smoothly until this case. I’ve reviewed the audit history and tested in sandbox but haven’t been able to pinpoint the cause. Could you help investigate and share any insights? I’m happy to provide IDs, screenshots, or pull additional logs. Thank you so much in advance—I appreciate your help."
+291,2025-11-18 21:11,"Quick BUMP, need someone with access to < to run above commands in prod before I merge the PR, thank you!!"
+276,2025-11-18 21:11,sadly i don't have access to this so someone else will have to check!
+532,2025-11-18 21:13,"Tax engine will look to the address at the time of vesting So I would check the effective date of the address to make sure it covers that period If they only have one address in our system, the effective date should either be deleted or backdated to reflect the date their first security was issued"
+291,2025-11-18 21:14,I dont see the app listed in Okta tiles in order to request access myself. Does anyone know who manages Okta access for this?
+1868,2025-11-18 21:14,"< Need an approval, then I think I can run those commands"
+1868,2025-11-18 21:15,Or not. Failed
+532,2025-11-18 21:17,"Also double check to make sure the address is fully formed (city, state, country)"
+291,2025-11-18 21:18,I think the namespace is `tax-compliance`? But we dont really need namespace access can you access this link? < t
+188,2025-11-18 21:18,did you post in a support channel using the Help Request flow first?
+1868,2025-11-18 21:18,I tried it again with the correct namespace. Same error.
+276,2025-11-18 21:18,what a rude way to learn we have been moved teams!
+1868,2025-11-18 21:18,```stderr: ERROR: usercarta-ci``` Wonder if it's a a weird side effect from cloudflare
+1868,2025-11-18 21:19,"Two runs prior to mine failed as well, same error. So not a team issue."
+291,2025-11-18 21:19,Yeah or the github issue
+291,2025-11-18 21:20,So none of you can also access this < ?
+1868,2025-11-18 21:21,Nope. 400 for me.
+1336,2025-11-18 21:21,"Hey Adrian - I have not. I'm happy to move it there if necessary, Adrian. I've gotten live assistance and the team wanted me to reach out here."
+188,2025-11-18 21:22,Please always start there. Thanks !
+291,2025-11-18 21:29,I will check with IT (Okta admin) to get to know who owns the apps at the moment
+1868,2025-11-18 21:50,So a quick look at those exercises and I see the FMV is $11.83 but the exercise price is also $11.83. So no taxes would be calculated.
+942,2025-11-19 15:46,I'll get us to be added as owners so we can test this.
+291,2025-11-20 20:11,"Hello again, Thanks Tzuzan for approving my Okta request. I was doing some pre-merge testing and realized that on `production` the jupyter pods currently don't spawn due to version incompatibility issue (the hub and server versions were not compatible)"
+291,2025-11-20 20:15,"Since < PR> is tested successfully on `test` environment, I am going to merge it now to be consistent with updated libraries across Carta. I think, this should also fix the existing error we see as a bonus In case you don't have much usage of this Jupyter instance. Feel free to plan the removal as needed."
+291,2025-11-20 21:23,[non-urgent question] When can I expect the next deploy of tax form service? Just wanted to check so that I can verify Jupyter works fine post deploy
+1877,2025-11-21 19:12,Hi Team! Can our product support the Net Exercise of options? Or is that still done offline.
+256,2025-11-25 16:55,how do I get this deployed? Is it this job? <
+942,2025-11-25 17:24,"actually, we will deploy this for you"
+509,2025-12-04 01:36,"Hi team, we're in the midst of trying to fix an LLC (Digital Edge DC) onboarding error, where the incorrect variable was attached to the template. As such, we need to delete the E1F1 carry point interests and reissue them. • We've received a query from a US holder who has both E1 and E1F1 interests. He's since filed the 83b election for the E1 interests, and is wondering if deletion of E1F1 carry point interest this will affect the filing. • Stakeholder name is Olivier Puyraud I was informed that this would constitute tax advice or legal advice, and hence we should deflect this back to their legal advisors. That said, was hoping we can provide any insights here as it's an onboarding error, trying as much as possible to make the process seamless for all holders. Apologies if this is a dumb question, we're still learning how the LLC platform works we're not too familiar with US tax filings. Thank you!"
+1868,2025-12-04 14:57,I'm not familiar with E1F1 interests. But perhaps or may know?
+188,2025-12-04 15:35,I am not familiar at all either.
+841,2025-12-19 18:04,"Hi team, I’m looking for your guidance: I have a stakeholder, who is wondering did Carta update the 2025 AMT Calculator for One Big Beautiful Bill Act signed into law on July 4, 2025? I’m not sure whether we can provide that information directly or if this is the correct channel to ask in. Thank you so much in advance, I appreciate your help."
+90,2025-12-19 18:10,"Raquel, who is asking?"
+90,2025-12-19 18:10,Is it an administrator or an end user?
+90,2025-12-19 18:10,And for which company?
+191,2025-12-19 18:10,hi! we haven't made any mid year changes. We will be updating rates/thresholds for 2026 though I think the AMT changes don't take place until 2026 for the Bill right?
+191,2025-12-19 18:11,we annually update rates/thresholds early in January for the tool each year
+841,2025-12-19 18:11,"This is a holder/employee for < Science, Inc.>"
+90,2025-12-19 18:11,"Don't answer ""employee"" asks about this. Only admins."
+90,2025-12-19 18:11,Be really careful how much you extend yourself to support end users who are not administrators.
+191,2026-01-01 08:47,Happy New Year: crossposting our tax withholding rate updates for Jan 1 2026 that are now effective in PROD: <
+191,2026-01-05 21:49,Happy new year: crossposting our update of our Exercise Simulator with 2026 tax values: <
+942,2026-01-14 16:19,<!subteam^S02DZBAE5PU|@tax-platform-devs> let's review these asap < <
+193,2026-01-28 02:54,"Hi team! I have a non-US incorp < which is looking to use Carta for Form 3921 issuance for their US incorporated companies, Is there a process to keep in mind for this and I noticed that it is not on their CAT hub. Referring to this < where it should be visible for non-US companies who have it in their subscription."
+191,2026-01-28 15:20,hi! i checked the django settings for this company and has_form3921 was not on. I just flipped it on.
+191,2026-01-28 15:21,and folllowing that I just checked their Compliance and Tax center and the tile is now there
+293,2026-01-29 19:02,Hi team Can I get a review on this quick PR: <
+99,2026-03-19 15:25,"Hi and team, Wanted to pass some positive feedback along about the < Rules> by jurisdiction feature form UK/EU sales team said that UK/EU companies and PE investors have been really impressed by the feature! Really cool to see that now alongside newer improvements for UK/EU equity management, that the Tax Rules is really shining"
+191,2026-03-19 15:29,"oh awesome, great to hear!"
+208,2026-05-06 18:28,"Hello Team, Our client is looking to store alternate Federal tax election for stakeholders (per individual)? Their goal is to have the ability for the stakeholder withhold a higher amount tax amount for RSU settlement. Currently, I am not aware if this functionally currently exist in Carta, if it does, will you be able to provide further guidance. I have included the original client question along with my response for storing the data within Carta on a per stakeholder level. `*Storing per-employee federal tax elections:* Can Carta store or display a per-employee federal tax election for US participants (e.g., supplemental flat 22% vs. voluntary higher rate)? Or is this strictly a Workday/payroll-side data point?` `_Response:_ This can be accomplished using Custom Properties, mapped from your HRIS integration using the same process as existing Custom Properties (e.g., Visa Country and Visa Type). While Carta can display this value, tax calculations and withholding are based on the rules configured under Compliance Tax Tax Rules. I'd recommend scheduling a session to review the Custom Properties implementation process together.`"
+191,2026-05-06 18:31,"hi! our RSU functionality does not call our tax withholding engine-the issuer calculates the withholdings offline for RSUs for options which do call the tax engine, a participant-elected tax rate is not supported either-it goes off of the issuer YTD tax values provided for initial calculations and can be overridden by the issuer at option approval"
+191,2026-05-06 18:32,Carta itself runs a similar program offline to what they are asking for (sends out a survey for our RSU settlements and then calculates shares to withhold offline based on those elections) but we don't have anything in system to capture this. Edit: by Carta itself I mean for our own RSU program for our own employees
+191,2026-05-06 18:33,"to summarize: 1. we don't calculate tax withholdings for RSUs currently-the issuer calculates this offline anyways 2. we don't have an in system mechanism for participants to communicate tax elections for RSU releases to issuers, they must capture this offline"
+208,2026-05-06 19:00,Thank you very much for the information! Very insightful.
+1347,2026-05-11 20:15,< - adding backward compatiable changes to handle support for rds iam auth
+1347,2026-05-11 20:20,"is < your deploy pipeline? Once merged, can I just deploy to test to validate everything is ok and then proceed with other envs?"
+1868,2026-05-11 20:21,"Yeah, that should be the one"
+1347,2026-05-11 21:30,< in test. Pod logs looks ok. Ok to deploy in all envs ?
+1347,2026-05-11 21:42,< in all envs.
+1347,2026-05-14 20:13,iam auth is enabled in test. Minor fix for the migrations job - < Can you confirm everything is looking good in test env? Verified the pod logs and it looks ok to me
+1347,2026-05-15 16:48,gentle bump
+1868,2026-05-15 18:19,"Apologies, was heads down in trying to get a securities platform code change impact tested. I just ran a quick test and it looks like it's running fine"
+1347,2026-05-15 18:24,no worries. Thanks. Appreciate if you can stamp the other change
+1347,2026-05-18 17:42,< - enable iam auth in demo
+1347,2026-05-19 20:15,<!subteam^S03UVEJH4UW|@on_call_tax_platform> can you check and approve please?
+1313,2026-05-19 20:19,looks good
+1347,2026-05-19 21:09,< - enable iam auth in sandbox/preprod
+1347,2026-05-20 21:25,another quickie to bump backup/restore charts <
+1347,2026-05-21 19:07,< - Deployed to prod. Logs looking ok. Let me know if you notice any issues

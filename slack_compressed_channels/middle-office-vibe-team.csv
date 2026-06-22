@@ -1,0 +1,307 @@
+u,t,m
+184,2025-10-10 23:22,Space for MO engineers to collaborate
+184,2025-10-14 20:57,"Hey and — Middle Office's 1st vibe coding session is this Friday, October 17th. You both are planning to take us through ai-artifacts, Claude plugins/marketplace, etc. When you have a plan in mind, could you drop the overview here for us to review?"
+276,2025-10-14 21:05,"Perfect timing! Victor and I just finished chatting about the plan for the week for implementing a marketplace and how it relates to the current ai artifacts repo. Recapping from the anthropic session this morning just so we're all on the same page: • a marketplace is where we host all our plugins • a plugin can consist of one or more of the following: commands, MCPs, hooks, agents and is defined by a plugin manifest"
+276,2025-10-14 21:18,"So Victor has already setup a < repo> that we will use for the demo this week. After discussing today, we agreed that it's best to keep the original < as is. It will serve as a place for devs to dump trial commands, agents, etc that we may eventually decide to migrate to the marketplace. Carta marketplace will be where we establish more deterministic Carta wide plugins that all devs should use. For example, we could create a plugin called `/feature-dev` to standardize how claude fetches a JIRA ticket, creates a plan, checkouts a branch, begins and commits dev changes to github. This should behave mostly the same each time and should follow the same guidelines no matter who uses the plugin."
+77,2025-10-14 21:23,"exactly! for Friday we wanna get examples of MCPs, commands, and hook on the repo for engineers as examples interactive part of the session can be working on porting an existing command to the new repo or pair up to build something new and open a PR"
+184,2025-10-15 15:01,"Sounds great both! The session is 1 hour long, so pace yourselves accordingly. Ruchita and I may do a short intro before handing off to yall."
+184,2025-10-16 18:16,"Victor, will you be running the session tomorrow or ? cc"
+77,2025-10-16 18:16,"and I are running it together. we'll go over the setup, examples and a more hands-on part of the session"
+184,2025-10-16 18:17,Ok got it. Ruchita and I will open the session to set some context
+77,2025-10-16 18:18,perfect! thank you
+257,2025-10-17 16:21,", are we able to rename this channel to *middle-office-vibe-team instead?* so that all the AI champions can discuss/plan their sessions."
+257,2025-10-17 19:55,"Team, lets use this channel for the broader discussion with the middle office engineers."
+184,2025-10-20 20:37,Added a tab for < of sessions> on the existing sheet with the upcoming sessions: • Plugins continuation 10/24/2025 Victor Landeira Vijay Sudharshan • Improving Context 10/31/2025 Scott Kenealy Tzuan Wang
+77,2025-10-22 23:19,any topics you wanna include on this Friday's session? Im gonna start working on the messaging / new slides using the same presentation
+257,2025-10-23 16:05,", we should probably do a working session this Friday and go over the tasks that you had planned for the team to try themselves."
+276,2025-10-23 16:06,"Totally missed this, I am thinking that we should have folks resume a conversation from a previous task they used claude for and have it spit out a skill from that and then we can create a plugin from that"
+77,2025-10-23 17:09,"agreed, my plan is a quick recap + a few more slides on skills + hands-on"
+184,2025-10-24 16:56,Is there any prep work for the group?
+942,2025-10-27 16:27,"Hi all, do we have the recordings available for the team?"
+941,2025-10-29 21:53,thread for Friday's session
+941,2025-10-29 21:58,"Tentative agenda from what we discussed last week: • 10 minutes - knowledge in the model, knowledge in the context, knowledge in the world, etc. Why Claude shouldn't generate a claude.md • 15 minutes - Claude.md resolution, why we shouldn't just have a single massive Claude.md, at the top-level, and how the model knows how to use tools to get knowledge into context • 15 minutes - ""scavenger hunt"" - using a prepped CW branch, play a game where folks use Claude to find the data. • Remainder - have teams put together draft Claude.mds for specific domains. lmk if you want to change anything and which of these you want to take point on."
+941,2025-10-29 23:14,I wonder if we can have Claude build us the scavenger hunt
+942,2025-10-29 23:53,"Great summary/breakdown and happy to help support the session as you see fit. Would suggest you taking point in anchoring us with key objectives and why this is so important. One thought to add above is how we measure efficacy: perhaps before and after snapshots of /cost and /context, esp for the scavenger hunt. We will also need to measure how relevant is the data scavenged"
+184,2025-10-30 17:15,"Hey AI champions — Here's what we need to focus on for next week's session: _We want to use *next week*'s vibe coding sessions to remind and reinforce what the best practices are we should be using with Claude to succeed specifically on refactoring-esque work._ _The goal is not *just* to get people using Claude in this way. We also want to *genuinely improve our codebase* to make it easier for us, and for Claude, to work in that code going forward. As such, this contest wants to recognize *outcome* and not *experimentation*, so we'll be pressing people to prioritize *completing work*, even *small changes,* over *incomplete giant changes.* (Contest judging methods/criteria aren't clear yet, but certainly one factor will be whether the changes have merged already, or how certain we are they will be merged.) Fortunately, the best way to accomplish substantial refactoring with Claude Code is to break the problems down into small completable changes anyways. In next week's vibe coding sessions, let's reiterate that point to folks and show them how best to leverage Claude to do that. This is substantially more important in refactoring work over net-new work, because Claude can demand a far smaller set of context to get the job done. Small increases in scope demand dramatically larger understanding of the existing code._ _We should also recap the current best practices with Claude's feature set beyond the REPL:_ • _How Sub-agents help_ • _How Skills help_ • _Specific first- and third-party plugins (e.g. < context7)_"
+184,2025-10-30 17:15,"Suggested agenda: 1. _Strong emphasis on turning refactoring work into sub-problems, and then turning sub-problems to sub-sub-problems_ 2. _Overview on Claude features practices enumerated above_ 3. _Reminder on current meta (maybe reshare link to Dowdell's recent slides) for using them well_ 4. _Remind folks of their responsibility to verify and review their own code before PRs get opened. They should spend *more* time reviewing their own code than their eventual PR approver will._ 5. _Coding Time (maybe break out, maybe don't)_ a. _Help folks get Hello World skills/subagents/plugins running_ b. _Let people work on a bite size refactoring of their choosing_ 6. _Optional shareouts of progress or struggles_"
+184,2025-10-30 18:15,Is the idea to understand how to manage context better by structuring Claude.md files better? cc
+941,2025-10-30 18:18,"The thing that kind of prompted this was that folks were using Claude to generate Claude.md files. That's not _completely_ a bad idea, because it does summarize data claude could find with extra effort, but the idea is more Claude.md is meant to focus on knowledge that can't be easily figured out"
+257,2025-10-30 19:36,I would love us to give some guidance on how to write an *effective Claude.md* file that has the required guard rails for the teams to consider for their respective domains?
+257,2025-10-30 19:37,"if y'all agree, give some time for the teams to go back and write them and do a S&T on each of their Claude.md files for future sessions."
+184,2025-10-30 19:42,"If we do a ST around this, it would be good to show the impact of an ""ok"" claude.md file vs. a ""great"" one. Maybe we can select 2-3 top claude.md to do the demoes. WDYT?"
+941,2025-10-30 19:50,"the guidance is part of the convo. I'm not following the ST question, are you suggesting that sometime in November some teams present at the wednesday session?"
+941,2025-10-30 19:50,Here's a very rough draft of what I was going to go over <
+941,2025-10-30 19:51,```### GOOD Examples (these should load when relevant) - `business-domain-facts.md` - Domain-specific business rules - `team-conventions.md` - Team patterns and conventions - `deployment-gotchas.md` - Operational knowledge ### EDGE CASES (demonstrate limitations) - `too-generic.md` - Generic info Claude already knows - `too-specific.md` - Hyper-specific details that rarely match - `wrong-topic.md` - Unrelated topics (React Native vs web app) ### REDUNDANT (Claude doesn't need these) - `python-basics.md` - Programming fundamentals - `public-api-docs.md` - Publicly available documentation - `code-that-exists.md` - Code that tools can find```
+257,2025-10-30 19:54,"my bad, I should have clarified my S&T, I used it more like a *verb* .. as in have the teams come back again in subsequent MO vibe coding session [our regular friday programming] and present their Claude.md files so that we all can learn from each other."
+941,2025-10-30 19:56,We could do that
+184,2025-10-30 19:56,"Oh ok, thanks for clarifying"
+257,2025-10-30 19:56,"sorry, short hand sucks!"
+184,2025-10-30 19:56,At some point we should bring our peeps to Carta S&T to show the cool stuff we're learning as well
+257,2025-10-30 19:57,"happy accident yeah, i would be open to that as well"
+257,2025-11-05 18:04,do we feel prepared for this Friday's session based on the agenda above?
+184,2025-11-05 18:08,"we have a part 2 from the previous session that yall wanted to complete first, correct?"
+942,2025-11-05 18:47,I'm open to skipping part 2 from previous session if more time is needed. Scott's part was essential in understanding memory and my part was to provide more discussion points around when to use skills vs memory and then breakout into teams to implement their respective claude.mds (memory).
+942,2025-11-05 18:49,"The skills/sub-agents deep dive requires a ""skilled"" practitioner to guide the session. Im barely just starting to set that up myself and wouldn't be able to drive the session on Sub-agents/skills yet"
+257,2025-11-05 19:08,", what was the planned part 2?"
+184,2025-11-05 19:20,"Hey folks, and I chatted and we're pulling a few of us together to *plan for the session this Friday, Nov 7th on the `Refactor w/ Claude` topic*"
+276,2025-11-06 02:14,Shared these slides for friday's sessions to folks: <
+276,2025-11-06 02:21,"As per our sync today, , , , and myself will be hosting different topics in the breakout rooms for folks to join and walk through an exercise of how to refactor code. Ask here is that each of the breakout room hosts fill out < 6> so folks can join the room that makes the most sense for their respective refactoring projects. Goal is to get the middle office eng ready for the refactor hackathon by being able to define agents that help them with a specific task. I'm planning to walk through a refactor of an overloaded UI component and define a new agent with the group to help me with this. If y'all have any questions, please join the sync tomorrow at 11am PST / 2pm EST. Happy to answer any questions async as well! cc."
+276,2025-11-06 02:22,"sorry Hernan and Victor, we volunteered y'all"
+184,2025-11-06 02:22,Thanks for putting this together Vijay!
+257,2025-11-06 19:43,Incase we need help with mcp for datadog. these folks can help you -
+77,2025-11-07 23:41,"We mentioned the office hours for Monday and I'll send out the calendar invite if we haven't already the idea is to be there to support them with their contest projects, no content and be there to help with questions and blockers"
+77,2025-11-07 23:55,anything you guys wanna present / add on the Skills side? i know it's a hot topic
+942,2025-11-08 00:18,"Oof, Im out on Monday but if you guys cover skills/agents/etc, please record"
+276,2025-11-10 16:00,"Quick check, are we doing office hours today?"
+77,2025-11-10 17:32,I think so Cc:
+257,2025-11-10 18:05,are we okay to do 11-12am PST?
+257,2025-11-10 18:08,done. invites sent
+77,2025-11-10 18:34,i have a conflicting meeting but can join for the last half
+276,2025-11-12 17:31,"Howdy team! I have formalized the dev workflow I follow for < and < into plugins. At a high level this is what the plugin is doing: 1. hook on initial submit to load all skills and agents metadata into memory 2. hook on initial submit to checkout master/main, pull master, checkout a new branch using JIRA ticket number 3. pull ticket context and begin working on ticket dedicating work to sub-agents (includes dev work agents and testing agents) a. this is the only non-deterministic step b. moving forward, this is where i am spending the most time. Making sure my subagent stays current is a challenge 4. hook to run linting and build commands, failures trigger agent to rework solution 5. hook to commit and push the initial PR"
+276,2025-11-12 17:33,"I've tested the FEP plugin twice now in a < PR> and a < improvement PR>. Both have been tested in a test box and work as expected. Requesting some help for folks to try out the plugins themselves and see if it behaves according to the above flow. The main thing with the plugins to note is: there are no agents defined in them. The thinking here is, this is a development workflow plugin and the business logic that gets handled by claude should be delegated to specific agents. The reason to not bundle any agents is that different teams have different agent requirements and again we want agents to be domain specific. So part of this exercise is that you should define your own agents for the domains you primarily work in"
+276,2025-11-12 17:35,Let me know if this is a good exercise to share with the larger group!
+184,2025-11-12 20:45,"can we rename the standing `Middle Office AI Vibe Coding series` meeting this friday to `Middle Office AI - office hours`, and kill the latter (which also overlaps with Townhall)?"
+276,2025-11-19 18:10,also we can cancel office hours this week (and probably future weeks)
+184,2025-11-19 18:15,"Agreed, the office hours arent needed anymore this is on your calendar I think"
+184,2025-12-02 20:04,Are folks able to join vibe code planning?
+276,2025-12-02 20:37,Sorry totally missed it! Able to do it later this afternoon if others can join!
+276,2025-12-03 01:00,"Howdy folks! Thank you all for joining today's session, i know the material was dense but tomorrow we're focused on lab work to put into practice all the tooling today! , we're trying to get teams to share the tools or claude.md files they work on tomorrow and teams are based on our own team structure. If nobody volunteers, can i pick on any of your teams to share?"
+105,2025-12-03 02:34,Yes of course!
+184,2025-12-03 03:18,Yes please
+184,2025-12-03 03:19,A bunch of people shared their skills etc here too — <
+995,2025-12-03 14:23,Go for it.. I can give MAtheus and Hernan a heads up so they are prepared
+257,2025-12-09 17:45,"and I have a conflict today for the ""Middle Office — Vibe code planning"". , are we able to defer it to 12:30pm ~ 12:45pm."
+995,2025-12-09 18:06,"I too have a conflict, wont be able to make it today.."
+184,2025-12-09 19:39,"Lots of people aren't able to attend, and it looks like I actually have a conflict too. Let's do this async?"
+257,2025-12-09 20:37,any thoughts on what we want to do this week?
+184,2025-12-09 20:44,Vibe champions^
+942,2025-12-09 21:00,"I had a sync with my team on Monday and everyone expressed concern about there being too much presentation material/general discussion without having specific goals resulting in PRs. Some specific goals (not exhaustive) might be: • Addressing some tech debt by refactoring • Solving sentry alerts • Vibe coding new features What I also heard was a strong desire to have more focus time as a team (likely domain specific) to focus on above specific goals. I'm wondering if it makes sense to use the Friday slot for addressing team specific goals? Here, each team will have their respective EM/AI Champion lead the team's activity (held in their respective zooms). The expectation is for team to produce PRs/eventually merged and demos to showcase the impact. The demos should include how AI tools were used to solve the problems and can be done the following week."
+266,2025-12-10 12:47,"will have a presentation on spec-driven development, but I don't know if many engineers inside middle-office join that meeting. Maybe we could present something like that too? Or do what said but following spec-driven development or focusing on another topic"
+257,2025-12-10 12:56,"Thank you for sharing and . If you all agree, let’s do the spec driven development for Friday. Then break out per team to try it out and come back and do a show and tell for the same? How does that sound."
+276,2025-12-10 14:15,"Not for this friday, but could be cool in the future to do a college-style hackathon where the goal is to take a ""dream feature"" for a product each team currently has and just vibes their way through it. Instead of a 2-day learn and labs session, just a 2-day labs session. Each team must mandatorily present (can pre-designate folks). So Since a common thought that's been shared is that we're spending time on AI without there being a tangible takeaway, this might help bridge the gap for product and dev"
+266,2025-12-10 14:51,"I like the idea, my only concern is if people would take this seriously"
+276,2025-12-10 14:54,I think it'd need to be communicated from leadership and be meeting-free days focused on this alone
+257,2025-12-11 18:25,", are you good to present tomorrow ?"
+266,2025-12-11 18:28,Do we wanna go with the spec driven development approach? Honestly I don't have much experience on that but I can figure it out today
+257,2025-12-11 18:35,Thank you. would you know who did/planning to do the presentation for the . we could ask them. wdyt
+266,2025-12-11 18:35,"Yeah, its . Just talked to him in the office, he will share his presentation with me later today"
+942,2025-12-11 19:14,Or we could just have everyone attend the guild-ai talk?
+266,2025-12-11 19:16,That works too - and people could work on their team specific goals in our vibe-coding session as Tzuan had mentioned
+266,2025-12-11 22:32,What do you think ?
+257,2025-12-11 22:41,Lets have him come tomorrow to the Middle Office Vibe coding session. We then need to break out into each EM session. Would be helpful for each of the EMs to prepare a problem statement ahead of time? cc:
+184,2025-12-11 22:45,Yeah that sounds good. can you coordinate for val? I’m ooo tomorrow
+942,2025-12-11 22:51,will be doing the same talk at guild-ai so I'll ask him to give middle-office a more condensed version. That way teams can have more time to apply the learnings into their respective spec driven tasks.
+184,2025-12-11 22:53,"Can we have the session tomorrow be to make progress, and the “present your progress” be next week’s session? Just thinking that 1 hour is a very short amt of time"
+942,2025-12-12 00:05,"ok, I just confirmed with that he'll give a 10 mins condensed version of guild-ai talk. After which, can break us out into our various teams to work on our respective tasks."
+1754,2025-12-12 15:58,some members of the Investor reporting team might need to leave the session early as we have our coop presenting at Coop show and tell today
+257,2025-12-12 17:02,Thats actually better to have them present it all next week.
+257,2025-12-12 19:43,"Not sure, who is the host of this meeting? Can you please make me the host"
+105,2025-12-12 19:48,I think it's
+257,2025-12-12 19:48,is there a way to change it? We need to breakout into rooms
+105,2025-12-12 19:49,For breakout rooms we could just create new Zooms per team
+105,2025-12-12 19:49,We did that for the Eng AI Training
+942,2025-12-12 23:50,Hi I wanted to alert you that the first 2 recordings on the < vibecode sheet> no longer exist. I'm not sure who has access to the recordings but you might be able to still save them from being permanently deleted < Can you please check?
+942,2025-12-12 23:50,They'll need to be downloaded onto google drive
+1754,2025-12-15 18:58,Do we have the one for Friday?
+184,2025-12-15 20:15,"I think zoom recordings expire after 30 days, so if we want to keep them we need to download into Google drive"
+276,2025-12-15 22:46,"Howdy folks, does anyone know of all the different Vibe Coding sessions at carta? I need to consolidate them for a doc. The ones i know about are: • Middle Office • FA others?"
+184,2025-12-15 23:25,Asset management runs one (Walid/Andre)
+942,2025-12-16 15:50,Unfortunately not because only the host can record.
+942,2025-12-16 15:52,can you please check your < trash bin>? You might be able to save the first 2 vibe code recordings for MO.
+1754,2025-12-16 17:34,Investor Reporting does one as well
+276,2025-12-16 17:50,do you know who are the admins for that session?
+276,2025-12-16 17:53,Thomas just shared a doc for all the vibe coding session for the diff pillars: <
+1754,2025-12-16 18:20,"For the spec driven development, if we find that there are some things that weren’t implemented by claude, should we go back to edit/modify the spec and then go through the workflow again or do we just prompt claude to implement follow-up changes?"
+276,2025-12-16 18:25,"I think it's better to have the missed features added to the initial spec. Pattern that the val team followed for example was: 1. spend x amount of time iterating on a plan initially with claude a. depending on the complexity of the feature, could take multiple days of revision b. tasks are broken down with claude while making sure claude keeps context in mind so most tasks are fairly isolated and self contained 2. get the plan reviewed by peers and merged into CW codebase (example can be found < 3. ask claude to implement plan (little to no intervention since plan has been reviewed by multiple people)"
+1754,2025-12-16 18:27,"Even with the plan reviewed by multiple people, we still found it missed some things on Figma. We are working on a FE project. I think it makes sense to go back on iterate on the plan. will try that and report back"
+276,2025-12-16 18:28,Anthropic recently released their own production plugins in their marketplace: <
+276,2025-12-16 18:28,one of them is a frontend-design plugin that might come in handy!
+276,2025-12-16 18:29,Would recommend installing the official anthropic plugin marketplace which has been recently updated with many prod-level plugins and tools: `/plugin marketplace add anthropics/claude-code`
+276,2025-12-16 19:09,Shall we cancel planning today since we're scheduled for demos this week?
+184,2025-12-16 19:11,"Yes, we already have a plan for this week"
+184,2025-12-19 21:23,do you mind removing the vibe coding sessions for the next 2 weeks? We'll come back in the new year
+257,2025-12-19 21:27,its done already
+257,2025-12-19 21:27,should I remove the two Jan as well?
+184,2025-12-19 21:28,"Ah, perfect. Had not noticed. Thanks"
+995,2026-01-10 18:09,"Yeah, I was in the meeting when HW mentioned this.. Henry mentioned we (CW group) can wait couple of week while Dowdell works on getting it ready for carta-web.."
+276,2026-01-10 18:10,is this a specific AI related topic or just async in python?
+995,2026-01-10 18:20,"It is not AI related topic, it is mostly Async IO topic.. Henry liked how we (R&D org) took on the Vibe coding as community - learning and coding session and now everyone is doing vibe coding. Similar to this, he wants every to start adopting Async IO... best way to do that is learn and practice in those session.. tl;dr as Dan mentioned, we might rename these session to Share and Learn Session or something.."
+276,2026-01-12 21:14,I think we need to grab one of the engineers from CES to come and do this presentation. It seems there's a clear vision for what that session should look like already. I can join the FA one tomorrow and take some notes in the meanwhile!
+184,2026-01-12 21:15,I already chatted with . He can come do an intro for us
+995,2026-01-12 21:16,"for CW , there is some work before we can start using AsyncIO"
+276,2026-01-12 21:16,Yep i think according to dan's message that Dowdell is working on setting that up in CW
+77,2026-01-13 16:50,that's great news! excited to try
+276,2026-01-13 20:26,Gastown git repo: <
+266,2026-01-13 20:28,showed me earlier today this in action -
+105,2026-01-13 20:31,Our team has started using it with promising results
+77,2026-01-14 00:07,How about setting up an early session with this middle office group before we start including it on the GA sessions? I'd love to watch and try and would help us get readier sooner
+266,2026-01-14 16:47,"That's a good idea. I've been using it today for the Knockout refactor - it increases the cost A LOT. It's been running for 1.5 hours and has already spent $150 (according to ccusage; probably less than that, but still a high value - Claude's built-in cost tracker doesn't seem to work with it, not sure why) - I don't know how much would've been spent without it tho. Also, it looks like it can accomplish the same task multiple times, with only one attempt being ""chosen"" at the end. But it's still early days, so I believe it will be improved"
+266,2026-01-14 16:48,"It's really cool tho to see the mayor orchestrating many different tasks lol, with some improvements I believe this is how we are gonna work in the future"
+77,2026-01-14 17:07,"love hearing that! i imagine with more layers and orchestration the token cost will increase VERY fast same with Claude, once we understand more we can get more efficient with token usage -- hopefully"
+77,2026-01-14 17:07,"if y'all are down i'd love to hear more and spend time together, even if we keep it small"
+257,2026-01-14 18:37,has already been testing Gas Town extensively and will be taking us through it next Friday! Thank you for championing this.
+74,2026-01-14 18:41,"I've been using this and it works well for me. I think the idea the creator gives in the medium post is great, If you find yourself struggling to manage different claude tabs, that's when u should use Gastown. I've talked to about doing a short presentation about it Friday 23rd. But if anyone wants me to show it, we can hop on a zoom anytime!"
+74,2026-01-14 18:43,"one thing that I felt it works well and if you're also using, try a bit and let me know. Is to kinda roleplay with this mayor/town theme. I feel since those claude agents have specific roles and they are directly named as MAYOR for example, they responded better when I was roleplaying"
+266,2026-01-14 18:44,"lol that makes sense, and the names the creator chose are awesome haha"
+266,2026-01-14 18:45,"I am using it for the Knockout refactor, and it has already put up two PRs that looks good - all of that with almost no human intervention. Only issue was it didn't use ink components/openAPI specs but I guess that's something that should've come from the planning part. Maybe having some kind of spec driven development + gas town would be insane"
+266,2026-01-14 18:47,is also an early adopter in case you guys wanna discuss it further
+266,2026-01-14 21:10,my Gastown usage from today
+77,2026-01-14 21:37,oh shit! are you using Opus for the most part?
+266,2026-01-14 21:42,"Actually no! When it spawns its workers, they use Sonnt by default"
+77,2026-01-14 21:46,that's even more token usage then!
+257,2026-01-20 20:23,"Notes from todays planning - • January 23rd session - will connect with to have a session for ""Claude Flow"" • January 30th session - / will also work with to plan a session for ""Gastown"""
+995,2026-01-21 20:38,"Latest on this, for ClaudeFlow may not be ready/recommendable yet... Cody is having issues making it work. For GasTown, Matheus will not be available since he is taking a flight. He can share some slides and video for folks to use. Given this case, we might need a back up for this friday."
+184,2026-01-21 20:40,Some options • Have folks play with *async python* locally • Continue knocking down knockoutjs
+266,2026-01-21 20:41,I am preparing a Setup doc and a few slides + recording discussing GasTown
+266,2026-01-21 20:42,"I can check with if he can help with questions/going through the recording/setup, he’s been playing with GasTown too"
+995,2026-01-21 20:48,sounds good.. lets catch up tomo and plan what we can do.. i think we can show case something to the team on gas town.. set up and working between 3/4 of us
+266,2026-01-21 21:07,Maybe a crazy idea but what if we work on creating a command/skill/plan that turns a sync API call into async?
+266,2026-01-21 21:28,I reached out to him and he’s happy to help with it
+77,2026-01-21 21:33,"Nice! My suggestion is to keep it very simple with a ""how to use it"" demo and setup instructions It's a complex tool and we're likely looking at multiple sessions to fully onboard"
+77,2026-01-21 22:49,"one more option: *supporting skills for GasTown* we're gonna spin multiple agents acting without supervision and with that we'd rather have more guardrails in place we can have _implementing-backend_, _implementing-frontend_, _backend-testing-strategy_, _self-review_, etc to avoid derails being picked up by them"
+184,2026-01-21 22:53,"Victor, are you familiar with Gastown? If so, would you like to run the session?"
+77,2026-01-21 22:57,"not yet, i'll follow doc to setup but haven't had a chance just yet"
+995,2026-01-22 14:02,Nice.. thanks
+995,2026-01-22 18:26,do we need to catch up today or are we ok to with tomorrow's preso?
+266,2026-01-22 18:34,"I think Luiz is not in this channel but sure, Luiz and I will sync to prepare it"
+266,2026-01-22 18:35,"Feel free to join the meeting, we’ll probably use the existing one"
+995,2026-01-22 18:50,"OK, I will cancel our sync.."
+257,2026-01-22 19:29,"checking in for tomorrow's vibe coding sessions, where did we land on?"
+266,2026-01-22 19:29,Luiz and I are in a sync right now planning tomorrow session part regarding GasTown.
+257,2026-01-22 19:30,perfect. thank you both
+266,2026-01-22 20:27,"This is our plan: 1. Context Use Cases - will cover what GasTown is and when to use it 2. Pros Cons - Honest assessment to help the team make informed decisions about adoption 3. Live Demo 4. Set up documentation - a. Here, we can let folks start playing with it on the call/session and help answer questions."
+184,2026-01-27 17:48,"Can I cancel the vibe coding planning session today? • We have presenting Gastown @ this week • is also interested in going over some of the improvements to the claude marketplace plugin — could be next week (or this week, if there's time)"
+257,2026-01-27 17:55,presented Gastown last week however we should meet briefly to talk through this today.
+77,2026-01-27 18:25,thank you! i was under the impression Paulo was not presenting this week
+276,2026-01-27 20:34,Vibe Coding Schedule <
+184,2026-01-27 20:36,can you share the recording from the Gastown session?
+184,2026-01-30 19:31,or — could either of you lead the vibe coding session today please?
+942,2026-01-30 20:05,"yes, we tagged team on this"
+942,2026-01-30 20:05,Plus did a great demo of `Vijaytown`
+995,2026-01-30 20:06,"We wrapped up.. there was not much participation in terms of using GasTown, I made a call out to use these tools and give feedbacks.. may be next week, early we should send a reminder"
+184,2026-02-03 21:45,Are you'll interested in a split session where we go over the async python use case ( will join us for this) and some temporal examples?
+276,2026-02-03 22:56,"After catching up on Dowdell's session, it last left off with the takeaway that Temporal is being added into CW and that there was more to come by the end of Feb. As a follow up, I had claude ingest the Python asyncio docs to understand what asyncio let's us do and then with that understanding take a look at the `form_1099b` app in `carta-web` and `tax-forms-service` and identify potential cases for where we could leverage the library! Here is a transcript of that conversation along with the generated plan. TLDR: it was able to break down the plan into quick wins, high impact changes, and email/pdf batch processing improvements"
+276,2026-02-03 22:57,Maybe a part of the exercise on friday is having the individual teams also come up with actual use cases with claude for their specific apps and we could start compiling them in a sheet similar to the knockout.js refactor
+276,2026-02-03 23:34,convo with Dowdell for the above: <
+257,2026-02-06 16:36,are we good for today?
+184,2026-02-06 16:41,• [1st half] Paul is a yes • [2nd half] Aaron is a tentative yes. Confirming.
+257,2026-02-06 16:48,cool. thank you
+77,2026-02-10 20:04,hey team! wrapping up a PR for a release and will skip out vibe planning today -- can catch up later today
+942,2026-02-10 21:48,Sorry was busy with tax season prep and had to skip today
+184,2026-02-10 21:51,I think we’re cancelling this week's Vibe coding session cc
+276,2026-02-17 20:52,"since we do have an immediate need for async/agno learnings and also in tune with what shared about mob programming, should we break out into groups for those who want to participate in hackathon and identify candidates where either async or agno would make a huge improvement to the user/staff experience?"
+105,2026-02-17 21:00,"that's a great idea, maybe we do mob programming spec driven development and at least generate a bunch of markdown specs before the hackathon?"
+77,2026-02-18 18:17,"i like the design exercise for Async and Agno, VJ!"
+257,2026-02-18 22:32,Perfect. Thanks . Who is leading the session on friday?
+276,2026-02-19 17:46,"Currently no volunteers, but do we need someone to lead? If we're breaking out into groups anyways, maybe someone can just intro what we're doing and we can all break out after intro. I don't have enough context about the hackathon so if one of the folks who attended the meeting where it was discussed can intro the session that'd be great!"
+105,2026-02-19 17:50,"I can intro what we are doing, but I have to take off a bit early. I’m not aware of the hackathon details either but I think either way we can do some scoping and ideation during the meeting to come up with ideas."
+77,2026-02-19 17:54,"i don't think hackathon details are out yet, we should not mention hackathon prep or anything like that"
+276,2026-02-19 17:55,"Ahh so then maybe just a ""in prep of upcoming initiatives for adopting async and agno"" intro?"
+77,2026-02-19 17:56,exactly! i'll spend some time today learning about Argo and diving deeper
+257,2026-02-19 23:46,perfect. looks like we are ready for tomorrow then between and
+77,2026-02-20 17:37,"Morning team, I have to pickup urgent results for immigration and we'll step away for a bit. I should be back for the session but there's a small chance I miss it or get in late."
+105,2026-02-20 19:19,Some slides for today: <
+995,2026-02-26 20:49,"For tomorrow, I asked my team to share some pain points they want to solve using vibe coding, gathering them < - please add any ideas this group might have"
+995,2026-02-26 20:49,"My hope is, we can use this list and work on solving them in tomorrow's session"
+105,2026-02-26 20:59,"Oh okay, are we still doing ‘s proposal to mob on the data science problem?"
+995,2026-02-26 21:00,"Yes, that is the first one in the list.."
+257,2026-03-02 20:33,details are here folks! - <
+257,2026-03-03 19:01,", for this week, can anyone help lead this session. has put together these slides that we can potentially re-use - <"
+257,2026-03-03 20:09,", we wanted to have someone present Agent teams for the MO vibe coding session on Friday. Would you be interested?"
+276,2026-03-03 20:14,Yep definitely!
+77,2026-03-03 22:03,that'd be amazing and have been experimenting and using it in the past weeks! can help if needed
+941,2026-03-03 22:39,"I chatted with Kevin about approaches for the session and one good idea he had was to have people pair up and tackle the same task, one using agent teams and one using regular claude. It can be any task they're working on, from a bugfix to a code exploration to a hobby project to a complex feature. After folks play around with that in pairs or small groups, you spend 15 minutes discussing where agent teams can be helpful and where it's either overkill or just doesn't improve anything."
+1627,2026-03-04 14:21,I can also help if needed
+941,2026-03-06 17:06,"Fun thing I tried this week to play around with agent teams and make it a bit more clear to me about the difference between those and delegating subagents was I had an agent team spin up and have some agents play a game against each other (blackjack, guess who, etc)"
+276,2026-03-06 17:12,"I was talking with Ruchita yesterday and said we should do fun non-work things for agent teams today. This is a great example, Scott you mind sharing this today?"
+941,2026-03-06 17:59,"yeah, I'll do that and also a more advanced one I just tried out. Both of the examples I'm trying aren't really engineering related but can show off how the tool can do interesting stuff"
+941,2026-03-06 18:59,"you want me to kick it off with some fun examples, then we can do the slides/install/troubleshoot, then folks can play around?"
+276,2026-03-06 19:06,"actually i gotta drop during vibe coding for another anthropic meeting, would you be able to drive session today?"
+941,2026-03-06 19:06,oh man calling an audible here buddy
+941,2026-03-06 19:06,I can take point
+941,2026-03-06 19:07,did you have anything you wanted to do here?
+1627,2026-03-06 19:14,"Nothing significant, but the most powerful feature is teammates creating plans and having the team lead approving them. Not sure if anyone was going to cover that"
+276,2026-03-06 19:16,"Ruchita had a good suggestion of ""what is something you do daily that could be automated away, try to use agent teams to do that"""
+941,2026-03-06 19:16,"sure let's do this: • teaser with fun demos that aren't engineering related • slide deck • try and have everyone get it installed if they haven't / troubleshooting • you lead a real world example and folks can follow along • remaining time is asking folks to split into groups and have them try to solve it, with one person not using teams and the other using teams"
+1627,2026-03-06 20:33,good presentation
+941,2026-03-06 20:37,Thanks for hitting us with the knowledge!
+276,2026-03-10 19:31,Ideas for agent teams
+276,2026-03-10 19:32,"1. ""Build me a CLI snake game in Python"" — Tests code generation, file writing, and iterative debugging when the game logic has bugs. 2. ""Find the 5 largest files in this repo, explain what each does, and suggest which ones could be split up"" — Tests parallel exploration + synthesis. 3. ""Create a REST API with 3 endpoints, write tests for it, then review your own code for issues"" — Tests the full write → test → review pipeline across agents. 4. ""Compare how error handling is done across 3 different modules in this codebase and write a consistency report"" — Tests multi-agent parallel exploration + analytical synthesis. 5. ""Write a React component based on this Figma link, then write Storybook stories and Jest tests for it"" — Tests MCP integration + code gen + test gen chain. 6. ""Find all TODO comments in this repo, create a Jira ticket for each, and prioritize them"" — Tests grep → Jira MCP → reasoning pipeline. 7. ""Refactor this 500-line function into smaller functions, ensure tests still pass after each change"" — Tests incremental edit → test loops with rollback awareness. 8. ""Research how authentication works in this codebase, draw an architecture diagram in FigJam, and document it"" — Tests exploration → Figma MCP → doc generation. 9. ""Write the same feature in 3 different approaches, benchmark them, and recommend the best one"" — Tests parallel implementation + Bash execution + comparison. 10. ""Find a bug I planted in this PR diff and explain how you'd fix it"" — Tests GitHub MCP + code analysis + reasoning. 11. ""Port this Python script to TypeScript, preserving all behavior, and prove equivalence with tests"" — Tests cross-language understanding + parallel test runners. 12. ""Query Snowflake for our top 10 customers, then draft a Slack message summarizing the data with a chart description"" — Tests Snowflake agent → Slack agent chain. 13. ""Set up a CI pipeline that runs linting, tests, and deploys — then intentionally break a test and verify CI catches it"" — Tests config generation + validation loop. 14. ""Trace the lifecycle of a user signup request from the frontend button click through every backend service to the database write"" — Tests deep multi-agent code tracing across layers. 15. ""Create a plugin for Claude Code that adds a /weather slash command using an MCP server"" — Tests meta-tooling: agents building agents, with plugin validation."
+77,2026-03-12 21:05,"i've been doing a lot of *panels* for Code changes, Plan Review and Design sessions I'm designing a Datadog dashboard: ``` Expert Panel ┌──────────────────────────┬───────────────────────────────────────────────────────────────────────────────────┐ │ Role │ Focus │ ├──────────────────────────┼───────────────────────────────────────────────────────────────────────────────────┤ │ SRE/Ops Lead │ Latency, error rates, degraded mode, alerting thresholds │ ├──────────────────────────┼───────────────────────────────────────────────────────────────────────────────────┤ │ ML Engineer │ Model quality signals, confidence distributions, false positive/negative tracking │ ├──────────────────────────┼───────────────────────────────────────────────────────────────────────────────────┤ │ Product/Security Analyst │ Actionable block/flag investigation, email-level detail, corp context │ ├──────────────────────────┼───────────────────────────────────────────────────────────────────────────────────┤ │ FinOps │ Cost per request, token usage, cache efficiency │ └──────────────────────────┴───────────────────────────────────────────────────────────────────────────────────┘```"
+257,2026-03-17 20:10,"Team, as discussed for the Middle office vibe coding session for this week on Friday, March 20th, EMs [ ], please fill out the tab for ""*< for the topics that you would like to work with each of your teams? The list of topics that you see our primarily just ideas to avoid any cold start problems with crafting any specific problem area. The idea is that you will breakout into individual rooms with your teams and then have a mini show tell towards the end on your topics of choice for your teams. Please feel free to add to the list as well."
+1208,2026-03-17 20:56,"i'm ufortunately out on Friday, both my kids' schools are closed. Ok if I tap a senior eng on my team to lead this?"
+257,2026-03-17 20:57,yes ofcourse
+1754,2026-03-20 15:45,Is the plan to use agent teams in this session? or just solve a problem together as a team?
+257,2026-03-20 18:27,"Team, I have a conflict today for 1st half of vibe coding session. I'll leave it to or any one of you to lead the session today."
+184,2026-03-24 18:12,I won’t be able to attend the sync today. The working session seemed to have gone well last week. Maybe this Friday folks can do a ST of last week’s exercise. For this week’s exercise an option could be to pick key workflows in each team’s domain and vibe code Magni tests to cover gaps. Cc
+941,2026-03-24 18:12,I also have to miss the planning session today
+995,2026-03-24 18:51,"Should we move todays sync, I have a conflict as well .."
+257,2026-03-24 19:03,sounds good
+257,2026-03-24 19:04,can this group organize for topics to vibe code for this Friday?
+257,2026-03-24 19:06,", for this Fridays Middle office vibe coding session - 1. Show and Tell from last week's exercise - 30 mins or less depending upon how many we get. 2. Vibe code as a team on another exercise deemed as a priority by the respective EMs."
+266,2026-03-24 19:07,"Last week's vibe coding session had a few promising projects. I think if we keep using these sessions to tackle bottlenecks and ship enhancements for our teams, we're going to keep improving the app using a ""small"" amount of time"
+257,2026-03-24 19:13,starting a thread for ST candidates for Friday : cc:
+257,2026-03-24 19:17,"Can we vibe code some of knockout.js components as well? remaining to do - */transactions-management (6 components)* - confirm-payment, confirm-wire-instructions, wire-funds - 83b-tax-election, pius-83b-tax-election - secondary-sales, other-transactions, initiate-refund"
+1207,2026-03-24 19:18,We presented what each team worked on at the end of last weeks session but happy to show off what each team did. For Cap Table Reporting we could look into a) Identifying (and adding) opportunities for additional E2E testing in our domain or b) Clean up outdated monitoring/alerts and identify+implement gaps in our domain's monitoring
+1207,2026-03-24 19:21,For Cap Table Reporting we could look into a) Identifying (and adding) opportunities for additional E2E testing in our domain or b) Clean up outdated monitoring/alerts and identify+implement gaps in our domain's monitoring. This would use Magni MCP for option A and Datadog+Sentry+Slack MCP for B
+995,2026-03-24 20:13,"i will check with Hernan, he can demo his work for the db migration"
+1016,2026-03-24 20:49,"Yeah, I can do that. Should be quick (we already showed it last week as well, but there's a small update)"
+1754,2026-03-25 16:19,Alex can also show a skill he wrote to add and propagate feature flags from BE to FE
+1208,2026-03-27 14:34,i want to see if Mark's shown off agentic GPC methodologies yet — that would be very cool
+942,2026-03-27 16:41,These were previously not noted on the team specific tab so we didn't work on them sooner. We'll def prioritize these
+1208,2026-03-27 18:23,"Ah mark had already shown that off recently — I'm sorry, we're working on something else AI related that's not ready for showtime yet and now i have another meeting conflicting with AI vibe"
+257,2026-03-27 18:34,", are you guys joining us?"
+995,2026-03-27 18:38,sorry. joined.. lost track of time
+942,2026-03-31 18:49,"Hi Team, sorry I cant make vibe coding planning today. Im caught up with a time sensitive tender offer request to launch a customer today"
+995,2026-04-02 18:13,Looks like tomorrow is holiday in for RIO and KW - and also some of the folks travel home from offsite... We may not have enough attendance. lets cancel tomorrows session and move it to next week?
+257,2026-04-02 18:45,you good as well?
+184,2026-04-02 18:47,Ah right. Yep good with canceling
+77,2026-04-09 23:12,"makes sense! are we pushing the same agenda to next week or do we want to bring carta-cli or carta-mcp demo, ?"
+257,2026-04-09 23:14,the plan is for and to show case their plugins. may be we all can help answer questions around this topic as its very fitting for all teams right now
+77,2026-04-13 20:22,"started working on this Skill that creates Carta Skills for production, also following leadership guidelines on CLI and MCP usage!"
+77,2026-04-13 20:24,"This is also my first Skill with Verdict, a testing tool for Skills: < Captable is also learning how to work with them and i included tests -- could be a topic down the down"
+77,2026-04-28 17:18,"Hey Team! asked for help on our sessions, including planning and cadence I just deleted the existing planning session and created a new invite for tomorrow to Review the current state together I'll also be rotating the people in this channel to better align with the new goals and current teams working together on these sessions For tomorrow: 1. *Cadence shift to bi-weekly* a. Ease Engineers Meetings time b. More time to prep the sessions and content 2. *Reshaping the sessions* a. our Org has mixed feedback on current format and how we're taking the sessions and i wan't to double-click b. I'd love help from this leads and EMs to redefine our sessions and how we work on them"
+995,2026-05-01 13:39,"Hey - do we want to cancel today's vibe coding session? while we regroup on how to organize this going forward - also, Rio is holiday today"
+77,2026-05-01 17:59,"i was wondering the same thing, lets skip!"
+77,2026-05-06 18:15,*Middle Office Schedule updates* *Working with Claude Artifacts on May 15th* and sharing their recent experience and booked for next Friday They are both working on Onboarding and integrating live artifacts smoothly on conversation and a lot being discussed internally around that ===== ===== ===== ===== ===== ===== ===== *Claude Best Practices* to present and help with Claude Good Practices
+175,2026-05-06 18:16,slight correction - we are working with 'artifacts' not 'live artifacts'
+175,2026-05-06 18:16,we can discuss the distinction in our presentation
+77,2026-05-06 18:17,I'll share the format updates we discussed the prev weeks along with the session hold for 15th
+77,2026-05-06 18:21,thank you! excited already
+995,2026-05-06 18:30,"Just thought of another thing we could try for next session (please dont kill me here!) .. Am guessing everyone would have seen this artifact already by now.. no use doing the presentation, I think what might be useful is hands on experience building something like that.. what if we bring few areas where we can use similar experience and run a working session smaller group? I know of couple of places with in my team that want to use / build this. 1. PE interest issuance acceptance work 2. Detailed financials and board deck extraction (this might be done by then, as we are trying wrap up by this week) there could be more."
+995,2026-05-06 18:31,"btw, we have started to < the plugins we are building in our space"
+995,2026-05-12 18:25,"Do we want to remove the ""Middle Office — Vibe code planning"" series (old one) ?"
+995,2026-05-12 18:26,i think u are the owner of this?
+184,2026-05-12 18:27,Want me to remove it?
+995,2026-05-12 18:30,yeah.. I think we are going to have seperate session for each teams right now? already has one for Ruchita's org.. not sure if u need it or is duplicate?
+184,2026-05-12 18:31,Dont need it. I'll kill it then
+257,2026-05-13 18:07,Lets update this *<
+77,2026-05-13 18:29,"*Next topics ideas:* • on Plugin Best Practices, Performance tricks • skill driven development - Logic and Endpoint tailoring to Claude specific job to be done • temporal - visibility on bulk async actions on Claude • + on local storage mental model. ◦ do we have a good example of project and team to present?"
+77,2026-05-13 18:33,Captable Temporal presentaion this week from : <
+941,2026-05-13 20:02,"I think one decent example of local storage usage would be bulk securities issuance flow. Basic idea is this: • If you have an open draft set, you download the existing draft set as json or sqlite • You do a lot of client-side processing to add additional securities but don't update the draft set in Carta on every change, you just have a local copy • You have client-side validators exposed via the plugin • Once everything is good, you send up the entire draft set ◦ corollary: perhaps you have a background sync job to ensure the local copy is autosaved in Carta, but the idea is the agent doesn't wait for Carta to reflect the data"
+995,2026-05-15 14:11,"Vignesh is < sick today>, he wont be able to present in today's session"
+77,2026-05-15 15:33,Thank you!
+77,2026-05-15 15:33,Want to push for the first 15 min of the next session?
+995,2026-05-15 15:34,yes please
+995,2026-05-15 19:40,"Another thing we should talk about in Vibe coding session - how are engineers using Claude to get stuff done, mostly focus on our engineers who are showing good / high velocity talk thru what and how they are doing it? and let others learn from it.. Zach and Matheus are couple I know of who are doing this well.."
+257,2026-05-27 18:08,"I am unable to attend today due to conflicts. , do you think you could update here on whats our plan for this friday please?"
+77,2026-05-27 18:17,of course! will do as soon as we break
+262,2026-05-27 18:36,Datadog crash course doc I talked about
+262,2026-05-27 18:37,"Happy to replay this on our next session as we discussed. If we think it's better, we can also take a step back and talk about why observability is even more important now in the AI age."
+262,2026-05-27 18:39,"My mental model for this is the following • If you're riding your bicycle on the park, 10m/h, it's probably fine to not use a helmet and knee pads, on your own discretion • If you're riding a sports bike at 35m/h on the road, it's best to wear a helmet, use safety goggles, have a speedometer, tail lights etc. The higher the speed, the more process and equipment we bring in to mitigate the risks. Going fast is not necessarily the issue. But going fast without proper awareness is probably dangerous."
+995,2026-05-27 21:07,Looks like this is getting to all engineers ... may be invite carta to our vibe coding session
+257,2026-05-27 21:16,"what did we decide? if we are planning henry's ask, I am going to cancel our vibe session for friday"
+77,2026-05-27 21:23,"is going to talk and we have two options, We're on a zoom deciding as we speak agreed, we should cancel If Vogl and others are doing the training 1. Datadog Fundamentals (shared on a prev thread) a. ready to go and already shared on Cap Table session 2. Feeding Runtime Logs into Claude a. Datadog logs b. Kubernetes logs on boxes i. updating images ii. tinkering box resources (OOM issues) c. localhost application"
+77,2026-05-27 21:26,anyway we'll have the next session decided and queued up for this Friday or the next
+257,2026-05-27 21:28,"yeah agreed. once we have Vogl's invite, I'll cancel ours for now"
+77,2026-05-27 21:31,thank you! I'll confirm directly with him and update the group and invite
+77,2026-05-27 22:33,updated the channel i don't think i edit the actual calendar invite Do you mind deleting this Friday's invite when you get a minute?
+257,2026-05-27 22:52,"Yes, I can. Did Vogl send the invite for Friday ?"
+77,2026-05-28 00:12,yes! we got it for this Friday from Ruby
+257,2026-05-28 00:12,Ok I'll cancel then
+262,2026-05-28 13:29,"Throwing one more on the backlog here: < in Temporal> As we deploy more workflows to production and then later followup with changes to them, we'll need to wrap our heads around how Temporal handles versioning. Temporal will actually take full control over < Deployments> via < CRDs> by using it's own < controller>, which enables ""rainbow deployments"" (i.e. more than two active Deployment Versions running at once). This allows for smooth rollout of new workflow versions (i.e. proper task routing, old workers get drained etc.) I'm throwing a few links here as breadcrumbs, but it's a bit involved and requires prior knowledge of Temporal concepts (pinned vs auto-upgrade, worker deployments, etc.). Might be something we want to discuss as a group"
+262,2026-06-03 18:24,if you guys could take a look at the doc that'd be appreciated Is anything missing from it? Is there something we could cut?
+268,2026-06-03 21:29,I read it. it seems comprehensive to me
+941,2026-06-05 17:16,seems good. We can probably skip or gloss over sampling.
+262,2026-06-05 17:19,"I feel like sampling can be glossed over in the context of ""why isn't my trace showing up? """
+941,2026-06-05 17:19,Yeah exactly

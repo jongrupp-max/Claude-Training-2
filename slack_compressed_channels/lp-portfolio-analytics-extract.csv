@@ -1,0 +1,427 @@
+u,t,m
+1074,2025-10-15 09:22,Thanks ! Though i think the official rule is to name _lp-portfolio-analytics-extract_
+2286,2025-10-15 09:46,"I've got an issue to inaugurate the chat with! I extracted a document in dev last night and the security metrics are not getting committed. They are not in Arango or the quick report, but everything else from the document is there. Is anyone available to take a look at this? <"
+2287,2025-10-15 11:23,Taking a look at this
+1965,2025-10-16 10:47,"Hello, from the planning meeting here's the prod reference data integrity issue (moved from integration) < ""AMERS - UAT - CPPIB_Credit - Investor Incorrectly Updated as “Company” and created Commitment network"""
+2218,2025-10-17 14:30,"Hello, I created a new tenant and uploaded some documents One CFN went to error after parsing and re-parsing Can someone check? Firuza checked from the parser side, and all is okay mk_Wayne cashflow JW100-reimport-2 - Copy - Copy.pdf staging: N*ikolina_Parent_Tenant*"
+2281,2025-10-17 14:47,"Hello all, spotted minor UI issue on CAS NVS - dismissed section in Staging. The “Undismiss” button is partially hidden. Created ticket for it: < cc"
+2218,2025-10-17 15:12,"Created bug: Securities upload returns a 500 error Checked on Staging, UAT, prod <"
+2218,2025-10-17 19:04,"I created 4 bugs for the PR issues Please discuss which ones need to be fixed < < < < Also, one for the securities that I sent before, it is not blocking me to test the new feature on the Staging, but it will be good to upload new securities - <"
+2287,2025-10-20 02:39,Thanks Issues to be resolved in order of priority: 1. V3-2815 2. V3-2814 3. V3-2816 4. V3-2817 5. V3-2818
+2018,2025-10-21 08:22,I believe most individuals are on an off-site so will have limited coverage this morning so no need to attend the standup - feel free to ping this chat if you have anything specific
+2281,2025-10-21 08:49,"Morning - spotted following issues on CAS validation screen: < - when a user edits any field (e.g. metric date) on the MVS, the entire screen currently refreshes after saving the change < - On the NVS, when selecting a synonym type from the dropdown (e.g. “Previous name”, etc.), the selected value appears in UPPERCASE inside the input field (e.g. “PREVIOUS_NAME”)"
+2018,2025-10-21 08:54,Here is the revised list of priority: V3-2815 has been completed 1. V3-2814 2. V3-2816 3. V3-2817 4. V3-2818 5. V3-2813 6. V3-2819 7. V3-2820
+2281,2025-10-21 09:35,Hey what about V3-2813? Are we going to fix it with 3.9 as well?
+2018,2025-10-21 09:38,the bottom ones are low priority and largely UI issues so will try and absorb most of them
+2218,2025-10-22 11:04,"Hello, I can't edit green and add value to the red metrics on the FFS on staging Can someone take a look, please? Correlation ID: 49031940-af36-11f0-b006-cbc919c7098d Timestamp: Wed Oct 22 2025 1313 GMT+0200 (Central European Summer Time) Username: <mailto:nikolina+parent@accelextech.com|nikolina+parent@accelextech.com> Tenant: Nikolina_Parent_Tenant User Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 Message: Http failure response for < 400 Bad Request"
+2018,2025-10-22 11:05,Let me have a look
+2018,2025-10-22 11:06,Could you please send me the link to the doc
+2018,2025-10-22 11:10,I can edit fields with the dropdown but not the value is that what you are experiencing?
+2018,2025-10-22 11:14,"Could you please create a bug on the V3 board, assign to"
+2218,2025-10-22 11:15,"Yes, that's right"
+2018,2025-10-22 11:21,I remember there was a similar issue that the reference data screen had when trying to bulk delete entities . Is this similar to that?
+2288,2025-10-22 11:23,"I will take a look, not sure if it is related"
+2018,2025-10-22 11:24,pleas assign it to Nikola
+2218,2025-10-22 11:33,done < The ticket is assigned
+2287,2025-10-22 16:52,The next button is not enabled after I dismiss a red entity - is there a bug for this?
+2018,2025-10-22 16:57,is going to create one
+2289,2025-10-23 07:42,< created on the V3 board
+2018,2025-10-23 08:30,Please join the standup today if possible
+2281,2025-10-23 14:22,"hello, new issue spotted on CFN, created ticket <"
+2018,2025-10-27 10:27,The revised list: Priority (High and Highest bugs) - most of these are actively being worked on <
+1074,2025-10-29 12:56,just came across a performance report on DEV which has clickable hotspots with a mailto: link - is that a feature?
+2281,2025-10-29 13:44,"hello, new issue spotted in CFNs: when trying to manually add a metric in a Cash flow document and then add a new Investment Entity from the same flow, an error message appears after submitting the entity form. <"
+2285,2025-10-30 08:06,"Hi all, I'll not be able to join the standup this morning, I have a medical appointment"
+1663,2025-10-30 09:39,"not really, not sure how easy it would be to disable it but we can investigate if needed"
+1074,2025-10-30 09:54,looks like you can still select text/metrics on top of that hotspot. Let's park this.
+2285,2025-10-31 08:28,"Morning all, I'll be off today as I am not feeling well"
+2012,2025-11-06 16:34,"We should think about auto-flagging any UNKNOWN custom categories to users automatically ,"
+2012,2025-11-06 16:34,"These may want to be RED almost, because an unknown custom transaction type implies that they wont be able to process data downstream, so should probably stop the workflow"
+1074,2025-11-06 16:42,"custom cats are just mapping ours to the client's terminology, right? so if we don't have a special mapping, should we not just default to our own name?"
+2012,2025-11-06 18:00,"No, the point is that if the combination of transaction types is not explicitly named on the client side, there is no valid destination for that combination in the target system. This is the biggest reason why this feature is important, because it should catch these kinds of cases!"
+2012,2025-11-06 18:04,Basically UKNOWN = Must be changed to something that is a valid category
+2284,2025-11-07 09:13,"Hello, The extend daily is at the same time than the extract daily so I won't be able to join. About the ticket : < It seems that the parser is returning an id = -1 when an entity is not present in the reference data. In this case the parser find in the document ""WEST STREET INTERNATIONAL INFRASTRUCTURE PARTNERS Capital Analysis II, L.P. Management Sachs at September"" as the fund of the document but didn't find it in the reference data. So it returns -1 as an id of this fund. I checked with Niels and I asked him if it was possible to changed it with null instead. He did it in dev. The first test is not working because the parser found a match for the fund. So I'll continue to test and try to make the parser find a fund who is not present in the reference data to see how the backend behave. I'll let you know."
+2284,2025-11-07 09:42,"I updated the name of the fund and re uploaded the document. The parser didn't find the fund in the reference data and return null for the id. Result is that the document has an ""unknown fund"". It sounds like a good solution to me"
+2287,2025-11-07 15:51,Thanks Jules for the update
+2285,2025-11-10 07:47,To fix the filtering error on dropdown list for custom transaction type - < - I implemented a new API in documents-manager service to get the filtered list of available custom transaction types based on the current document’s filter. The new API to be used on UI is: */apigw/documents/v1/validation/cfn/{documentId}/custom-transaction-type* instead of: */apigw/configuration/v1/custom-transaction-type* *So we need a FE ticket (for V3.9) to replace the config-manager API with the documents-manager one.* cc
+2281,2025-11-12 15:05,"Hello, spotted one more (I would say low priority) UI issue on the CFN's. When the user clicks *“Add row”* to add a new metric and then clicks *“X”* to cancel the addition the input fields remain visible on the screen. These fields only disappear after the page is refreshed, instead of being removed immediately when the user cancels < cc"
+2285,2025-11-13 10:42,Hi have you created the ticket for the issue with uploading CustomTransactionType csv files on UAT? Need the jira ticket to ask for access to s3
+2290,2025-11-13 10:47,"Yeah, here's the ticket link <"
+2285,2025-11-13 10:48,Thank you Yessine
+2018,2025-11-13 11:41,"Hi all, please could everyone raise tickets on the carta jira board going forward <"
+2218,2025-11-15 15:05,"Hey all, I found the bug about the amount recallable and custom transactions When custom transactions are uploaded, we can't add/edit the amount recallable value V3-2851"
+2012,2025-11-20 15:42,"Hi all, could you guys give me an update on the upcoming hotfixes tickets in here? <"
+2012,2025-11-20 15:42,"Have we started at all on KTLO-592, V3-2851?"
+2285,2025-11-20 15:59,I have the PR ready for Prod for KTLO-602. Darren have tested on UAT. Do I merge it to UAT3.0.9 ? Starting working on V3-2851 now. KTLO-592 is with
+2012,2025-11-20 16:39,Thank you Maria
+2012,2025-11-20 16:39,"Let me check with Darren, ticket is still in QA"
+2018,2025-11-20 17:48,KTLO-592 I have tested it and works as expected in UAT
+2247,2025-11-20 17:49,I just merged the PR to UAT 3.9.0 so it's ready to be deployed when decides
+2012,2025-11-20 18:18,", thank you for that. Still seeing a spinner on my end for any second document I open..."
+2012,2025-11-20 18:18,On amers-uat that is
+2018,2025-11-20 18:20,its the object object error for KTLO-592
+2012,2025-11-20 18:21,"Ignore me, I thought we're talking about KTLO-602"
+2285,2025-11-21 11:00,The fix for V3-2851 does not seems to work on UAT. I'm investigating if is a deployment issue or the fix is not working
+2012,2025-11-21 12:15,"Thanks , and what about KTLO-602?"
+2012,2025-11-21 12:15,Is that deployed and ready to test?
+2247,2025-11-21 12:16,"Not yet, I had to fix some integration tests and I'm waiting for the pipeline to complete so I can merge it. I'll let you know once it's available on dev and uat to test."
+2285,2025-11-21 12:17,I updated the ticket description with the use-cases to test.
+2285,2025-11-21 14:17,The fix for < is on UAT and ready to be tested
+2290,2025-11-21 14:56,"Issue tested in UAT and moved to done. Also, I was unable to commit to DB CFN doc in amers-uat, I don't know if this issue have been flagged before or not?"
+2012,2025-11-21 14:57,That does not sound good
+2012,2025-11-21 14:58,What is the error you got for this?
+2290,2025-11-21 14:59,There was no error showing up. The button was just unclickable
+2290,2025-11-21 15:00,FYI - This works fine on emea-uat.
+2012,2025-11-21 15:01,Permissions?
+2012,2025-11-21 15:01,"Sorry, 4-eye workflow enabled on the tenant?"
+2012,2025-11-21 15:01,Which tenant are you using
+2290,2025-11-21 15:02,Accelex tenant
+2290,2025-11-21 15:05,"Sorry, it didn’t occur to me to verify the 4-eye workflow configuration. It’s all working fine now."
+2285,2025-11-21 17:35,"Hey , I think there's still a cache related issue for < I was able to reproduce it on all envs, including DEV. Open the same CFN file twice: the first time will load fine, the second time the /metrics api is not called and the data is not loading (the spinner does not disappear)"
+2012,2025-11-21 18:01,"Thanks . , let's please make sure this is the only priority for us to fix Monday morning. We need to get those last tickets out ASAP! It's been a week after we've released V3.9 and we are still not stable and our clients are starting to get very impatient with us. Thank you all, have a great weekend!"
+2247,2025-11-21 18:27,"Thanks , that was the edge case (opening same cfn twice under a minute). I removed cache for all api calls that cfn spinner depended on, including /metrics and /events. The pr is created and will be ready to merge to dev Monday morning as soon as someone approves it."
+1965,2025-11-24 09:18,"good morning, is there anything to release this morning, or is this fix still in progress?"
+2247,2025-11-24 09:25,"Hey Colin, KTLO-602 is still in progress and not available on UAT yet"
+1965,2025-11-24 09:30,"ok, thanks for the update."
+2285,2025-11-24 09:36,"Hi Colin, For BE hotfixes, for documents-manager, I have 2 PRs already merged on UATv3.9.0 branch, for: 1) < (the BE part of the hotfix, step1 of testing), PR: < 2) < PR < CC"
+2247,2025-11-24 10:46,KTLO-602 is ready to be tested on UAT.
+2012,2025-11-24 10:52,It's fixed!
+2012,2025-11-24 10:53,Let's release this guys
+2247,2025-11-24 11:06,I'll merge the pr to uat-3.9.0 then and we can release it.
+2247,2025-11-24 11:17,PR: < it's ready for a release
+2247,2025-11-25 16:29,KTLO-610 should be in dev and uat ready to be tested.
+2285,2025-11-25 17:23,"deployed a fix for < on UAT and DEV. The issue is happening when trying to extract PR documents with more than 100 security metrics. In order to test if the fix is working on UAT we need documents with more than 100 security metrics (as in Prod, for Amundi and Clearwater tenants - see details in jira ticket)."
+2012,2025-11-25 17:59,"OK, again, can we make sure that if this is deployed, then it is moved to QA and assigned to a member of the QA team who can test this please"
+2012,2025-11-25 17:59,Otherwise we have no way of knowing that something is good to test
+2285,2025-11-25 18:02,"Done. Sorry I haven't had time, needed to pick up my son from school."
+2285,2025-11-25 18:05,I moved also KLTO-610 in QA <
+2285,2025-11-26 08:21,"at Product's request we are on code freeze today on master, except for tickets which have been explicitely tagged for delivery - see link bellow: < cc"
+2012,2025-11-26 10:05,"Hi All, I'm tracking this ticket here: < - I believe this is in UAT, so I've added the LPPA-251126 release tag to it. Can you please confirm that this is in? And has it been tested, ?"
+2287,2025-11-26 10:14,This has been tested. The only one currrently in QA is V3-2838 Could you confirm ?
+2012,2025-11-26 10:14,"OK, if it's tested, can we move it to DONE please"
+2247,2025-11-26 14:47,V3-2838 is in dev and uat and ready to be tested.
+2290,2025-11-26 14:47,Thank you Sara - I'll test it now!
+2290,2025-11-26 15:02,Hey - These following ticket have been tested and moved to done • V3 - 2838 • KTLO - 610 • KTLO - 606
+2012,2025-11-26 16:20,So are we all green from your side for tomorrow now?
+2290,2025-11-26 16:32,"From my side, Yes!"
+2287,2025-11-28 09:46,are you joining the Extract stand-up?
+2285,2025-12-01 10:24,"Hi , we need some infra work for activating a new SQS queue (for importing ref data events). < < < We need those tickets to be implemented before merging any PRs on master branch in order to not break the Prod and UAT environments. The tickets are all assigned to you. Could you please take a look?"
+2247,2025-12-01 11:15,KTLO-613 should be available in dev and uat.
+1913,2025-12-01 14:27,"Started working on this, I have meetings until 5pm, will try to get everything ready by EoD"
+2285,2025-12-01 14:28,Thank you very much Lilian
+1913,2025-12-01 16:35,Currently being applied
+1913,2025-12-01 16:47,Done. It should be working once merged
+1913,2025-12-02 11:01,have you been able ton confirm that this works?
+2285,2025-12-02 11:09,"for now, everything seems to work fine, thank you. Just one thing, as CUSTOM_TRANSACTION_TYPE, is not defined on Directs (haven't tested for Mercatus)"
+1913,2025-12-02 11:09,Are we keeping directs for now?
+1913,2025-12-02 11:09,"Mercatus is a production environment, it shouldn't be impacted"
+2285,2025-12-02 11:09,"yes, we do"
+1913,2025-12-02 11:13,Should be fixed in a few minutes for directs
+2284,2025-12-03 10:05,"Hello, I've checked this ticket < and didn't find anything wrong on the backend side. I've put some details in the ticket. It would be helpfull if some on the frontend team could check to have more information."
+2287,2025-12-03 10:48,Thanks . could you investigate KTLO-622 please?
+2287,2025-12-08 09:44,"Hi All, Please ignore the 9:45 invite for the stand-up as it’s Manan’s meeting and I cannot cancel it. I have a new one at 10 am uk time"
+2287,2025-12-08 10:24,This one is ready for QA <
+1226,2025-12-09 09:45,you did not make it reoccurring meeting
+1226,2025-12-09 09:45,what time do you want us to have stand up today?
+2287,2025-12-11 09:49,anyone joining from QA for the standup?
+1226,2025-12-11 10:03,sorry overlap meeting
+1226,2025-12-11 10:04,is focus on LLM extracting based on request
+2284,2025-12-15 10:16,"Hello, I've created this ticket for the second issue I was talking this morning : < I'll pick this ticket after this one <"
+2287,2025-12-17 13:01,did you test all KTLO issues tagged for today's promotion to prod? Any issues noted?
+2290,2025-12-17 13:06,"No, all good. Tested and moved to done!"
+1226,2025-12-19 09:43,"Sarah, the automated tests caught this behaviour - < Can you please check what do do with the ticket? cc:"
+2012,2025-12-22 15:02,For next year: We should show entity name suggestions in-line on the PR entity screen next to the lightbulb. What do you guys think?
+1074,2025-12-29 11:24,"yeah, some improvement is still needed. But showing options inline could get crowded. Sometimes we have lots of suggestions"
+2287,2026-01-05 09:32,"Good morning folks, Are you able to join the stand-up now? I had updated the invite to 9:30 UK time"
+2018,2026-01-05 10:50,"Hi All, going forward extract daily stand-ups will be held at 10am"
+1663,2026-01-13 10:05,I think it would be a valuable productivity gain especially if we can take some action directly from the row without having to open the bottom drawer
+1913,2026-01-13 12:15,"- your last merge on documents-manager is causing an issue: the migration had already been saved to the databasechangelog (dev, directs, parserqa) table and due to the file being changed, it doesn't match the original checksum: <"
+2284,2026-01-13 12:18,"Hello , Thank you I'll take a look"
+2281,2026-01-16 08:42,"Morning, when I try to create a new commitment using the 'Edit' button for an unknown commitment, I get an error message, after I refresh the page, the commitment is created < cc env: dev tenant: alexandratestcas doc type: cas"
+2284,2026-01-16 09:07,I'll take a look
+2285,2026-01-16 10:10,Thanks Sarah
+2284,2026-01-16 10:47,ticket < is in dev
+2218,2026-01-16 13:54,"Hello, on the NikolinaTest tenant I found document where the highlight is over the entire document and when I click all metrics I can't locate the right to left amber metrics because the green ones have priority <"
+2284,2026-01-16 14:03,ticket < is in dev. let me know if you still see the issue and I'll take a look
+2218,2026-01-21 12:03,"i can't edit red net payments fields on CFN, can someone check why? NikolinaTest tenant - <"
+2287,2026-01-21 12:17,could you look into this?
+2284,2026-01-21 12:17,Yes I'm on it
+2284,2026-01-21 12:31,Is it normal to receive from the parser a reporting metric NET_PAYMENT? Because if it's the case we are not handling it correctly...
+2218,2026-01-21 13:35,After clicking on the re-parse all documents went to ERROR on dev
+2218,2026-01-21 15:55,"Can someone check issue with reparsing, I need to reparse documents for testing I check Accelex and NikolinaTest and all docs after reparse are in ERROR"
+2287,2026-01-21 16:15,do you want to post on the internal channel? It may be a DS issue
+2287,2026-01-22 10:10,could you please create a ticket for this? Do not reparse the document as it will help in debugging
+2287,2026-01-28 10:33,< This is not on dev as yet? Looks like the build has failed?
+2288,2026-01-28 13:23,< has been merged in dev it is ready for testing.
+1074,2026-01-29 12:23,the Ref data upload visuals are updated as per discussion just now. <
+2284,2026-01-30 11:09,", , found the issue for the feature flab V3_2914_ENABLE_TENANT_STP_WORKFLOW. It has been saved in lower case instead of upper case that's why it was not working. It should be good in UAT now"
+2012,2026-01-30 11:17,There are no checks on this ? Should there be?
+2218,2026-02-02 13:27,"Hello all, can someone check why events are not loaded in this document - < Dev and Accelex tenant Getting 404 for event API and 400 for metrics API"
+2284,2026-02-02 13:32,I'll take a look
+2284,2026-02-02 13:38,it seems that you are trying to open the parent document that has the status TO DO instead of NONE. Did you do a specific action that could have cause this issue? It looks like an old document so maybe the bug has been solved already but we didn't cleaned the DB
+2218,2026-02-02 13:43,I just tried to open it clicking on Validate button
+2218,2026-02-02 13:44,Should I try reparse it?
+2284,2026-02-02 13:57,no that's ok you can use this one instead <
+2218,2026-02-02 14:07,thanks Jules
+2285,2026-02-05 10:21,"Hi , regarding < I just checked, Gary was right, only the document's reviewer can extract the document. I can work on a fix that sholud be available EOD on DEV and UAT (any user with reviewer role other than the assigned user)"
+2012,2026-02-05 10:46,"Amazing, thank you"
+2285,2026-02-05 18:30,< is available on DEV and UAT
+2218,2026-02-05 19:15,"Tested, works fine, thanks Maria"
+1074,2026-02-10 10:27,", just picking up on the standup: Can we achieve this table with the available data?"
+2247,2026-02-10 10:44,"Yes, this is doable. I'll update the columns."
+1074,2026-02-10 10:45,"great, thanks"
+1074,2026-02-10 10:46,do we have any prospect of getting the data for 'number of records processed' here in future? I think that would be very useful information to see when maintaining ref data
+2247,2026-02-10 11:08,I think we would need to update the api response in that case with that data
+2287,2026-02-10 11:41,"We can pick this up once we get feedback from users or see any demand. To receive that feedback, we need to ship what's been implemented as clients are blocked from using their own custom event ids via web csv"
+1074,2026-02-10 14:05,"^ thanks, yes definitely let's ship what we can :- )"
+2287,2026-02-10 15:27,< Could you please add the feature flag?
+2247,2026-02-10 16:01,Double checked and noticed that errors number is not present in the backend api response as well.
+1074,2026-02-10 17:18,"Sara, as discussed here are the simplified screens (same figma, page 'For production'): <"
+2281,2026-02-12 09:03,"Morning! I spotted this bug on PRs - Unexpected error message appears when adding entities to a Fund, although entities are correctly added after page refresh <"
+2284,2026-02-12 10:28,Ticket < is deployed and works on my side in UAT
+2218,2026-02-13 13:31,Hey the KTLO-683 is tested and working fine
+2284,2026-02-20 10:51,ticket < not done ticket < is fixed now I assigned the ticket to (tested and working on my side) cc :
+2247,2026-02-24 14:50,V3-2937 is deployed and available in all environments
+2284,2026-02-24 14:57,Same for <
+2218,2026-02-24 17:48,The metric validation screen is not loading for this document < and this error appears UAT AMERS Tenant: TestSTPNina
+2287,2026-02-24 17:52,Is it just this doc?
+2218,2026-02-24 17:54,I found only this one on this tenant
+2284,2026-02-25 09:42,The issue is coming from alert balance consistency check
+2287,2026-02-25 09:43,"Okay, what’s the problem Jules?"
+2284,2026-02-25 09:45,There is opening balance metrics with the same eventId. It's not supposed to happen. I will make the alert return an error instead of throw this exception
+2287,2026-02-25 09:45,oh that's weird but it's not a consistent issue?
+2284,2026-02-25 09:47,I guess it's not the case in most documents
+2287,2026-02-25 14:15,any update on the feature flag for the new asset types?
+2247,2026-02-25 17:13,It's available in dev and uat.
+1920,2026-02-26 10:57,"Hello all, I would like to hotfix `documents-manager` (to fix the Arango migration of the last 2 documents for clearwater). Here are the current differences between UAT and prod: ```📦 Service: acx-back-documents-manager Image: lppa-back-documents-manager PR #107: KTLO-700: Validate duplicate eventId in opening balance metrics (by JulesAccelex) PR #108: PLA-2842: Deduplicate security_metric UUIDs in per-document cleanup (by cedric-arnoult) PR #109: KTLO-701: Fix null position values in events API (by JulesAccelex)``` I see that KTLO-700 and KTLO-701 are in `QA`. Do you think they will be validated today ? ping"
+2018,2026-02-26 10:59,lets exclude KTLO-700 and 701
+1920,2026-02-26 10:59,I can't exclude things
+2287,2026-02-26 11:00,"okay, then we need to test them before promoting"
+2287,2026-02-26 11:00,may be can help here?
+2218,2026-02-26 11:48,tickets are closed
+2218,2026-02-26 11:49,"After bulk add events I got this error but when I refresh the screen all red events are added to the fund AMERS-UAT, this is Accelex tenant but it is happening on other tenants also is happening on all docs that I checked <"
+2018,2026-02-26 11:52,"I have seen this previously, could you raise this as a bug, are you able to pick this up"
+2287,2026-03-05 10:00,I’ll be a couple of mins late. My laptop is rebooting
+2012,2026-03-05 11:16,"Have you guys seen this behaviour before? If I access a entity merge suggestion in the Network validation screen, that suggestion is persisted for any other entity that I click on. cc ? Makes it very difficult to do entity resolution, because there is no option to dismiss those suggestions / link a new candidate to other entities. We should fix this."
+2018,2026-03-05 11:25,"I am unable to see this in dev, however the pop up covers a large portion of the screen and there is no way to reduce its size cc"
+2018,2026-03-05 11:37,managed to replicate the issue on dev will raise a ticket
+2012,2026-03-05 11:49,"Also when I link a candidate to an existing entity, it does not get dismissed (I still need to do it manually). Do you see this as well ?"
+2018,2026-03-05 11:54,Yup seeing that as well
+1920,2026-03-06 09:47,"Hello I need to do a hotfix for Arango migration in prod. Here are the changes: ```━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 📦 Service: acx-back-documents-manager Image: lppa-back-documents-manager PR #118: V3-2922 - deduplicate metrics when saving events (by sarasinjeri-accelex) PR #123: PLA-2854: Store embedded enums as strings (by cedric-arnoult) PR #124: PLA-2854/2855: Store embedded enums as strings and migrate existing data (by cedric-arnoult) PR #127: PLA-2855: Migrate alert_color columns from ordinal to string and create indexes (by cedric-arnoult) PR #129: Rollback mapping Enum on MetricValue (by cedric-arnoult)``` They are all mine, except one from Is it ok for me to deploy it today ? ping"
+2285,2026-03-06 10:00,"I had a look, I think is safe. The changes are under FF. But the ticket is V3-2963 , not V3-2922 (there's a mistake on the PR name)"
+1920,2026-03-06 10:09,"Here is the updated list: ```━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 📦 Service: acx-back-documents-manager Image: lppa-back-documents-manager PR #118: V3-2963 - deduplicate metrics when saving events (by sarasinjeri-accelex) PR #123: PLA-2854: Store embedded enums as strings (by cedric-arnoult) PR #124: PLA-2854/2855: Store embedded enums as strings and migrate existing data (by cedric-arnoult) PR #126: [KTLO-713] Fix N+1 query on cashFlowNoticeInfos in inbox/load (by phustoncarta) PR #127: PLA-2855: Migrate alert_color columns from ordinal to string and create indexes (by cedric-arnoult) PR #129: Rollback mapping Enum on MetricValue (by cedric-arnoult)``` Yes, there's a ticket from Patrick. Thanks Sara for renaming your PR."
+1920,2026-03-06 10:13,Patrick's ticket has been deployed in UAT. Inbox is loading fine. Will proceed with deployment in prod in the next 30 minutes.
+1920,2026-03-06 10:21,Release in progress
+1920,2026-03-06 10:29,Release finished. All prod envs are updated. `documents-manager` green in all of them.
+2180,2026-03-09 13:45,"Hey, for the entity-map in ingest, I used the ```REFERENCE_DATA_VIEWER_ROLE_NAME``` as role in the new entity map rest endpoint. But I did not realize that the end point to retrieve entities by type `'domain/v1/entities/type/FUND'` was not using this Role Name. Can I add it on this end point? Is someone seeing an issue? ?"
+2285,2026-03-09 14:14,That's ok for me to add REFERENCE_DATA_VIEWER_ROLE_NAME on `'domain/v1/entities/type/FUND'`
+2287,2026-03-11 11:01,I don't see bulk download option for events (dev environment)
+2247,2026-03-11 11:02,I'll take a look
+2287,2026-03-11 11:02,"no no, false alarm"
+2247,2026-03-11 11:02,"okay, no worries"
+1074,2026-03-11 14:20,FIY first sketch re FFS v3 <
+2287,2026-03-11 14:36,Thanks Chris
+1920,2026-03-16 18:01,"FYI, I merged a PR that creates an index on the `document` table. It takes a while. Wil let you know when done. In the meantime, `documents-manager` 's deployment is stuck 'in progress'. I asked Lilian to create the indexes, in advance, in UATs and PRODs."
+2284,2026-03-20 15:21,"Hello, frontend code has been deployed in dev for the ticket : < I've detected an issue with the verify api, we can verify a metric without any value. I'll try to fix that today"
+2012,2026-03-20 15:42,"Amazing, thank you , incredible work on this one!"
+1074,2026-03-20 16:29,Merveilleux!
+2012,2026-03-27 10:05,Link to the roadmap we constructed yesterday
+1639,2026-03-27 11:07,can you help me convert this slack channel to public? it looks like you're the manager
+2018,2026-03-27 11:08,I don't think I have the permissions
+1639,2026-03-27 11:08,"gotcha, thanks for trying! will ask IT"
+2012,2026-04-01 13:14,"End of Q1 results are in! We're making good progress, owing to growing CAS STP numbers!"
+2012,2026-04-01 13:15,Need to turn on those LLM-based PRs asap though!
+2012,2026-04-01 14:21,Adding the ML Eng team for transparency on these numbers here
+2284,2026-04-02 09:38,about ticket : < the export of the corresponding document is not working anymore but the ticket mentioned that a value is not present in the export document. could you confirm that the users succeeded to export the document when this ticket has been created please?
+2018,2026-04-02 09:46,I ll dm you around this
+2012,2026-04-13 12:10,"Hi All, summary of our weekly < below: Things I think we should be able to demo end of week • Document review flow via plugin ◦ Finish new config service () ◦ Present review flow ▪︎ Integrated with new config service ▪︎ With improved CLI experience () ▪︎ With improved accuracy for all document types (Requires some skill refinement for PRs and Cashflows) • Run LPPA locally without the parser () • Onboarding - Skill for automated uploading of .csv reference data via SFTP (, ) • OAuth integration with Carta () Ongoing development • New metric service - refinement and kick off 14th of April (, ) • Securities extraction - kicking off initiative to review securities data model and extraction skills (, ) • MCP foundation - framework to expose GraphQL functionality via MCP () Let me know if there is anything I've missed here"
+2012,2026-04-13 14:32,"< for review plugin discussion , ,"
+2012,2026-04-14 08:32,", FYI standup moved to 9.45am UK today"
+2012,2026-04-14 08:33,Apologies for the short notice
+2012,2026-04-14 11:05,"Working document from our new metric service discussion: < Any comments or questions, let's add them there."
+2012,2026-04-14 11:05,", FYI, we should discuss a couple of points with you on Ingest / Explore seam here"
+2012,2026-04-14 11:06,I will book some time with you
+2284,2026-04-14 13:49,", , we don't have access to amers production database anymore and that's preventing me to investigate on the following ticket : < I've put a comment in it and updated the status to BLOCKED. I'm starting to work on this ticket <"
+2012,2026-04-14 14:49,", FYI - seems like we’re now running into the same permissions issue here. We need to figure out how to get the team re-enabled on being able to do their jobs. Cc"
+2284,2026-04-14 14:54,This is the conversation about it : <
+1965,2026-04-14 15:46,"for S3 access, you can access the buckets via ""okta""-""AWS""-""carta-production"" profile, and there are ""lppa"" buckets."
+2180,2026-04-16 09:45,"there is a doc on how install locally the mcp of dev < If you want to test amers-uat, you should update the url define in the claude_deskstop_config.json. If any question please reach me. And thanks for the doc"
+2285,2026-04-17 07:43,*Documentation* for the new *config-ng* service (including entity class diagram and an entity relationships diagram) at < Implemented *3 skills for metric definitions management* inside lppa-cli-user plugin: • lppa-config-ng - low level companion skill (< • lppa-metric-def-import - import metric defs csv file (< • lppa-metric-def-export - export metric defs csv file (<
+2180,2026-04-17 16:39,"Hey, I pushed a fix for V3-3069, and did a really quick test in amers uat, and it seems to work. See you all in 7 days!"
+2012,2026-04-17 16:47,Thank you !
+2012,2026-04-27 11:20,"Hi all, started a doc to align on new metric service shape - let's iterate and answer any questions here: < cc ,"
+1945,2026-04-27 11:58,"While we are doing this, can we align on the differences between date and payment date and report date for CFNs? I remember we were meant to rethink payment date about a year ago but never did"
+2012,2026-04-27 12:00,"We can, what is the request there ?"
+1945,2026-04-27 12:01,"Due date for CFNs (in my opinion) should be mapped to date. I believe currently we are mapping the report date to date, and the due date to payment date."
+2247,2026-05-05 14:05,KTLO 814 is available in dev and uat
+2012,2026-05-05 15:34,"Promising early results on PR LLMs , , !"
+2012,2026-05-05 15:34,I think we should turn these on more broadly
+2012,2026-05-06 09:15,"< , , , let's hop on to talk backoffice please"
+2247,2026-05-06 15:07,KTLO-720 is merged and available in dev and uat
+2018,2026-05-07 09:08,"Summary of the back office admin clean up: *Context:* Two open bugs — KTLO-813 (total value issue) and KTLO-814 (duplicate metrics) — needed ETAs. *Jules's investigation findings:* • *Duplicate metrics (KTLO-814):* Filters sometimes contain only one of the duplicates. Fix: update the API Sara built to reconcile filters pointing to the metric being deleted. • *Free metric issue:* Caused by a backoffice screen that writes to the Accelex tenant's default template and cascades to all related filters. Jules recommended deleting the free metric from all filters, then recreating it properly via backoffice. • *Total value (KTLO-813):* Fixed by Jules's API in KTLO-816, which released to prod that day — confirmed working by Darren. *Free metric naming problem (Boris/Jules):* Free metrics have spaces in their parser names (e.g. metrics 1378, 1379), which breaks the parser. This means they can't be cleanly converted. Options discussed: 1. Change the display name (needs a new API — doable) 2. Change the parser name (harder, cascades to extracted metrics) 3. Create a new shared metric with a different name (easiest, no eng work) *Boris's preference:* Option 1 — rename old metric to ""(Legacy)"" and create a new automated metric with the original display name. Darren and Boris agreed to sync at the Extract standup the next morning. cc"
+2012,2026-05-07 09:22,"Created a new ticket for the Adams Street piece, cc ,"
+2012,2026-05-07 11:25,"or anyone else, is there any other Feature flag that is required to turn on FFS V3 in production apart from V3_2974_FFS_V3 I see this is turned on in Aztec, but I still see V2 screens? Tried this in Factset as well and I get the same result"
+2284,2026-05-07 12:00,I'll take a look
+2284,2026-05-07 12:22,did you try for recent documents? Because it will not work for document that have been uploaded before the activation of the feature flag. I'm trying to find a recent ffs document but I didn't find any so far. Could you give me a tenant that use ffs document regularly please? cc:
+2287,2026-05-07 12:43,"check this one < Also, if we reparse the docs regardless of when they were uploaded should set the workflow to v3?"
+2284,2026-05-07 12:44,yes I think it should
+2284,2026-05-07 12:46,for this tenant the feature flag had a space before the name. I fixed it. Could you try to reparse or uploade another document please?
+2287,2026-05-07 12:55,It works now - space was the culprit. Thanks
+2247,2026-05-07 13:44,KTLO-814 (with filter changes) is now in dev and uat
+2284,2026-05-07 16:26,"*V3-3079 — Define workflow on new metric structure: CRUD* < This sub-task adds full _CRUD support_ for the `metric` noun to `carta lppa`, exposing the V2 review-pipeline Metric API from `external-api-gateway`. *What's included:* • 5 CLI verbs: `get`, `list`, `create`, `update`, `delete` • PATCH semantics on `update` (only provided flags are sent) • Client-side enum validation for `MetricStatus` `ParserOutputItemType` (fails with `USAGE` exit before any HTTP call) • `--fields` selector covering all Metric fields including nested objects (`MetricPdfInfo`, `EntityPdfInfo`, `MetricSourceRef`) • Proper `NOT_FOUND` error mapping (exit code 4 / 404 instead of generic error) • 22 unit tests + updated `docs/user-guide.md` *CLI examples:* ```# List metrics (paginated, with status filter) carta lppa list metric --document-id DOC_ID --statuses UNVALIDATED --on-behalf-of-tenant TENANT --size 5 --fields uuid,metricStatus,value # Get a single metric carta lppa get metric UUID --on-behalf-of-tenant TENANT # Create a metric (only --metric-status is required) carta lppa create metric --session SESSION --metric-status UNVALIDATED --value 1234567 --currency USD --date 2025-06-30 --on-behalf-of-tenant TENANT # Partial update (PATCH — only updates what you pass) carta lppa update metric UUID --session SESSION --metric-status SIGNED_OFF --on-behalf-of-tenant TENANT # Bulk delete carta lppa delete metric UUID_A UUID_B UUID_C --session SESSION --on-behalf-of-tenant TENANT``` More examples (pagination, nested fields, boolean switches, negative cases, write tests…) are available in the ticket comments: <"
+2180,2026-05-07 17:24,"I provided a fix on config-ng to store the correct document_id in config-ng.metric table, but for some reason, the deployment takes ages, so I will not test it today"
+2012,2026-05-07 17:54,"I will try to test this stuff tomorrow , thank you!"
+2284,2026-05-11 07:58,I've just tested it and it has been deployed in dev and it's working
+2012,2026-05-11 11:56,", , , any reason why this feature for new event import mechanism is not turned on anywhere apart from Aztec prod? V3_2850_WEBAPP_IMPORT_REF_DATA_V2_EVENTS"
+2285,2026-05-11 12:19,I don’t see any reason to keep the FF off. Was already tested in PROD env (AZTEC). The difference is that the s3 folder is not the same as for the old import : '*/inbox/upload/reference_data_v2/events/'* for the new import versus '*/inbox/upload/reference_data' for the old one*
+2232,2026-05-11 12:52,I think the original idea was we weren't sure if we were going to change the folder structure and naming But now it seems like we wont change it anymore
+1661,2026-05-11 16:48,yes let's turn this on guys
+2018,2026-05-11 17:49,We have deduped the following list that should have minimal client impact and it should unblock HedgeServ and Adam Street. In order to fix this issue we have deleted the capitalised iterations of the duplicate metrics and only kept lower case iterations - refer to KTLO-814 for detailed use cases handled The following tickets are unblocked: KTLO-777 KTLO-812 KTLO-814 KTLO-776 Please provide us with any feedback if the fix causes any issues
+2232,2026-05-11 17:50,thank you!
+2018,2026-05-11 19:36,Missed out Cash and Cash Equivalents - I have removed the duplicate from Amers prod and EMEA prod now Cc
+2247,2026-05-13 10:40,V3-3087 is merged and available in dev and uat
+2018,2026-05-13 11:39,I ll test it thanks
+2284,2026-05-13 12:13,"From our last meeting I've created these 2 tickets to start : < < , , let me know if you are ok with them? if yes, should I start to work on them?"
+2012,2026-05-13 12:14,", yes, thank you, that looks right"
+2012,2026-05-13 12:14,I will follow up with some clarifications on the config-metric workflow
+2180,2026-05-13 12:59,looks right for me too
+2180,2026-05-13 13:03,"I just merged the CLI part for security details, and I tested locally before merging, it works. I still don't have access on table, I will send a message to Lilian for that. But you should be able to test it with CLI"
+2247,2026-05-14 09:39,Changes for V3-3087 are deployed in dev and uat
+2018,2026-05-14 09:40,I ll test it out
+2018,2026-05-14 09:43,Looks like it works • Investment creation date is the column name now • Investment creation date = 'Created' date on Investment event within Networks screen
+2018,2026-05-14 09:45,"I am assuming you locate the investment creation date based on both vehicle, asset and event type"
+2247,2026-05-14 12:56,It's located based on the event
+2247,2026-05-14 14:32,KTLO-821 (renaming free metrics) is deployed in dev and uat
+2018,2026-05-14 16:32,I will test it thanks Sara
+1038,2026-05-15 09:05,"I've made a number of improvements to LLM securities extraction as requested by , including • Improved securities linking • Cost now mapped to RCI • TCI added as a separate metric available for testing in UAT"
+2251,2026-05-15 09:18,Thanks Phillip! CC
+2285,2026-05-18 09:45,I created < for K1 Fund vs Investor metrics
+2247,2026-05-18 11:57,I left a comment with listed vehicles which are missing in reference data entities for <
+2012,2026-05-18 12:21,", I am still not sure I understand what they original problem is. Is there a specific document id this issue originated in?"
+520,2026-05-18 12:53,~Confused here as well. This is an asset performance metric. The fund and company are both present and the error says vehicle is mandatory for an already populated row? I tried adding QTR to one of the blank periods here and the error arises~ Disregard - I see the issue. Some of these assets have not been confirmed on the NVS. I've updated the ticket with the doc ID
+2247,2026-05-18 12:55,"If you copy the asset name and try to find it in entities reference data it won't exist. The metric is not linked to a vehicle, the vehicle id is null in the database for that metric."
+2247,2026-05-18 12:55,this is an example of the document <
+520,2026-05-18 12:55,Good spot thank you Sara
+2012,2026-05-18 13:56,"So this bug is there because the user is not following the workflow correctly? , do you have the context on this?"
+520,2026-05-18 14:01,Sounds correct and I do not have context as it was raised while I was out. I've moved the ticket to blocked and will communicate with Adams Street
+2247,2026-05-19 11:05,KTLO-821 is available in uat too
+2018,2026-05-19 11:35,is this controlled via FF - I tried renaming 'Cash Metric' to 'Cash' it appeared to change for a brief moment but when I shift to filters to view the change I am unable to see it
+2247,2026-05-19 16:44,"V3-3117 is done, the K1 metrics are imported and associated with filters in the back office as well. I linked both imported csvs in the ticket. I noticed for some tax documents on dev we have some metrics which do not have the metricField defined so I checked in the database and their parser name is not in the list of K1 metrics (DOCUMENT_TYPE, FEATURE_FLAGS, PARSER_VERSION, PARSING_TIME, REPORT_DATE, REPORT_PERIOD). This results in displaying one number for metrics reviewed label and having less rows in the table."
+2285,2026-05-19 18:19,Thanks . The missing metrics are not to be exposed in MSV. We need to filter out the metrics based on REPORTING and COMMITMENT type metrics
+1661,2026-05-20 06:15,"Morning guys, we found this extraction bug while trying to move custom outputs to Arango: < it is important to fix it ASAP as it blocks arango decomissioning. Not directly, but it breaks custom outputs when using the API. let's discuss during the stand-up."
+2284,2026-05-20 11:01,"I have created this story for the first level of validation metrics in the new service configng : < I didn't create ticket for the part ""Metric Group × Event Type Compatibility (Level 1) - To be added to metric_group_def"" in the documentation because it's already done. let me know if you want to add or update something. cc: , ,"
+2247,2026-05-20 14:19,"V3-3134 — investigation summary The issue: On some CFN documents (TCC and HedgeServ_MIT on AMERS), the asset_type and vehicle_type columns in the database were coming back NULL instead of FUND and INVESTOR. Root cause — two things stacked together: 1. Parser side: For these specific documents, the parser failed to extract any actual content. The parser output only contained metadata (document type, parsing time, feature flags) but no investor block, no fund block, no payment metrics. I communicated this to and it seems a few days ago there was a big parser update which could've explained the empty parser output for the original document and normal parser output for the second upload of the same renamed document. Also, confirmed there is a parser bug for CFNs which he will fix. 2. Backend side: When the parser returns nothing useful, our code falls back to filling in default metrics using the investor and fund already linked to the document. But the code that built those fallback metrics wasn't setting the entity type — so we ended up saving rows with name and ID but no type. That one missing piece then cascaded into multiple rows because other parts of the code reused that incomplete data to build even more default metrics. Result: - The backend bug will be fixed by explicitly setting FUND as asset type and INVESTOR as vehicle type in the code path that fills in default metrics when the parser returns no content. - The existing bad rows on dev/prod still need a data backfill (either re-parse the affected docs or update the rows directly)."
+2012,2026-05-20 15:18,"Sounds good, , do we also need to run some cleanup in the db to unblock the arango decommissioning?"
+1661,2026-05-20 15:31,"thank you that sounds sensible. please proceed with the backend fix , tagging for review"
+2247,2026-05-20 15:46,Reparsing the listed documents should be enough to clear the null values in the database. I think the reparsing the docs even now would work since Emil uploaded the same document and the parser returned the output correctly. But perhaps we should wait until this fix is deployed before reparsing them just to sure if the parser fails again to have the fallback implemented.
+1040,2026-05-21 03:52,"regarding `HedgeServ_MIT_Stock_Distributions_AH_LSV_II_Figma_Stock_Distribution_LSV_Fund_II_pdf_c27b9ad3` it's a stock distribution notice (not cash distribution), do we still categorise it as ""CFN - distribution notice""? And what should we output?"
+2285,2026-05-21 05:49,"you're right, when the parser returns nothing useful, BE code falls back to filling in default metrics using the investor and fund already linked to the document, ie entities from entity_view cash table in documents-manager. The problem is that the entity type is not present in the entity_view cash table. We should also add entity type in entity_view cash, in order to avoid this kind of related issues. cc"
+1040,2026-05-21 08:09,"K1 parsing is available: `Accelex_K1_with_statements_BL_pdf_6ba7471b` in dev I reparsed this file and can get to the validation screen, however the ""Partnership Id Num"" and ""Partner SSN TIN"" are showing NaN when the grounding is correct. I guess the text (not number because it has a dash in it) is not interpreted correctly. The same with ""Other deductions"", at the moment it's a text field with alphabets for supporting schedules."
+2247,2026-05-21 08:15,"Thank you , I'll take a look at these field definitions."
+1040,2026-05-21 08:16,"For the fields in Part III, almost all of them can have the alphabets on the left for supplemental information, and for some fields there could be multiple values (for multiple supplemental information)."
+2247,2026-05-21 09:40,"This is the list of documents that I've found with either asset or vehicle type null in amers prod. Let me know what you think As I noticed, most of these are CAS and OTHER document types"
+2247,2026-05-21 09:47,V3-3134 is merged and available in dev and uat (note: I haven't created the ff in any env)
+2247,2026-05-21 13:42,KTLO-830 is merged and available in dev and uat (ff is created in dev)
+2018,2026-05-21 14:47,I was just testing this - Noticed something - when more than 1 alert is present I can only see only one of them Negative value detected was added - changed the metric to negative and metric flagged to amber and I added another alert to 'Period = Actual' I changed the period to be 'Forecast' but I can only see negative value alert. I am assuming confidence alert is by default
+2285,2026-05-21 16:13,"The fix that implemented to backfill missing vehicle_type and asset_type with < unblocks the Custom Output issues for commitment events only. But there are also INVESTMENT events with missing vehicle_type and asset_type, and those are not fixed. To fix them we neeed to create a new ticket that will first add the entity_type field in entity_view cash in documents-manager and then deterministically update the missing entity types on metrics cc"
+2247,2026-05-21 16:14,"Metric fields in the back office are updated as per Kamting's messages - changed the ""Partnership Id Num"" and ""Partner SSN TIN"" to text, as well as all fields in Part III."
+2247,2026-05-27 13:35,< is fixed on amers uat
+1074,2026-05-28 10:49,The Filter editor skill and related files are in shared folder LPPA Delivery LPPA_filter_editor <
+2180,2026-05-28 13:44,"On my side, the CLI is able to list entity with 2 new parameters ; --names JSON array of entity names to match exactly (case-insensitive IN). Example: --names '[""Fund A"",""Fund B""]'. Combined with --name-contains using AND. --name-contains JSON array of name fragments to match as substring (case-insensitive). Fragments combine with OR between themselves. Example: --name-contains '[""alpha"",""beta""]'. Combined with --names using AND. I tested in dev env, it works fine ( I forgot who asked this feature, if you remember could you please tag him/her?)"
+2012,2026-05-28 15:01,"K1 summary discussion for , , Display • Add commitment selector • Remove manual review / auto-reviewed / Show all tabs • Remove: Dismissed rows will not be extracted ribbon • Order and organise by question number (As per Chrtis’s early Figma) ◦ Section ▪︎ Question • Remove footer options on LHS (Show dismissed, sums) Actions • No dismiss • No validate ◦ When a missing metric is filled, set it to Green. Keep it visible in same section before reload • Generate audits on change • Edit - Only Value cells editable Questions • Should we land on Manual Review if all empty fields are correctly empty (No, land on All metrics)"
+1639,2026-05-28 15:16,it's working ! suggestion: can you align `--names` and `--name-contains` with `carta lppa list event` ```--types --empty-types Event types to filter. Repeatable. --vehicle-ids --empty-vehicle-ids Filter by vehicle IDs. Repeatable. --vehicle-ids --empty-vehicle-ids Filter by vehicle IDs. Repeatable.```
+2180,2026-05-28 15:18,"according to my claude sesssion, he sugested me to use this format, to let us use some space or "" character in the name of the entity, without encoding them"
+1639,2026-05-28 15:22,"hmm, then we should update the other commands? it's odd UX to have different syntax for different commands"
+2180,2026-05-28 15:23,"let me ask again claude, maybe I misunderstanding his answer"
+2180,2026-05-28 15:26,"ok, I misunderstood, let me do the change, I'll tell you when it will be done"
+2180,2026-05-28 15:52,There is the PR : < (thanks for the feedback by the way)
+2284,2026-05-28 16:08,ticket < has been merge
+1917,2026-05-28 16:30,• add bounding boxes around empty checkboxes/NULL answers • add checkboxes in AG grid where value taken from checkbox in PDF
+520,2026-05-28 16:30,"Thanks Jules! Does this mean it is available in Dev, or UAT?"
+2012,2026-05-29 09:54,"Team, FYI - updated this page with the outcomes of our discussion yesterday on the new metric flow: < Let me know if any more questions pop up or add them to the page please. cc , , , , ,"
+2247,2026-05-29 12:50,K1 metrics update is available in dev and uat
+2012,2026-05-29 13:18,Thank you !
+2180,2026-05-29 13:25,"Hey, I said yesterday that I forgot some fields in the get tenant cli command. But it's not really true. I based my observation on the tenant setting screen, and there are 2 missing flag (`reconciliationCalculationEnabled` and `newMetricProcessingPipelineEnabled` ) the list of profile names, and the authentification method and Idle time allowed. But except he profiles names, those other fields are not in the list of field in the creation command. So should I add them in the creation, or it is. not really mandatory right now? And I don't see any cli command for updating a tenant. Maybe it could be a good idea to have it, or not necessary or later? In any case, I will fix the list of profile who may be in the the get tenant response"
+1917,2026-05-30 10:17,*Securities validation changes* • Ticket: < • FE PR: < • BE PR: <
+2284,2026-06-01 07:35,yes it is available in dev and UAT
+2285,2026-06-01 08:24,"I added a comment on the BE PR, could you please, have a look? Also, the channel for reviewing PRs #*lp-portfolio-analytics-pr-reviews*"
+1074,2026-06-01 08:49,Nice work Raj!
+2011,2026-06-01 10:53,"Hello, In custom outputs we are seeing the same error again related to the missing vehicle/asset type (ticket: < • Tenant: CPPIB_RE_CFN • Document name: 2 Queen VTB Interest Payment Notice 06-02-26.pdf • Environment: AMERS It appears that the feature flag from the ticket was never activated, which is likely why the same errors are still occurring. Could you please check and confirm? Thank you. cc"
+1661,2026-06-01 10:57,was there a feature flag involved here? I thought this was just a liquibase migration
+2247,2026-06-01 10:58,"There is a feature flag and it's not activated in prod, I checked this morning. I linked the feature flag in the ticket description."
+1661,2026-06-01 11:01,is it active in UATs? what does the code behind the FF do ?
+2247,2026-06-01 11:06,I don't think it's active in any env. The code behind the ff handles the case where we get the empty parser output where asset and vehicle are not present so we set them manually to INVESTOR and FUND.
+1661,2026-06-01 11:08,can you please split your arango decomissioning PR in 2 different PRs? we will not be able to disconnect amers today
+1661,2026-06-01 11:09,can you please activate the FF in dev and UATs and run a few smoke tests ?
+1661,2026-06-01 11:09,we'll do mercatus today though.
+2011,2026-06-01 11:12,I’ll disable our ETL_213_PUBLIC_API_MIGRATION ff for this tenant to unblock the outputs
+2247,2026-06-01 11:20,Is it alright if I upload this specific document from amers prod to uat to try to replicate the empty parser output?
+1661,2026-06-01 11:21,Hi yes it is
+2251,2026-06-01 11:24,Thanks Milica . please go ahead and disable the ff for the tenant in question . the only issue remaning here is Hedgeserv Aggregated output will still be impacted since its runs only on API
+1965,2026-06-01 11:58,"Hi, Just looking at the fix, is this more of a workaround? From the data, we see that the id and name are coming through, but not the type. ```services/documents-manager/service/src/main/java/com/accelex/documents/manager/service/impl/CFNValidationService.java``` ""ensureNetPaymentIsPresent"" isn't the error that the doc.getInvestor/getFund doesn't have the correct type? isn't is coming in from the parser? it seems strange that it's got some, but not all of the information, is this a parser providing incomplete data?"
+2247,2026-06-01 12:08,"The parser populates type on its own items, but the document's investor/fund are stored as EntityView, which has no type column — so when ensureNetPaymentIsPresent synthesizes a NET_PAYMENT from document.investor / document.fund, name and id come through but type is lost. This fallback only kicks in when the parser output doesn't already provide vehicle/asset on the metrics (i.e. no NET_PAYMENT metric exists and we have to build one); V3-3134 patches the missing type by hardcoding INVESTOR / FUND (the semantic slot tells you what the type must be) behind a flag. It's a narrow fix for a model gap in EntityView rather than a parser bug — the ""real"" fix would be to add type to EntityView so no downstream code has to re-derive it."
+1661,2026-06-01 12:09,I think has creates a ticket for that right Sarah ?
+1661,2026-06-01 12:15,please keep us posted here on how it goes with testing with that document (and FF on)
+1965,2026-06-01 12:26,"sounds like the EntityView fix is the best one. Luckily, the validator is currenly the only consumer, otherwise we'd have to do the hack everywhere."
+1920,2026-06-01 12:28,Arango has been disconnected from `mercatus` and `emea-uat`. Services have restarted.
+2285,2026-06-01 12:29,I've created 2 tickets : < and <
+2247,2026-06-01 12:35,"I've created the ff on dev and both uats, but I'm having issues with the testing as document is going to OTHER and not CFN when uploaded on amers uat."
+1661,2026-06-01 12:36,and dev is the same ?
+2247,2026-06-01 12:57,same thing on dev
+1661,2026-06-01 13:01,Hi we have this document here which is classified as CFN in prod but OTHER is dev and UATs. Are there any settings that need to be applied in AMERS UAT so that it behaves exactly like prod //
+1038,2026-06-01 13:46,Let me take a look
+1038,2026-06-01 13:46,at the classification discrepancy
+1661,2026-06-01 14:55,Did you notice anything ?
+2247,2026-06-01 15:07,V3-3118 is available in dev (k1 validation screen changes)
+2012,2026-06-01 16:47,", thanks for this. One comment on this. Can we please make the action for the boolean a single-click 'check rather than a drop-down"
+2247,2026-06-01 17:02,"Yes, I will make the changes"
+2247,2026-06-02 12:16,V3-3180 (audit k1 metrics and tweak for checkbox editing) is available in dev
+2012,2026-06-02 14:20,"Looks good, two things I've noticed • Grid gets sorted when we tick / untick items • I cannot add a new metric to the grid: Correlation ID: 0027eea0-5e8e-11f1-8f82-d558b9a30fae Timestamp: Tue Jun 02 2026 1501 GMT+0100 (British Summer Time) Username: <mailto:boris@accelextech.com|boris@accelextech.com> Tenant: Accelex User Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36 Message: Failed to update metric: Metric with given UUID does not exist."
+1661,2026-06-02 14:34,any news ?
+2247,2026-06-02 14:39,"Just tried uploading the document again on dev, went to OTHER once more. Should I try to upload it on amers-prod on that specific tenant and see how it will behave (and enable the ff on prod as well)?"
+1661,2026-06-02 14:41,"I think what we can do is activate the FF in prod for the Accelex tenant, and upload the file there (prod / Accelex). that should work"
+2247,2026-06-02 14:43,I'll try that right now
+2247,2026-06-02 15:11,V3-2987 (k1 metrics extraction) is available in dev
+2247,2026-06-03 09:24,The feature flag is enabled for all tenants in amers prod
+2180,2026-06-03 10:18,"After talking with , we decided to align the creation of tenant with all fields we have in the UI. It's done. And I created a < to create an update tenant command in CLI. Will work on it later this week"
+1965,2026-06-03 10:25,"Hi, for info just had a chat with Emil. This fix will fix new incoming data, but will potentially still cause custom output issues because of historic data. I'm taking a look at the historic data to see what needs to updated manually"
+1661,2026-06-03 10:26,"lppa prod databases are mirrored in snowflake, it might be easier to look in there"
+1965,2026-06-03 10:53,"yep already there. as of now, there are just 2 metrics of interest that will cause problems, and only for the our hedgeserv reports criteria being • metrics in the last 3 qtr • of type CFN CAS • for COMMITMENT events the other 2 are for CPPIB_RE which shouldn't impact our reports"
+1965,2026-06-03 10:56,"it's for NET_PAYMENT for doc ```""HedgeServ_MIT_Peak_XV_Partners_Cash_Distribution___Freshworks__Peak_XV_Partners_V__MIT_Investments_2010___05_29_2026_pdf_195656f4________001""``` , now that your fix is in, is it possible to force the re-population by extracting? can we just do this? other option is to ask infra to update it manually"
+1965,2026-06-03 10:59,"If it's possible, we'll ask Darren"
+1965,2026-06-03 11:00,it was extracted yesterday
+2247,2026-06-03 11:01,re-population would be triggered by reparsing the document I think
+1965,2026-06-03 11:01,CPPIB_RE_CFN_2_Queen_VTB_Interest_Payment_Notice_06_02_26_pdf_9bef0aec________001 was extracted 29th May 2026 so would not impact our CPPIB_RE reports
+1965,2026-06-03 11:22,"Hi can we reparse ""Peak XV Partners Cash Distribution - Freshworks (Peak XV Partners V)-MIT Investments 2010 - 05-29-2026.pdf"" in Hedgeserv_MIT in AMERS? I have a sql update. I'll speak with infra after checking it, if reparsing is not an option."
+2247,2026-06-03 12:51,K1 metrics reordering after update fix is available in dev
+1965,2026-06-03 13:18,"Hi, We've moved off arango again for the remaining reports and it looks ok for the moment."
+1965,2026-06-03 13:19,"It doesn't look like we need to do the hack, but the scripts are on standby incase we need to fix the data manually."
+1661,2026-06-03 13:25,let's schedule the arango switch-off for amers for Friday morning
+1038,2026-06-03 13:43,The document in question is not a distribution notice. It is a mortgage interest payment notice.
+1038,2026-06-03 14:09,I'll broaden the prompt to force it to map this type of document to distribution notice
+1074,2026-06-03 14:14,Under which tenant ?
+2247,2026-06-03 14:32,"It's not about the feature we discussed (ordering in sections etc), it was regarding the bug which reordered the metrics after the update."
+1074,2026-06-03 14:33,It was too good to be true
+1639,2026-06-04 10:00,"i think there's a bug in the security metrics mapping in `configmanager` for `FMV/Share` - it's currently mapped to parser `COST_SHARE` , but probably should instead be `VALUE_SHARE`? if true, claude said that this would require a big data migration. Example: < in tenant `Denali_Peak_Capital` this is a demo tenant, so don't worry about changing values"
+2284,2026-06-04 10:15,"hello , I didn't understand why you want to change the parser name from COST_SHARE to VALUE_SHARE and why it's an issue, could you give us more detail please? As long as the parser is sending one unique parser name that is defined in config manager that's ok for us, unless you want to use it for a different purpose?"
+1639,2026-06-04 10:18,"short answer IIUC: ""cost per share"" != ""value per share"" cost per share is related to contributed amount value per share is related to FMV valuation i'm trying to understand if this is a UI problem (wrong label) or a backend (reporting cost as value)"
+2285,2026-06-04 10:39,"Hi Perry, this seems to be a back-office configuration mapping issue. Currently these are the 5 security_investment metrics defined in AMERS For now, only COST_SHARE metrics are selected for securities (the match with the parser output is done on the Parser name, not on Display name). So even if the parser found data for VALUE_SHARE, those metrics are not surfaced to metrics, VALUE_SHARE (as parser name) not being defined in the selected metric fields."
+2285,2026-06-04 10:41,"At the metric level, the parser_name is persisted, but in the reports and in webapp the display_name of the corresponding field is displayed."
+1639,2026-06-04 10:49,"yes, that's exactly my question. The document has both Cost/Share FMV/Share, so _assuming the parser is able to extract these_, which value should I expect to see in our systems? `999.12` (Cost/share) or `1,070.00` (Fair value/Share)"
+1639,2026-06-04 10:51,"secondly, is it common practice to customize the Display name for each new tenant? i'm using the default values"
+2285,2026-06-04 10:57,"You'll see only Cost/Share metrics , but under the 'FMV/Share' display name in the validation grid. The mapping parsing_name, display_name in backoffice being wrong."
+2285,2026-06-04 10:58,"What is configured in backoffice is cross tenant, defined at the environment level"
+2285,2026-06-04 11:08,"So, the first fix would be to delete the existing field 'COST_SHARE' Then upload the following csv file to add the fields COST_SHARE and VALUE_SHARE with the correct mapping."
+2285,2026-06-04 11:08,We should test and validate this first on DEV
+2285,2026-06-04 11:10,for reference
+2285,2026-06-04 13:14,there should be a data migration (both ‘parser_name’ and ‘display_name’ are persisted at the metric level (so all the ‘FMV/Share’ display_name should be replaced by ‘Cost/Share’). But the migration should be restricted only to ‘security_metric’ and ‘extracted_security_metric’ tables (which should have a lot less data than standard ‘defaulted_metric’ and ‘extracted_metric’ tables).
+1639,2026-06-04 13:40,"yes that makes sense! Can you check how many cost/share metrics even exist in our production envs? i clicked through Amundi in EMEA and they don't seem to use it at all, even though the field is enabled"
+2285,2026-06-04 14:05,There are 394 COST_SHARE security metrics (out of total 114856 metrics) and 0 extracted security metrics (out of total 17133) in AMERS.
+2012,2026-06-05 11:39,", , , updated the metric names for K1s so that they can now be easily sorted in alphabetical order in the same way as the actual form. Let's make it so that by default we sort alphabetical deccending before sections are introduced later down the line. I don't love the 0 prefix, let me know if you have other suggestions. Any comments on the metric naming - let me know as well"
+1074,2026-06-05 12:42,"Nice! do you think we should add the Part I, II, III as well? see <"
+2012,2026-06-05 12:43,"It seemed overkill to me, but we could"
+1074,2026-06-05 12:46,"ah I just see you've done it for PIII, looks good"
+1917,2026-06-05 14:28,Apologies if this is a basic question - why are do the Part III metrics have the PIII prefix but PI and PII metrics don't?
+1074,2026-06-05 14:28,i thought they would also be added
+1038,2026-06-05 15:11,I've merged an update to address this. It should be in prod next week.
+1917,2026-06-05 18:56,Added the sections. I think we can revert the names of the metrics now that everything is appropriately grouped. in my absence can you < the PR> once approved?
