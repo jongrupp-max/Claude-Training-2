@@ -1,0 +1,359 @@
+u,t,m
+1632,2025-01-09 18:26,"Afternoon, starting work on the react upgrade Here are two PRs to upgrade webpack to 5.96.1 - so we can use Module Federation 2.0 • The Testbox in the carta-web PR works with remotes that publish using the lower webpack version, so don't need to be done at the same time < <"
+504,2025-01-09 18:34,I think with webpack upgrade there was an issue with the `cartaWeb` federated bundle built in `carta-web`. You could check if ie `/certificates/list` `/options/list` loads fine cc
+1632,2025-01-09 18:34,"we fixed it had to add uniqueName, I added a link to the warrants url"
+1033,2025-01-09 19:14,Question: Does it make sense to run a full end-to-end test run to see if there are potentially any other views / experiences that might be broken with different federated bundle issues?
+1632,2025-01-09 19:18,"No harm in doing so, all the federated cartaWeb apps were broken and unable to load prior to me adding the uniqueName fix"
+1033,2025-01-09 19:35,I think it's pretty automated too -- you can run it from your test box and magni. I would run it before merging
+1632,2025-01-09 19:49,"Taking a while I think, but this was it: < Link: <"
+1632,2025-01-09 20:14,"Okay, I went through module federation docs, updated the RFC: < The high level solution section goes through the migration process now. I'll set up another meeting tomorrow, and then make a working group afterwards"
+1632,2025-01-09 20:54,"Regression release tests ran fine on the webpack upgrade PR, the three broken tests, they don't lod federated apps, and they loaded their remote components fine"
+1632,2025-01-13 15:31,"Hey, could I get one more review on this PR: <"
+1632,2025-01-13 15:42,"Welcome everyone, Frontend Platform is currently on track to upgrade to React 17 this quarter. We wanted to make a small working group with Frontend Exports and QA teams across Carta to keep everyone in the know, and also receive feedback on the process • I've created this < I've specifically linked a quick high level overview of how we plan to upgrade, other sections go into more detail • We've already started the upgrade process, and likely as we get to steps of 4 onwards listed on the RFC linked above, and we start upgrading individual remote and host applications, will need help from everyone"
+1632,2025-01-13 15:49,"It is likely we will be needing two versions of Ink, one for React 16 and one for React 17. As we move individual apps to React 17, they can use the new version. Still a few weeks from needling to do this, but mentioned that this is something we could do."
+1031,2025-01-13 15:50,thanks for the heads up! Let's stay connected so we can make sure to have a R17 build available by the time you need it.
+568,2025-01-13 15:51,"as excited as i am for Module Federation 2.0, i'm pretty worried about coupling 2 major upgrades at once what's the benefit that MF 2.0 brings to this task?"
+1632,2025-01-13 15:51,"Sure, I'll set up a meeting once we have a proof of concept in Draft. We will likely need to do something similar for the app shell library."
+568,2025-01-13 15:53,FWIW both < and < repos are currently on react-18 ink v33 without any reported problems
+1031,2025-01-13 15:53,that's a welcome surprise!
+1632,2025-01-13 15:54,"MF 2.0 allows us to upgrade remote* applications to React 17 one by one, < The remote components can have their own rendering tree. The MF built in webpack 5 doesn't have this functionality."
+1632,2025-01-13 15:56,"Flipper UI mf enhanced: < carta-web mf enhanced: < (< We did already test it in draft, and it seems to work fine. We aim to do this first^ and then do a POC, with host on React 16, and a remote loading in with 17"
+568,2025-01-13 15:58,"neither are complex apps, though. i'm sure something will come up"
+568,2025-01-13 16:06,! was there an experiment with only CW bumping to react-17 but all remotes staying on react-16?
+568,2025-01-13 16:09,otherwise pumped that we also get MF 2.0 as part of this migration better typescript interop with runtimes unlocks so many possibilities
+1632,2025-01-13 16:25,"was there an experiment with only CW bumping to react-17 but all remotes staying on react-16? Haven't tried this, but in theory it should work."
+568,2025-01-13 16:31,but i also like that with MF-bridge you get more granular control over when each app migrates
+524,2025-01-13 17:13,"In addition to these two repos, we also need to update FA and LLC repos since they build FARS apps too"
+524,2025-01-13 17:15,do either of these repos have pages in carta-web or are all these run as standalone ?
+568,2025-01-13 17:34,"they run standalone, outside of carta-web"
+1632,2025-01-13 17:38,"< <-- Fund Admin is here, LLC. currently doing it"
+524,2025-01-13 17:42,Got it. Was hoping they also run successfully inside CW … that’s still good news though with regards to Ink’s compatibility (even if on a small surface)
+1632,2025-01-13 19:54,Could you folks take a look at this webpack upgrade PR. Test box is linked with carta-web. don't see any issues.
+1632,2025-01-13 20:16,Need one more review
+522,2025-01-13 20:28,Looks like you merged it. Lmk if you still want me to look
+522,2025-01-13 20:28,Thanks for doing this Ather!
+1632,2025-01-15 20:54,"Here is the carta-web PR to update our webpack config to use Module Federation 2.0 < ^ There is links to testboxes in there, with links to pages with different remote apps • Running release regression suite < • looks backwards compatible with Webpack 5 MF"
+1632,2025-01-15 20:55,Do you have page I could use to check that LLC is all good. I enabled the llc-core service in the namespace deploy
+1632,2025-01-15 20:56,"Also, do you have page I could use to check compensation is fine. I enabled compensation frontend in the namespace deploy."
+1073,2025-01-15 20:58,I would say to check if `/benchmarks/employee` works. It is the main entry point for the ctc app
+568,2025-01-15 21:09,cc i think we need to create some demo LLC companies for you <
+568,2025-01-15 21:13,these ones to start: < for scope `llcInvestmentFirm` < for scope `llc`
+1632,2025-01-15 21:17,"Looks good we can load apps in both cases. Will keep this box around, as I start rolling this out to other repos"
+568,2025-01-15 21:28,can you ping Greg before starting migration of the `llc-ui` repo? we have 5 apps to be migrated and i'm considering using this as an opportunity to move over to `dev-client-sdk` we're still using a fork of Eldar's original `build-tools` package and it's probably more painful than you signed up for: <
+1632,2025-01-15 21:32,"Sure! yeah good call, I don't think we made many changes to dev client sdk and the interface should be the same so hopefully it's not bad"
+568,2025-01-15 21:38,i forked it originally to replace `babel-loader` with `swc-loader` also configure terser to use the `swcMinify` plugin if that's too many moving pieces then just updating each app's `webpack.config.js` works for me
+1632,2025-01-15 21:56,"I see. Just took a closer look, we have a default plugin setup for the webpack mf plugin that we have in the dev-client-sdk, and individual remote apps, just import it, and then add override settings, and then their webpack config gets run after the common webpack config which is defined in dev-client-sdk. You guys are doing your own steps in webpack, I think we should keep it separate for now I don't see the module federation plugin in your build-tools folder, it looks like you're setting them in your 5 apps. Honestly it's just easier to just replace the import of module federation with the one from enhanced. The interface is identical. That's what I did here and it appears to be working: < When we migrate LLC to react 17, we will do app by app, so we can just update each webpack.config.js individually.. We will have a POC soon for a remote app in React 17 loading into a React 16 host so I will have a clear example soon"
+571,2025-01-15 22:39,"Awesome, thanks Ather! For planning purposes: what is the timeline you want for us to implement these migrations? For instance, will it block you if we don't upgrade to Module Federation 2 by the end of this week or next week?"
+1632,2025-01-15 23:08,"It won't block me. How about by the end of next week? That's when I plan to have the react upgrade POC done and the upgrade of mf complete. I can also make the PRs, just would need help testing. It is loading fine with Carta web upgraded so there's no hurry. I just want to make sure it works fine and then we just have to worry about the react upgrade. Trying to get all this done by end of Feb."
+1632,2025-01-16 21:49,"I reran the suite, this time with a loaded test box, and got similar errors, I don't think the errors are related to my changes, I linked both errors and the screenshots look fine, and visiting the pages, they worked as intended also linked to my existing webpack upgrade test run. Would appreciate stamps so I can release this monday"
+524,2025-01-16 21:53,Thanks for triple checking Ather!
+1632,2025-01-24 21:11,"Hey Folks, found an incompatibility with our existing Module Federation config, while trying to use Module Federation 2 to load remote modules. *The remote modules specified in the exposes option to the MF 2 plugin need to start with a ""./"".* What I've been doing is just duplicating entries so that I include an extra entry with this path Example: ```new ModuleFederationPlugin({ ..., exposes: { './App': './core/App', <---- duplicated entry, needed for MF 2 App: './core/App' <---- Compatibility with MF 1 } }),``` • This does not break MF1, it will still continue to load the existing entry • You do not have to change your call to ie. `<FARSComponent module=""App"" ... />`, MF2 is smart enough to know that App -> ./App • We will be updating carta-web and < and until all entries have ""./"" we will then update our < to use MF 2."
+1632,2025-01-24 21:11,Could I get a hand in doing this for llc-ui. Still need to bump the MF version there.
+568,2025-01-24 21:41,deferring to Greg on this
+571,2025-01-24 21:42,I can open a PR for this today
+1632,2025-01-24 21:54,"Fyi: • using the new MF plugin doesn't break MF1 at all (see: the changes to the webpack.config.js in< carta-web>) • I will updating all apps in carta-web and frontend platform monday next week • Mid next week, hope to turn on MF2 remote module loading"
+571,2025-01-24 23:20,"Here's the exposes update, I haven't started on the MF update itself < Let me know if I missed anything or any other actions are needed here!"
+1632,2025-01-27 14:45,looks fine Here is an example of how to update the Build Plugin to use MF 2.0 It was backwards compatible. <
+571,2025-01-28 01:25,"PR < for upgrading module federation package. does the exact version matter? I picked the latest 0.8.9, should I use 0.8.8 to be consistent with FEP?"
+571,2025-01-28 01:25,I tested locally with a test box and everything seemed fine
+1632,2025-01-28 14:04,We should keep it consistent for now. They released 0.8.9 last week I believe. We have pinned 0.8.8 in fep. Host and remotes should be same
+571,2025-01-28 18:29,Just updated and pushed 0.8.8!
+571,2025-01-29 00:56,"Hey Ather the build step in our CI seems to be failing for the PR above, do you have any reccomendation for how to debug/fix? < The error seems pretty unhelpful, I'm not sure what's failing exactly."
+571,2025-01-29 01:05,"So this is weird, locally I didn't notice this error at first since it still compiled successfully:"
+571,2025-01-29 01:09,"So a couple of maybe interesting lines from running yarn build locally, like: ```[ Module Federation Dev Server ] Error Unable to compile federated types, Error: Failed to generate type declaration.``` and ```Error in mf:generateTypes processAssets hook: Error: ENOENT: no such file or directory, open '/Users/greg.roche/src/llc-ui/apps/account/build/@mf-types.zip'``` but it still ends up compiling"
+571,2025-01-29 01:10,Will continue to dig deeper tomorrow
+568,2025-01-29 01:12,`tapable/lib/HookCodeFactory.js` from a quick google search implies an incompatible webpack plugin
+568,2025-01-29 01:15,"odd… why is `koa` part of the lockfile? let's debug tomorrow edit: it's coming from `""@module-federation/dts-plugin@0.8.8""`"
+1632,2025-01-29 16:02,"Having the same issue in compensation-frontend. Same error code. Error: Failed to generate type declaration. #TYPE-001 args: {""cmd"":""npx tsc --project /Users/ather.qureshi/Projects/compensation-frontend/node_modules/.federation/tsconfig.579b545feb4b55f74f0b011fc916b786.json""} < Also unable to build, can't resolve the paths of the exposes modules Honestly what I've been doing is comparing the webpack pipeline to carta-web and frontend-platform, and seeing differences."
+568,2025-01-29 16:07,Greg and I will try to disable all the webpack plugins loaders. maybe this is what pushes us to use `dev-client-tools`
+1632,2025-01-29 16:29,"Yeah I think that's best approach, there are a lot of diffs. Try disabling type generation in the MFPlugin. I don't think we need to generate types for the federated apps. ```dts: { generateTypes: false }```"
+571,2025-01-29 19:08,"Thanks Ather! This seems to work locally, will push it up and see what happens in CI here shortly"
+1632,2025-01-29 19:25,"this does disable the type feature in module federation, but I think this is how we do things right now, we don't interact with a module being exposed other than if we need to send distinct props."
+1632,2025-01-29 19:28,"Just wanted to give a update! • We have updated webpack across all repos that use module federation • we are halfway through updating module federation to 2.0 - carta-web/frontend-platform are done, trying to get through fund-admin, ctc, llc-ui this week • Once we we do these two things, then we should be able to start upgrading individual remote modules • I will set up a meeting one we have an example of that^"
+571,2025-01-29 19:41,"So CI is still failing even with that change, we're increasing the resource class to see if it's an out of memory issue"
+1632,2025-01-29 21:17,"Let me know how it goes. I got CTC working! Going to go to fund-admin next, and then if you're still stuck I'll head to llc"
+571,2025-01-29 21:44,Got it working! The issue was a plugin used by axios??? ¯\_(ツ)_/¯
+571,2025-01-29 21:45,"For posterity, running the build locally logged this error: ```ERROR in ../../node_modules/axios/lib/utils.js 698:42-49 Module not found: Error: Can't resolve 'process/browser'```"
+568,2025-01-29 21:45,the most annoying part is that i couldn't get a useful error message until running `yarn build --progress`
+1632,2025-01-29 21:51,The fix for CTC was also odd: <
+1632,2025-01-29 21:51,"I had to add entry: './src/index.tsx', and remove the .tsx from the exposes federated files"
+571,2025-01-29 22:01,"I was also able to keep the generated types, seems to work even without dts: false"
+571,2025-01-29 22:52,Deployed to prod! Everything looks good so far
+1632,2025-01-30 21:07,Could I get some help reviewing this PR to use MF 2.0 in compensation? <
+1632,2025-01-30 21:32,Thank you!
+1632,2025-01-30 21:32,Can I get one stamp from your end
+1632,2025-02-03 16:07,"Hey, I'm updating webpack in fund admin to use module federation 2.0, there's a test box in the PR and it's backwards compatible. Could I get a review from fund admin frontend platform? This is needed for the react upgrade <"
+1632,2025-02-03 16:08,Could you take a look ! thanks
+1632,2025-02-06 19:35,"Hey quick update! • MF 2 Upgrade is almost done! All Host Apps are now publishing assets compatible with MF2 • < is ready to update our fars component loader to use MF 2 to load assets remotely, hoping to merge by the end of this week, and upgrade the dependency across host apps. • I am upgrading all remote packages in frontend platform so their latest versions have the MF2 Assets"
+1632,2025-02-11 21:24,"Hey, could I get some help testing this PR out. This updates our loaders to use MF 2 to lazily load modules. < Here's the testbox, running release regression right now on it: <"
+568,2025-02-11 22:33,can you re-deploy with llc-services enabled? `LLC_CORE_ENABLED` and leave all fields blank cc
+1632,2025-02-11 23:16,Redeploying! <
+1632,2025-02-12 01:53,"Note that this is just the loader. I've already updated all host apps to use mf2 when publishing assets. You can still use a lower version of fep bootstrap and it will work fine. Backwards compatible. However, when we start doing react upgrades, y'all will need the new loader. So I'll be updating fep bootstrap everywhere"
+1632,2025-02-13 22:27,Published the library update and added a retry plugin. < Running e2e tests
+1632,2025-02-14 19:41,"Looks good^ Merging that next Monday. Could I get some help in updating fep-bootstrap in llc-ui, want to do something like this: < < Not urgent! just want to pivot now to upgrading an app to react 17"
+1632,2025-02-18 16:36,"Hello • I've updated fep-bootstrap to use Module Federation 2.0's runtime functions to load our assets • I'm now updating fep-bootstrap in all our host apps, essentially changing how our FARSComponent's works underneath the hood • Note that we already upgraded host apps to also create MF2 assets at build time • There are some changes in how only a few modules are referenced, had to make some slight changes, and these are annotated in affected PRs Joint Testbox: < Regression Run: < Report: < Carta-web: < Need someone from IS: Fund-admin: < Need someone from Fund-admin frontend platform CTC: < Need someone CTC: LLC-UI, I've enabled llc-core on the test box, we can upgrade fep-bootstrap shortly."
+1632,2025-02-19 17:24,"Carta-web and CTC are merged. Could I get a fund admin frontend platform engineer to do a quick review, and look around the text box. Regression test results are also there. This is essentially updating how fars components are being loaded under the hood. <"
+1632,2025-02-20 17:28,"Hey, due to issues with loading some outdated assets in carta-web, I'm rollbacking the mf 2 loader update in fund-admin and carta-web <"
+1632,2025-02-20 17:28,carta-web has already been rollbacked. Could I get a on the revert
+568,2025-02-20 17:49,"do we know the root cause yet, or still investigating?"
+1632,2025-02-20 17:54,"This was a preemptive rollback. The reason why apps were not loading in carta-web, was because some fep packages were not deployed to latest, and did not have the MF 2 assets with them. I don't believe fund-admin would have this problem since they have CD, but we are just being cautious"
+1632,2025-02-27 16:38,"Hey, today at 2:15pm EST, we will be presenting this project at R&D Review, here are the slides: <"
+1632,2025-02-27 16:40,"Also, next Monday, we are going to attempt to do the MF2 Loader update again, we will be doing testing with the QA team in the test environment. CTC was already upgraded. Hopefully this will release in tuesday's release. carta-web: < fund-admin: < llc-ui: <"
+1632,2025-02-27 16:41,Do you know how to get the LLC-UI changes in my shared test box. I enabled llc-core. Is it something I need to do on the devtool itself?
+568,2025-02-27 16:43,"No, but we have a different way of generating an LLC account. Just a minute"
+1632,2025-02-27 16:44,Here's the box: <
+571,2025-02-27 16:46,"I can create an account! For future reference, you can create an account using the ""t"" staff tool - llc section - create demo account - I typically use the evergreen preset"
+571,2025-02-27 16:52,Here's the account: <
+1632,2025-02-27 19:19,"React Upgrade Presentation at RD Review if you wanna check in: < *Google Workspace* *< Calendar - Easier Time Management, Appointments Scheduling>* Learn how Google Calendar helps you stay on top of your plans - at home, at work and everywhere in between."
+509,2025-02-28 21:16,"Hey team, what's the expected timeline for _""Part 1:Update all Host and remote Apps to use Module Federation 2.0""_ as described < I'm on <#GDK2LKSCR|> and we're building indirect ownership, as part of that, we're looking to use this new library < Flow> that requires React 17."
+1632,2025-02-28 21:19,"MF 2.0 should be out tuesday next week. However, React 17 working in adapter mode is proving to be difficult, I would say mid to end of march before we have a system in place to allow remote apps in carta-frontend-platform to start using react 17"
+509,2025-02-28 21:22,"That sounds good, thanks for the estimation"
+1632,2025-03-03 17:29,"Hey, for fund-admin, we are rereleasing fund-admin with MF 2.0. We did not find any < with QA>, PR is the same as last < <"
+1021,2025-03-03 18:00,regression thread is awesome thanks for including. Im at an offsite so cant do regression but it looks good
+1250,2025-03-03 18:08,"forgot 1 question in our mtg: will an FEP stakeholder also be present to watch/debug the regression test run in CW alongside and . if not assigned, can we please also have someone from the owning changes team be present"
+1632,2025-03-03 18:10,"I'm here, and will be watching it."
+1250,2025-03-03 18:10,awesome thank you Ather!
+1632,2025-03-03 21:17,"This will go out a day after carta-web release, which should be tomorrow."
+1632,2025-03-04 19:26,"Release looks normal today :hopefully, so going to try this today."
+574,2025-03-05 15:06,"Hey team, were there changes to the test environment yesterday? Just checking because we started to see < test failures ~6:13pm> yesterday for a FARS component, and the < and failures are the same> as what we saw during the MF 2 rollout incident a couple weeks ago. FWIW we’re no longer seeing the issue, but wanted to flag. cc"
+1632,2025-03-05 15:42,Does this page use an init api provider?
+574,2025-03-05 15:52,I don't think it does
+1632,2025-03-05 15:55,"Last night we updated shared test just to do a full regression suite on the changes. At 11pm, it reverted back to normal master which explains why it went back to working at 11pm EST. < ^ we have this test box, it has llc-core enabled: ie. these pods are running ```frn-3389-llc-core-5cfd7c7cd6-krqhc frn-3389-llc-core-db-0 frn-3389-llc-outbox-source-56768f6d57-xmzln frn-3389-llc-staff-api-77454fbbd8-kfs4t frn-3389-llc-staff-api-77454fbbd8-sfvkc frn-3389-llc-staff-frontend-644f578854-kh5bq frn-3389-llc-staff-frontend-644f578854-s76dj ``` Could we reproduce the error in here to debug. My hunch is that we have to merge this, the components need to get updated with latest fep bootstrap <"
+1632,2025-03-05 15:58,"is the draft-issuance FARS Components loaded into carta-web? Could we test that the updated version from this PR works on this test box. We saw something similar last time, where we had to update remote components in frontend platform to their latest version (the one that had latest fep-boostrap when we update fep-bootstrap inside of carta-web."
+574,2025-03-05 16:01,reproduced on this page: < clicking the `Add documents` should pop open a modal (FARS component)
+1632,2025-03-05 16:09,Is there a way I can get the fars components from this PR to load there using the dev tools <
+574,2025-03-05 16:11,you should be able to do it via devtools. I'm testing using your branch as well
+1632,2025-03-05 16:11,I think I'm stuck behind BTG
+1632,2025-03-05 16:15,"sorry I'm a bit lost in UI trying to get there Trying to follow steps in allure test, I was able to BTG."
+574,2025-03-05 16:16,"but after your BTG, you should be able to access this url <"
+1632,2025-03-05 16:17,"I can access thanks! Was about to set up zoom, but that link worked"
+1632,2025-03-05 16:18,"actually let's still zoom, I think we can quickly find the type error or console error"
+574,2025-03-05 16:18,"okay sound good, I actually wanted to ask about nesting FARS components as well"
+568,2025-03-05 16:29,llc-ui release pipeline: <
+1632,2025-03-05 16:30,Thanks for jumping on! So steps 1. Merge LLC-UI PR< 2. Double check now this page works with jairu's box (without carta-web MF changes): 3. Double check this page works with my box (with carta-web MF changes): app.frn-3389.test.carta.rocks
+568,2025-03-05 16:34,revert PR @ < if anything goes wrong
+574,2025-03-05 16:36,we should hold off deploying to higher envs until we test this right ?
+568,2025-03-05 16:37,it's automated up to demo sandbox but i'm ok killing deploy early
+1632,2025-03-05 16:38,Should be able run < tests towards the boxes quickly. Put like workers at least 4.
+574,2025-03-05 16:38,"the tests will run as a part of our CI pipeline, so should be fine to skip heimdall run"
+574,2025-03-05 16:39,it's automated up to demo sandbox but i'm ok killing deploy early sorry should have clarified deploying to prod
+568,2025-03-05 16:41,"prod deployment is still on manual approval IIRC, but that it will eventually be fully automated"
+568,2025-03-05 16:46,changes are in shared test. doing some quick manual checks. manual check looks good
+1632,2025-03-05 16:56,"Nice, and how does it look here: <"
+574,2025-03-05 16:59,"looks good in ^ test box, tested the modal and a few other pages"
+1632,2025-03-05 17:01,"Thanks folks, your fars components have MF2 now."
+568,2025-03-05 17:01,checking magni failure…
+574,2025-03-05 17:03,Thanks for helping debug !
+574,2025-03-05 17:04,I think the test failure is a flakey part of test <
+574,2025-03-05 17:06,opening the documents modal is still covered in `tests.llc.test_draft_issuance.DraftInterestIssuanceTest#test_draft_interest_issuance` / `Creates MIU draft issuance without issuing`
+1632,2025-03-06 20:00,"Hey, just giving a heads up. We are having trouble updating fund-admin and carta-web to use MF2 Loaders, this is pushing the timeline back trying to do this safely."
+1632,2025-03-06 20:01,Still aiming for end of March.
+1033,2025-03-07 01:31,"Hi folks. I spent some time with today to help create this architecture diagram that gives a better view into where the team is at. The diagram highlights that many host apps *also export and import remote modules between themselves*. The idea that frontend monorepo hosts all the remote apps, which are slotted into the host apps like carta-web / fund-admin is not entirely accurate. We have applications that are both host apps and also remote applications themselves. This has been adding complexity to testing since we are testing the connections between each remote app and host app under heterogeneous conditions (aka different permutations of V1 and V2 module loading). We have successfully migrated some of the smaller / less risky repositories with the intended webpack loader updates: CTC, LLC, and frontend-monorepo (the diagram has a green check around these repositories). We are troubleshooting the latest issue which is a cyclic dependency between Carta-Web and Fund-Admin in vc-money-movement. Once we reach a satisfactory conclusion, we will migrate Carta-Web and Fund-Admin. Let us know if you have questions."
+568,2025-03-07 16:06,does that mean we (`llc-ui`) can remove the MF v1 configs from webpack? i think the current setup of dual-building MF v1 & v2 adds a good amount of compilation time
+1632,2025-03-07 16:10,You mean just removing the exposed entries that do not have ./ In front? Yeah go for it.
+568,2025-03-07 18:13,"heads up , we may need to bump module-federation to 0.8.11+ < fix(bridge-react): the bridge-react package was failing when used with React 16/17 due to missing react-dom/client module preferring v0.9.0+ because of a high-severity security patch for `koa` transitive dependency < • is getting flagged in `llc-ui` but not sure why it's marked as resolved in FEP monorepo cc"
+1632,2025-03-07 18:16,"Thanks, might be the reason why this wasn't working: < We should be able to bump freely, it's minor and patch versions"
+1632,2025-03-12 18:40,"• Just FYI, we going to try to update carta-web and fund-admin together soon. Requires a downtime release • There is a < plugin > that will let you see diagnostic information and how modules are loading into a certain page (should work on LLC, CTC, and Monorepo Apps that load other Apps) • You can also do overrides here to point towards local or other CDN mf-manifests, eventually replacing the need for dev tools (still use dev-tools for now)"
+509,2025-03-14 15:32,"Hey Ather, just following up - are we still on track for end of March?"
+1632,2025-03-14 15:42,"I'll know more next week, where we attempt to get MF2 in again, and bridge mode POC was blocked by this: <"
+419,2025-03-14 16:53,"Hi Team, Is there a rollout plan for the upgrade? I am FA EM on call next week, and trying to get ahead of any large changes we pushing through the FA deploy pipeline."
+1632,2025-03-14 16:59,"• We are planning to release the < update> to just carta-web next monday • These were the tests that failed in the release regression when we updated shared test last Tuesday: < • We verified the broken VC Money movement < is passing> in a namespace deploy test box with just carta-web updated after a fix • Can't reproduce any errors on pages that have the cyclic dependency locally or on the < box> ie. slack < • Will merge sunday night, and have revert ready after reviewing results from regression tests that run 6AM EST monday. (We are in a DM with QA and Infra folks)"
+1632,2025-03-14 17:03,FA we are planning to update after this goes successful.
+419,2025-03-14 17:10,Got it. Tysm! When is FA scheduled? FA senior engineers and leadership is at an offsite week of 3/24.
+1632,2025-03-14 17:16,"FA is smaller update, we are hoping to do after monday's carta-web release if all goes to plan. We tested carta-web with fund-admin together thoroughly. <"
+568,2025-03-14 17:35,(We are in a DM with QA and Infra folks) should we have a deployment channel + announce in ?
+1632,2025-03-14 17:36,Going to go in
+1632,2025-03-14 17:37,Will post after regression suite looks good.
+1035,2025-03-15 15:12,did the regression suite run last night?
+1035,2025-03-15 15:13,"In case you are not aware, there’s a github actions compromise that just got surfaced late last night. And we had to revoke/rotate all keys GitHub actions has access to. There are high chances of some cicd workflows broken on Monday"
+1035,2025-03-15 15:14,Let us please wait to have full confidence that cicd/test flows are fully recovered before we merge the CW change into master
+1035,2025-03-15 15:15,FYI. This security issue is possibly goingto be disruptive to cicd and releases on Monday. We are working through remediation over the weekend
+1632,2025-03-16 23:02,"Oops, I merged it. I was aiming for sunday night. Ie. right now. so it would run tonight and I can look at results monday 6am, and revert if need be OR post announcement and proceed."
+1632,2025-03-16 23:04,< -- Revert. I'll get reviews monday asap.
+1632,2025-03-17 15:34,"posed in DM as well, but I'm watching for any failures, and manually checking as well. I have manually dmed folks for revert approvals."
+1035,2025-03-17 20:16,Thanks Ather. Are both CW and FA MF upgrade PRs now deployed in prod?
+1632,2025-03-17 20:18,"Yes, they are both in."
+1035,2025-03-17 22:43,Have we seen any issues since the deploys?
+1632,2025-03-17 22:58,"No, release regression ran this morning in test and was green, I went through all the tests. Release went through. Waited an hour till 3pm. Then updated fund admin, their regression tests passed, no issues, and then it was in FA at 4pm EST. I merged in a change to add retries soon after it will be next release, we saw some errors (handful of them) when loading assets, but this is normal and happened in MF1 too. Retries should cover all bases."
+1632,2025-03-17 22:59,"< Here's that thread, and PR is merged."
+1035,2025-03-17 23:04,Amazing. thank you.
+504,2025-03-18 13:46,Looks like it's all quiet since yesterday release! You did it
+568,2025-03-18 15:10,merging in 2 minutes this cleanup of v1 MF bundles in llc-ui <
+568,2025-03-18 17:02,did you deploy changes to weekly sandbox?
+568,2025-03-18 17:03,asking because < will revert MF v1 deletion in llc-ui
+1632,2025-03-18 17:03,That environment is only updated once a week right?
+568,2025-03-18 17:06,"i think so, but wondering why yesterday's sandbox FE deployment didn't pick up changes after deploying to S3 revert < merged"
+1632,2025-03-18 17:10,I think weekly sandbox is still at MF1
+568,2025-03-18 17:11,does weekly-sandbox pin the FE to a specific commit?
+1632,2025-03-18 17:12,"Yeah it doesn't have MF2, and MF1 still needs the old exposes config (without the ""./""))"
+1632,2025-03-18 17:18,"I don't think so. Nothing on dev tools, and it's pulling MANIFEST.js, which points toward whatever version is latest. Sales boxes + fund admin pin to specific versions."
+568,2025-03-18 17:19,"odd… regular sandbox is fine, as is production"
+568,2025-03-18 17:19,will try again next week
+1632,2025-03-18 17:21,We will do the same thing
+524,2025-03-19 01:55,Amazing! Awesome work done here
+1632,2025-03-20 20:42,"Hey, so trying to load a react 17 app into react 16 works now with bridge, BUT as soon as I try to load an ink component into the app, I get errors. Wanted to build a minimum example to reproduce this. Could you take a look at this? < < I tried updating styled components but still get an error"
+509,2025-03-21 15:55,"Looks like the MF2 went smoothly , are we on the 3rd phase where each remote app can upgrade to React 17 and have it be bridged into 16?"
+1632,2025-03-21 15:57,"No, there are libraries that are breaking when updating to 17 like ink."
+509,2025-03-21 16:02,"Sounds good, do you have a rough estimate? I want to level set expectations for the project we're working on."
+1632,2025-03-21 16:42,Is it possible to use another library? I don't know what the effort is getting ink to be backwards compatible with 17 and 16. Too many unknowns here
+509,2025-03-27 17:06,"_Is it possible to use another library?_ We looked at a few other options prior to choosing this one. Tomorrow I'm going to spike < earlier version> of the library that supports React 16. If that doesn't work, we can reinvestigate alternative libraries. _I don't know what the effort is getting ink to be backwards compatible with 17 and 16. Too many unknowns here_ I see. Were there any new findings or progress this week related to this?"
+1632,2025-03-28 15:50,We were able to load ink if it's updated to react 17. Apps may need to have to bring in their own version of ink when loading. Doing some more testing
+1632,2025-04-01 16:25,"*A quick status update on this project* 1. Module Federation is out on most repositories, some are being updated right now (carta-login) 2. I've removed entries that use MF1 syntax for < and < yesterday a. ie. making sure entries start with ""./"" 3. We have local carta-web working with flipper on react 17 and host + other FARS apps with React 16 a. However, our test box is breaking when trying to load flipper and we are debugging why b. PRs: < and < c. We are trying to get this working ASAP"
+1632,2025-04-03 20:20,"We successfully got flipper to load with react 17.0.2 into carta-web, while other FARS apps and the host was using React 16.11.0 < • S/O to for pairing with me the last two days, both of us were deep into in MF 2 release changes and source code to figure this out • We still have to clean up the code here (for fep-bootstrap) + extensive testing but remote apps should be able to just enable bridge, upgrade react and use it in their app (we will have an example) • Likely will run into more issues a long the way, but this POC shows that this stuff works and we didn't waste our time updating webpack and MF"
+568,2025-04-03 21:22,what was the issue/solution?
+1632,2025-04-03 21:31,"Multiple issues, MF 2.0 is pretty cutting edge at the moment so even within minor version changes, functionality is changing and docs aren't great. 1. Carlton introduced a fix to make bridge work with our react version, that was in this < so we had to update to that version for MF as well 2. There were other changes in that release, namely this < that changes the default settings for the webpack plugin, had to find the < settings> to do what what we were doing on 0.8* 3. our import of react-bridge was loading a cjs module, the line fixed < 4. We were using the runtime plugin to dynamically load modules in fep-bootstrap (implicitly it was ""connecting"" to the federation runtime that webpack build plugin was making), somewhere in 0.8 - 0.11, that stopped working, this < was made that let's us access the mf runtime that webpack makes at build time I would suggest pinning your minor version at least!"
+568,2025-04-03 21:50,that is indeed a lot of changes! i'm always annoyed that semver `0.x` means every version is potentially breaking. It's such a cop out
+568,2025-04-03 21:54,", it sounds like Ather & Carlton has found a path for react-17. Either of you available to try it out in `llc-ui`? for context, Ather: Patrick & Ian are looking into `react-flow` for visualizing ownership graphs, but the latest version needs React >= 17: < If your solution works for LLC, then we can avoid pinning to an older version"
+1632,2025-04-03 21:59,"We still need to think about the upgrade plan. I think it makes sense to update MF first to a higher version 0.11, and update the MF plugin before we introduce react-bridge. Once we get all host apps on that version, then we can merge the fep-bootstrap changes (after cleaning it up). Happy to dog food the update with llc-ui. Wanna make sure we get flipper working all the way to prod first My sabbatical starts this weekend, so will be your liason"
+524,2025-04-04 12:18,You guys rock! Thanks for all the hard work here. So close
+1051,2025-05-05 21:00,"Hello! We're back and we have a PR that enabled React 17 bridging in carta-web: < Included is a test box and a branched version of `flipperUi` which you can override to test React 17! Given this, once merged we will be bumping `flipperUi` to React 17 and using this as the starting point to get more apps migrated across"
+1051,2025-05-13 22:08,New update for the week so far! DONE • The FARSComponent has been updated to allow bridging of React and deployed to carta-web • The flipper-ui app (`/staff/flipper`) has been updated to React 17 and deployed all the way up to production WHAT'S NEXT • Working on a migration guide and CLI tool to aid in the migration of all remote apps I would love to sync with some product teams soon who would be willing to get their remote apps updated!
+571,2025-05-13 22:26,I would love to help get the ball rolling for llc-ui!
+1051,2025-05-14 20:45,"Hi all, Some updates on the React 17 upgrade! *A faster migration approach* With the new react-bridge work we can now go for an ""opt out"" approach. If we bump the React version of carta-web, all remote apps will inherit the carta-web version of react. If any remote apps are broken as a result we can lock them into React 16, fix and version bump independently. *Testing* I have a carta-web PR that bumps us to React `17.0.2` : < I also have a test box (with minimal services enabled): < Clicking around things are looking good, both host and remote apps are rendering as expected and using React 17! *Being confident to merge* I'd love to have 100% across the code base that this version bump is all good. In this regard, I would love a way to run all Magni tests so that we can have confidence that there is no unexpected regressions introduced cc If anyone has time, please feel free to take a look at the box and click around, would love feedback"
+504,2025-05-14 21:02,this is huge and will potentially get us to react 17 faster! Can we have a box with all services and coordinate the full regression run with and the team?
+76,2025-05-14 21:07,"I'm bringing here, he is the manager in the analyst side of QA and has helped in these major releases in the past"
+1605,2025-05-14 21:53,"Thank you ! This is a large upgrade and we wanna make sure this is fully tested before pushing to higher envs. For us to be able to properly engage and set up the necessary resources for testing, could you please open a < testing request> for us? We (myself, Alex and Saima) are then going to review the information, and assign resources as soon as possible. Thank you!"
+1051,2025-05-15 13:12,Submitted: <
+525,2025-05-23 16:03,"hey I'll keep you posted when we can trigger the full regression job - waiting on < run to finish • let's have the PR ready and rebased to latest CW `master` • it would be good to have a spreadsheet where we can track failures, ie suite name <> test failure <> possible fix ?! • that will help with tracking our progress in anticipation to a possible merge early next week cc:"
+525,2025-05-23 16:04,some examples from previous upgrades <
+1051,2025-05-23 16:07,"PR rebased, CI in progress: <"
+1051,2025-05-23 16:25,Images job has passed
+1051,2025-05-23 17:28,How we feeling? good to crack this?
+1033,2025-05-23 17:29,On my end -- I'm happy to make the announcement if is ready.
+525,2025-05-23 17:32,sure. here's the job < just pass your branch name `react-17` as input `CARTA_WEB_GIT_REF` and then add your name for `TESTER` - - that will send you slack notifications when test reports are published in for each suite
+1051,2025-05-23 17:35,Job kicked off: <
+525,2025-05-23 17:53,"branch is deployed and tests are running by any change, did you find your notes around what FA page was FA the react host vs CW being host for FA? just want to make sure we cover that area too, even by just manually spot check it"
+1051,2025-05-23 18:04,"I don't have an answer, but will check!"
+525,2025-05-23 18:53,"also the way we eliminate false positives, ie failures that could be related to your react upgrade, is to look for the same test suite and compare with the 2 previous runs we had today • just look for the same name suite name in • if the failures match, then not related to your changes • if we have new failures, we can investigate the test failure and determine the cause lmk if it makes sense"
+1033,2025-05-23 19:05,"I had to go digging, but i _think_ this was the broken cyclic dependency test (money movement): <"
+1051,2025-05-23 19:06,Is there an easier way to compare runs than scrolling through the slack thread?
+525,2025-05-23 19:28,"other option then looking for the previous suite run? you could to go to < and choose the suite, then you can compare with previous report from the runs table"
+1051,2025-05-23 19:44,"Looks like regressions have finished running, time to dig in and look~"
+1051,2025-05-26 16:08,"I've created a spreadsheet of failed Magni tests, looks only 3 failing test suites are not ""flaky"", diving into these deeper now: <"
+1051,2025-05-26 16:19,do you have some time to sync on these findings?
+1051,2025-05-26 19:38,"I've fixed the broken test, just need to chat about the test warnings"
+1051,2025-05-27 14:32,any chance we can run the updated PR through the regressions again? I've manually tested the fix and look good on both the broken test and test warnings
+525,2025-05-27 14:34,"hey sure thing, we can try again with the same approach: once CW release is out (~ 3pm EST), we run `full regression` for your branch • post announcement • run the pipeline • collect results"
+1051,2025-05-27 20:15,"release is out! Going to run fill regression in test now, will post a eng announcement too"
+1051,2025-05-28 13:59,"I ran through the second regression suite. The broken tests are now fixed, the ones failing are the flaky ones. I think we should be good to get this thing rolling into todays release!"
+525,2025-05-28 14:01,"this is great news ! very excited to see this being deployed • should we do this before 11am EST, when we run another round of tests • should we have a PR ready (with approvals), just in case we need to revert? but gtg from my pov. thanks for the work and the constant updates!"
+1051,2025-05-28 14:04,yeah I'll have a revert up and ready! I think we should aim for before 11EST! working on reviews atm!
+1051,2025-05-28 14:44,React 17 PR is merged
+1051,2025-05-28 14:44,Revert PR is ready and stamped: <
+1051,2025-05-28 14:45,Going to put together an announcement for eng in preparation of the release cc
+1033,2025-05-28 14:45,I was just about to ask!
+568,2025-05-28 17:32,it looks like react-17 doesn't like `onClick={someCondition && () => {})` you might see a ton of new sentry errors like `b.apply is not a function` or `func.apply is not a function`
+568,2025-05-28 17:32,`llc-ui` does it in ~15 places. and I are fixing it now
+1051,2025-05-28 17:34,Cheers! is this breaking the user experience or just creating noise?
+568,2025-05-28 17:35,we're not sure yet - it's showing up in a storybook test
+1051,2025-05-28 17:36,"it's live in test at the moment, do you have a link to your experience where this implementation is present?"
+568,2025-05-28 17:37,testing it now… it looks to only affect Waterfall Modeling <
+568,2025-05-28 17:39,looking good in TEST. we'll monitor sentry and replace the bad code
+1051,2025-05-28 17:40,"awesome, if you're able to tag me in the PR, I'll see if I can find similar patterns in carta-web/fep/FA !"
+1033,2025-05-28 22:32,<!subteam^S036D8U51TN|@on_call_frontendplatform> can i get someone to help with a FA escalation?
+568,2025-05-29 15:25,can we help with any of the react cleanup/`onclick` migration work?
+1051,2025-05-29 15:40,"Thanks Perry! So I do have the two fixes that address the broken fund-admin experience which you've seen! I did also remove the obvious `onClick={param () = {}}` occurences in carta-frontend-platform, carta-web and fund-admin. My plan is to push this to test again after the next release and work with fund-admin QA to ensure the fixes are valid and there is nothing else we missed."
+1051,2025-05-29 15:41,Did you find any other issues in the LLC codebase apart from the noisy `onClick` change?
+1051,2025-05-29 15:44,React 17 Testing 2.0
+1051,2025-05-29 15:46,"cc and We have two fixes for the issues that appeared in production fund-admin yesterday: • < • < These were the only reported issues and the cause of the rollback. Once in, I would like to run the regressions again and have some manual QA over the fund-admin codebase to ensure areas that are not covered by Magni tests are all good! Any thoughts here ?"
+1033,2025-05-29 15:57,"I wonder if we can get FEFA or some engineers to help us cover any areas where we’re using UI-kit, rather than follow manual test plans. What do you think?"
+525,2025-05-29 16:11,thanks ! areas where we’re using UI-kit can we map the code to URL or pages we want to manually check? this way the exploratory checks can be focus on the affected areas vs a broader approach that can possibly miss affected pages
+525,2025-05-29 16:12,"can get FEFA or some engineers to help us cover any areas additionally, we can also ask one of our QA analysts to help smoke test the changes."
+525,2025-05-29 16:14,"how do you want to plan this? get CW React 17 branch deployed to `test` , as well as FA PRs? • will the FA PRs be merged to master, prior to the CW full pipeline job? • FA has continuous CI/CD, so if you are not deploying master, any PR will be over-written with next FA release and deployment to `test`"
+1051,2025-05-29 16:16,"To give exact page urls is very difficult and manual unfortunately, I can give component names that use these uikit components but finding them will be very manual. The two fixes for fund-admin have already been merged, they are React 16 backwards compatible and will be deployed to all environments on next FA release. Our testing will just be the same as before with a single carta-web PR!"
+1033,2025-05-29 16:17,CC: - is there a way to leverage ink usage scripts to identify a specific pattern for ui-kit? A shot in the dark but it may help us identify the views for FA engineers to correlate to pages
+1051,2025-05-29 16:22,"The two bugs we found for reference: 1. *Broken cworld submit button in a single experience* This was a single line bug specific to a single component. The bug was already present just hidden, React 17 surfaced it. I've done a check for other occurrences of this pattern but looks to be one off. *2. Broken actions dropdown* This is the actions dropdown that belongs to the deprecated ""Ledger"" component. Inside I found a rogue `event.stopPropogation` which was prevent the dropdown from being clicked on. This was the exact same problem carta-web had that we discovered via Magni test. I've searched for additional occurrences and confirmed that it was the sole perporator. For testing it makes sense to test: • 1. the cworld submit action • 2. the deprecated `Ledger` component on a few pages, all functionality (actions, filtering, etc)"
+1051,2025-05-29 16:24,"But it's apparent we do have a gap with our test coverage, so would be beneficial for someone familiar with fund-admin to give it a good sweep and smoke test."
+568,2025-05-29 16:26,"none so far on LLC side, but TBH our user traffic is pretty low if the MF react bridge is working, we can opt-in/deploy all LLC UI apps to react-17 and monitor for issues"
+568,2025-05-29 16:26,"i.e., merge deploy <"
+1051,2025-05-29 16:29,"The bridge does work, but has two caveats: • every entry point needs to be wrapped in `createBridgeComponent` • the react-router-dom context is no longer passed through to the remote component, if you are relying on any `useParams` or similar from the host it won't be present. We pass these as `farsMetadata` props now so that can be referenced there instead! With the fund-admin fixes in we do plan to do another testing session today/tomorrow and aim for a monday release. It may be less friction now to wait for then? Worst case if it gets delayed I can assist with the bridging!"
+568,2025-05-29 16:29,"FA is so fragmented, it'll be tough for find a single person for but maybe FA on-call EM can gather the right folks"
+1033,2025-05-29 16:29,"I agree. I think we’ve done as much as we can leveraging our own testing, QA, etc - but it feels like we’re going to need more collaboration with FA to make sure nothing slips through the cracks, given the surface area, legacy code, and potential gaps in automated testing"
+1031,2025-05-29 16:30,potentially -- what kinda code are we looking for?
+1051,2025-05-29 16:30,"For reference, flipperUi has been using bridged React 17 for a month now: < ```import { createBridgeComponent } from '@module-federation/bridge-react'; import App from './App'; export default createBridgeComponent({ rootComponent: App, });```"
+568,2025-05-29 16:31,i'll start a thread in for manual validation
+1051,2025-05-29 16:33,"React 17 changes where the event listeners are attached (for the better), but this now means they affected nested Bootstrap components. Only issue I found so far was a React `onClick={event => event.stopPropogation}` event was preventing clicks on a nested bootstrap dropdown. You'd expect this to be the case, but in React 16 this event does not affect the nested bootstrap component. Fix PR: < cc"
+568,2025-05-29 16:46,< for FA testing
+568,2025-05-29 16:53,"if we can get FA fixed before i add the wrapper to LLC apps then , but i'm worried that FA validation is going to drag out dying to start moving to react-18 / react-query v5"
+1031,2025-05-29 16:58,I wrote this a couple of years back to keep an eye on the knockout views in Carta-Web (< it might be useful in this case; <
+1914,2025-06-06 20:48,Hey everyone! Just checking FAX - CWorld - Client Context and there are issues with 500 errors on the Testbox. Is this related to some service not being enabled? < cc
+1914,2025-06-06 20:59,Looks like the SOI Export isn't generating on the Test box. < Where should I file a ticket?
+1051,2025-06-06 21:14,Maybe try this one: <
+1914,2025-06-06 21:18,Is that a new Test box?
+1051,2025-06-06 21:19,For any failures we should push this react 17 branch to actual test environment after a release. Run the magni suites and manually test the failed items. This way we can rule out flakey box stuff and make tickets to fix the real failures!
+1914,2025-06-06 21:19,"Looks like the Funds are not loading now. Not seeing an error in the Network tab, but this is what is showing. <"
+1051,2025-06-06 21:19,Yeah that’s a new one with some additional services !
+1051,2025-06-06 21:20,Might be a missing service still ! If we can’t figure out which and enable I think we should test this on actual test after release
+1914,2025-06-06 21:20,This is for viewing the main Funds in the Investment Firm. This was working on v2
+1914,2025-06-06 21:22,Gotcha. Sounds good
+1051,2025-06-06 21:24,Hmm yeah it’s the same branch of carta-web. Let me compare the services enabled. I may have accidentally dropped one when adding the new ones. For now if you want to mark these ones and we can come back to Monday with a fresh box !
+1914,2025-06-06 21:24,Sounds good!
+1051,2025-06-09 14:08,does anyone from fund-admin know what services should be enabled for the following page to work: < ?
+524,2025-06-09 14:11,"this page specifically doesn't require any special services, but I think generally FA may need KYC, Address Service and Payments . You should take a look pod logs to see what is causing this"
+1914,2025-06-09 23:19,"For LLC, are all the document services on? I'm running into issues with the Documents upload/generation to the 83b, Library, and Data Room. I also can't export the data room. This is on the < Should we wait until the move to Test or can the testbox be updated?"
+568,2025-06-10 01:13,i think it's ok to wait for moving to Test in this case. Carlton's provided us with an escape hatch if we discover anything wrong and need to roll back to react-16
+1051,2025-06-10 13:59,"I'd like to push the changes to test after todays release to give us a chance to test these failed cases and run fund admin automated regressions, thoughts here?"
+525,2025-06-10 14:02,"i think that works, once the release is out (hopefully without any major hiccups), I can let you know and we can deploy react17 branch to `test` to run full regression"
+1914,2025-06-10 16:38,That sounds good. I'm almost done with LLC. Should only be another hour or so
+1914,2025-06-10 18:02,Done with LLC
+1632,2025-06-10 21:15,"Hey folks, so is now taking his sabbatical. I will be your liaison here. Today release is running too late. Tomorrow, hoping for a early release, and we can update shared test + make an announcement, and verify the above issues are solved. <"
+1632,2025-06-11 18:04,"< Release in running now, hopefully, that it finishes successfully and on time, then we will update shared test environment with this branch: < The following should then be tested: • Carta-web automated Magni tests • Fund-admin automated Magni tests Any manual tests that failed in the QA < cc:"
+1632,2025-06-11 20:09,< Updating Test Cluster to the React 17 Carta-web branch
+1632,2025-06-11 20:19,"Sorry for massive ping, but Shared Test has been updated. While we are running the automated tests, could some of you verify the 12 failed user journeys <"
+1914,2025-06-11 20:20,Looking now
+1914,2025-06-11 20:20,Is LLC also pushed to Test?
+1632,2025-06-11 20:21,"Yes. LLC will be using whatever react version the host has, which is React 17. cc:"
+568,2025-06-11 20:24,lemme know which ones i can help with
+1914,2025-06-11 20:25,The broken areas were Documents and Anvil. So we need to check that out
+568,2025-06-11 20:26,i'll check anvil manually
+568,2025-06-11 20:38,"just in case: noticing this weird button in < ```register/?next=/llc/interests/22318ce0-9d30-4c40-bd91-265fad1c0258/accept/?llc_interest_token=94c7485ae0184c36a6781b313752065b:489 Uncaught ReferenceError: False is not defined at register/?next=/llc/interests/22318ce0-9d30-4c40-bd91-265fad1c0258/accept/?llc_interest_token=94c7485ae0184c36a6781b313752065b21 at e.Uc (homepage-3e018a5adc57ceba921c4b723a23ac394edfbcb0.js5759) at < (homepage-3e018a5adc57ceba921c4b723a23ac394edfbcb0.js5523) at e.U (homepage-3e018a5adc57ceba921c4b723a23ac394edfbcb0.js5350) at a.m.a.B (homepage-3e018a5adc57ceba921c4b723a23ac394edfbcb0.js4350) at register/?next=/llc/interests/22318ce0-9d30-4c40-bd91-265fad1c0258/accept/?llc_interest_token=94c7485ae0184c36a6781b313752065b38 at register/?next=/llc/interests/22318ce0-9d30-4c40-bd91-265fad1c0258/accept/?llc_interest_token=94c7485ae0184c36a6781b313752065b11``` in this…knockout code? ``` mainEmailIsValid: ko.computed(function () { return False; }), extraEmailIsValid: ko.computed(function () { return False; }),```"
+568,2025-06-11 20:41,from… < lemme forward to
+568,2025-06-11 20:52,"anvil works, but did notice a small UI bug where the bottom of words are clipped"
+568,2025-06-11 21:15,"i need help testing GL and Allocations, but otherwise FA upmarket pages"
+1914,2025-06-11 21:36,< Looks like this is also happening in Demo. Wonder if it is not React 17 related? Probably should look at fixing though. Would that be an LLC fix?
+1914,2025-06-11 21:39,LLC is looking good
+1914,2025-06-11 21:41,Checking FA now
+1914,2025-06-11 21:52,Can you check Client Context in Test?
+1424,2025-06-11 22:00,main test?
+1632,2025-06-11 23:17,"Thanks so much for your help. The spreadsheet looks mostly green, the two items that failing.. which I don't think can be related to the react upgrade. < In the automated regression tests, these were the suites that had broken or failed tests that weren't manually. The best way for me to check that these are running into the same failures in the next regression run on normal test releases. PORTFOLIO_INSIGHTS_UI < EQUITY_PLANS_UI < LANDING_PAGE_UI < FUND_ADMIN_UI < INVESTOR_ACCESS_UI <"
+1632,2025-06-11 23:18,I can validate the above tomorrow potentially with
+1632,2025-06-12 17:06,"So reviewed the tests this morning, the failures look fine *Automated Regression Tests:* PORTFOLIO_INSIGHTS_UI < <--- Our Run < <--- Test Run Verdict: Exactly same INVESTOR_ACCESS_UI < <-- Our Run < <--- Most recent run in shared test this morning Verdict: exactly same FUND_ADMIN_UI < <-- Our Run < <-- Most recent run in shared test this morning Verdict: same tests that failed on our run failed on recent run EQUITY_PLANS_UI < <-- Unable to find session with id? < <-- Run on namespace deploy Verdict: Reran that test in the namespace deploy and it passed, fine LANDING_PAGE_UI < <-- Unable to find session with id? < <-- Most recent run in shared test this morning < <-- test on namespace deploy, same error as the shared test run. Verdict: Should be ok, namespace deploy of changes had same error as shared test this morning *QA Testing Spreadsheet:* < Two items that are failing, are we safe to assume that these are not related to the frontend?"
+1632,2025-06-12 17:19,"Hey folks, as I draft up the release plan for this, do you feel confident in the above testing?"
+76,2025-06-12 17:20,"I can definitely take a closer look, but I will need some extra time due to some other ongoing tasks I have right now, is that okay?"
+1632,2025-06-12 17:20,Sure no worries
+1632,2025-06-12 20:51,"Hey Lucas, so those above tests that failed yesterday in shared test, I checked the same tests on the regression run this morning and also reran two of the suites on the shared test box. I'm seeing the same behaviour so I assume we are ok."
+76,2025-06-12 21:07,"Thanks I think so too. what do you say? TL/DR I helped Ather review the failures of the React upgrade run yesterday, but they seem to have just been flaky tests and now caused by the upgrade, cause we observed those same flaky tests on other executions without the react upgrade branch"
+525,2025-06-12 21:11,"cause we observed those same flaky tests on other executions without the react upgrade branch this sounds like we did not see additional failures when running the react 17 upgrade, other then the same failures we had during regular `full regression` runs. all good from my pov"
+1632,2025-06-18 18:07,"Hey y'all! Just an update. • So we will be giving out official comms on on engineering channels soon • We are planning to release React 17 to carta-web and thus all remote apps that load into carta-web next *Wednesday June 25th* ◦ *Recall that if your app loads into carta-web, it will use the version of react that carta-web uses.* Here is the Method of Procedure for the update. *< *There is no action required on anyone's part, but just giving a premature heads up as this is a big release.* We will then follow this up with updates to Fund-Admin, Carta-frontend-platform, and LLC-UI to react 17 which will make sure local development is also done on React 17."
+1605,2025-06-23 17:00,what is the status of react 17 deployment to test? Please let us know when the changes are live in this env. We need to retest some flows that had failed in dev box. Thanks!
+1632,2025-06-23 17:03,"Hey, the last release was Wednesday last week. Going to wait until today's release is finished, branch off that, and do a deployment to the shared test again after."
+1632,2025-06-23 19:39,Release is running late. I can wait till today's release and then set one up tomorrow morning at 9am and kick it off in shared test.
+1605,2025-06-23 21:32,Sounds good!
+1632,2025-06-23 21:42,"I've rebased my PR, will release to shared test tomorrow morning when I wake up! should be done soon"
+1605,2025-06-23 21:43,Thank you !
+1632,2025-06-24 13:15,Starting Release now
+1632,2025-06-24 13:24,Starting the Hotfix upgrade now in all environments other than Prod now.
+1632,2025-06-24 13:58,Shared Test is updated with the Hotfix branch
+1632,2025-06-24 15:26,"And it got overwritten by the scheduled 11am test release. Other environments other than prod have been updated to react 17 edit: it switched back after the scheduled 11am test release, after regression tests ran"
+525,2025-06-24 15:43,"to be more precise, the over-write only lasted a few minutes (while the full regression started and until `test` was upgraded to react tag), but `test` has your < 17> changes"
+525,2025-06-24 15:44,and it will stay like that until the 2pm EST scheduled release...
+1632,2025-06-24 15:44,"Oh! It switches back, I didn't know that. Thank you, that is useful"
+1632,2025-06-24 19:42,Release is going back to normal scheduled release. Did you get a chance to test and have confidence
+1605,2025-06-24 19:46,"Yes, all good. I re-tested the FA docs flows that had failed before and they passed in test. The team has also done all re-tests"
+1632,2025-06-24 20:03,"Sweet, we are going to attempt a full release tomorrow."
+525,2025-06-24 22:23,"I'm starting my PTO tomorrow. The release went good today and the two of us sync'ed in DMs, but i think you have all you need for to run the release early in the AM. <!subteam^S035L1WGFQA|@on_call_shipper> is aware of the schedule tomorrow and on high alert and will jump to with anything."
+1632,2025-06-25 00:14,"Thanks Alex, enjoy your PTO"
+1632,2025-06-27 20:11,"As a quick follow up, going to be upgrading remote app repositories (fund-admin / carta-frontend-platform) to react 17 so that local dev matches what is being used in prod. • if you load into carta-web (or load into an app that loads into carta-web.. and so on), you are using React 17 regardless even if your app was shipped with React 16 • If you load your app into a host app that is on React 16, it will use React 16. • So essentially, all apps are already compatible with 16 and 17 host apps. • The upgrade to React 16- 17 has almost no developer facing differences, errors that we saw were mainly due to non-react code coupled to behaviour on the dom level that react 16 was doing. • Once we get everyone to React 17, then apps can migrate to React 18 on their own, and you can load React 18 into React 17 because 17 is forwards compatible."
+1632,2025-07-07 18:35,"Hey y'all, so we almost done We are updating < right now.> this is just the dev environment update. There are some edge repositories that are on the older React Version. I will be following up on these soon. If you recognize some of these repos, and can update the react version to 17 I will be forever grateful < < < < <"
+524,2025-07-08 22:41,You do t have to do w thing in puma. That product is decommissioned and can be left alone
+1632,2025-07-10 18:03,"Hey going to close this channel next week - we are on React 17 on all the main repos, remote apps, and platform libraries. There are some edge repos that are still 16 but it's on them to upgrade. We have this on our next steps • Likely be doing some perf improvements that we get with Module Federation 2 • Experimenting with loading React 18 components into React 17, and providing guides on how this is done, and scoping that whole upgrade Cheers"
+1632,2025-07-11 20:29,"Going to just rename this, and re use this for react 18 and I'm lazy. We are still in scoping phase. But for now, We need to get enzyme out of carta in favour of the react testing library. There isn't many uses, but we know that Enzyme is dead in React 18. The fep team will attempt to get rid of enzyme, and if not, reach out to teams carta-web < monorepo <"
+1605,2025-07-11 22:05,tagging you for awareness ˆ
+1033,2025-07-15 19:48,"Hi folks! I want to give a quick status update and make sure we're aligned here on the state of the React 17 upgrade. *Major Repos migrated:* • Carta-Web • Frontend-monorepo • Fund-admin • < - release can benefit from testing from QA -- although i think it's safe enough to skip if agrees. CC: *Edge Repositories* *that need to be migrated:* • Carta-payments-frontend ( ; ) • ~iam-portal~ carta-login* (; ) *Edge Repos that we are not planning to migrate:* • storybook-react-template • puma-participate-front-end can the folks tagged in ""Edge repos that need to be migrated"" provide a timeline to scheduling the upgrade? That way, we can schedule a lightweight testing session with QA if necessary to releaser. The react 17 upgrade *should* be a noop, as there are low breaking changes between React 16 and React 17."
+1156,2025-07-15 19:57,Next week sometime works for me
+552,2025-07-15 20:08,< - this was merged last week FYi
+1632,2025-07-15 20:12,"woops, carta-login** not iam-portal"
+496,2025-07-15 20:58,we are in the process of QA'ing the changes and deploying thereafter
+1033,2025-07-15 20:58,Got it. Do you need additional assistance to QA your app?
+496,2025-07-15 20:58,Don't think so! We are good
+1072,2025-07-15 21:37,"created < for IAM, we can pick this up in a couple weeks"
