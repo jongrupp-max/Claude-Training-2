@@ -4,6 +4,7 @@ Compress Slack channel exports to human-content-only JSON.
 Strips bots, system messages, blocks, attachments, image URLs, and Slack markup.
 """
 
+import csv
 import json
 import re
 import zipfile
@@ -41,7 +42,7 @@ def clean_text(text: str) -> str:
 
 
 def ts_to_dt(ts: str) -> str:
-    return datetime.fromtimestamp(float(ts), tz=timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+    return datetime.fromtimestamp(float(ts), tz=timezone.utc).strftime("%m-%d %H:%M")
 
 
 def extract_message(msg: dict) -> dict | None:
@@ -80,10 +81,9 @@ def extract_message(msg: dict) -> dict | None:
     # Include reactions if present (human signal)
     reactions = msg.get("reactions")
     if reactions:
-        out["reactions"] = [
-            {"emoji": r["name"], "count": r["count"]}
-            for r in reactions
-        ]
+        out["reactions"] = " ".join(
+            f"{r['name']}x{r['count']}" for r in reactions
+        )
 
     return out
 
@@ -114,9 +114,15 @@ def main():
     for zip_path, channel in ZIPS:
         print(f"Processing #{channel}...")
         messages = process_zip(zip_path, channel)
-        out_path = OUTPUT_DIR / f"{channel}.json"
-        with open(out_path, "w", encoding="utf-8") as f:
-            json.dump(messages, f, indent=2, ensure_ascii=False)
+        out_path = OUTPUT_DIR / f"{channel}.csv"
+        with open(out_path, "w", encoding="utf-8", newline="") as f:
+            writer = csv.DictWriter(
+                f,
+                fieldnames=["ts", "user", "text", "is_reply", "reactions"],
+                extrasaction="ignore",
+            )
+            writer.writeheader()
+            writer.writerows(messages)
 
         zip_size = Path(zip_path).stat().st_size
         out_size = out_path.stat().st_size
