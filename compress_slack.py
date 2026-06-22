@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
-Compress Slack channel exports to human-content-only JSON.
+Compress Slack channel exports to human-content-only CSV.
 Strips bots, system messages, blocks, attachments, image URLs, and Slack markup.
+Outputs per-channel CSVs with short user IDs plus a shared users legend.
 """
 
 import csv
@@ -29,14 +30,10 @@ SKIP_SUBTYPES = {
 
 def clean_text(text: str) -> str:
     """Convert Slack mrkdwn markup to plain readable text."""
-    # <http://url|label> or <http://url> -> label or url
     text = re.sub(r"<(https?://[^|>]+)\|([^>]+)>", r"\2", text)
     text = re.sub(r"<(https?://[^>]+)>", r"[link]", text)
-    # <@USERID> -> @user
     text = re.sub(r"<@[A-Z0-9]+>", "@user", text)
-    # <!channel>, <!here>, <!everyone>
     text = re.sub(r"<!(\w+)>", r"@\1", text)
-    # <#CHANNELID|name> -> #name
     text = re.sub(r"<#[A-Z0-9]+\|([^>]+)>", r"#\1", text)
     return text.strip()
 
@@ -46,16 +43,13 @@ def ts_to_dt(ts: str) -> str:
 
 
 def extract_message(msg: dict) -> dict | None:
-    # Skip system/bot subtypes
     subtype = msg.get("subtype", "")
     if subtype in SKIP_SUBTYPES:
         return None
 
-    # Skip bot messages
     if msg.get("bot_id") or msg.get("username") == "Slackbot":
         return None
 
-    # Must have a real user
     user_profile = msg.get("user_profile", {})
     user_name = (
         user_profile.get("display_name")
@@ -67,25 +61,11 @@ def extract_message(msg: dict) -> dict | None:
     if not text:
         return None
 
-    ts = msg.get("ts", "")
-    thread_ts = msg.get("thread_ts")
-
-    out = {
-        "ts": ts_to_dt(ts),
+    return {
+        "ts": ts_to_dt(msg.get("ts", "")),
         "user": user_name,
         "text": text,
     }
-    if thread_ts and thread_ts != ts:
-        out["is_reply"] = True
-
-    # Include reactions if present (human signal)
-    reactions = msg.get("reactions")
-    if reactions:
-        out["reactions"] = " ".join(
-            f"{r['name']}x{r['count']}" for r in reactions
-        )
-
-    return out
 
 
 def process_zip(zip_path: str, channel: str) -> list:
@@ -104,29 +84,54 @@ def process_zip(zip_path: str, channel: str) -> list:
                     if extracted:
                         messages.append(extracted)
 
-    # Sort chronologically
     messages.sort(key=lambda m: m["ts"])
     return messages
 
 
+def build_user_legend(all_messages: list[list]) -> dict:
+    """Assign a short ID (U01, U02, ...) to each unique username across all channels."""
+    seen = {}
+    for messages in all_messages:
+        for msg in messages:
+            name = msg["user"]
+            if name not in seen:
+                seen[name] = f"U{len(seen)+1:02d}"
+    return seen  # name -> short_id
+
+
 def main():
     OUTPUT_DIR.mkdir(exist_ok=True)
+
+    # First pass: collect all messages
+    all_messages = []
     for zip_path, channel in ZIPS:
         print(f"Processing #{channel}...")
-        messages = process_zip(zip_path, channel)
+        all_messages.append(process_zip(zip_path, channel))
+
+    # Build cross-channel user legend
+    legend = build_user_legend(all_messages)
+
+    # Write legend CSV
+    legend_path = OUTPUT_DIR / "users.csv"
+    with open(legend_path, "w", encoding="utf-8", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(["id", "name"])
+        for name, uid in sorted(legend.items(), key=lambda x: x[1]):
+            writer.writerow([uid, name])
+    print(f"\nUser legend: {len(legend)} users -> {legend_path}")
+
+    # Write per-channel CSVs with short user IDs
+    for (zip_path, channel), messages in zip(ZIPS, all_messages):
         out_path = OUTPUT_DIR / f"{channel}.csv"
         with open(out_path, "w", encoding="utf-8", newline="") as f:
-            writer = csv.DictWriter(
-                f,
-                fieldnames=["ts", "user", "text", "is_reply", "reactions"],
-                extrasaction="ignore",
-            )
-            writer.writeheader()
-            writer.writerows(messages)
+            writer = csv.writer(f)
+            writer.writerow(["ts", "uid", "text"])
+            for msg in messages:
+                writer.writerow([msg["ts"], legend[msg["user"]], msg["text"]])
 
         zip_size = Path(zip_path).stat().st_size
         out_size = out_path.stat().st_size
-        print(f"  {len(messages)} messages | {zip_size//1024}KB -> {out_size//1024}KB ({100*out_size//zip_size}% of original)")
+        print(f"  #{channel}: {len(messages)} messages | {zip_size//1024}KB -> {out_size//1024}KB ({100*out_size//zip_size}% of original)")
 
     print("\nDone. Results in ./compressed/")
 
