@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en" data-palette="#2a78d6,#1baf7a,#eda100,#008300,#4a3aa7,#e34948">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revenue & Collections Report — Carta CRM · July 2026</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+/* ── Design tokens ─────────────────────────────────────────────────── */
+:root {
+  --surface-1:      #fcfcfb;
+  --surface-2:      #f4f3f0;
+  --page:           #f0efec;
+  --text-1:         #0b0b0b;
+  --text-2:         #52514e;
+  --text-muted:     #898781;
+  --gridline:       #e1e0d9;
+  --baseline:       #c3c2b7;
+  --border:         rgba(11,11,11,0.10);
+  /* categorical — slot 1 drives all single-series bars (nominal → same slot) */
+  --s1: #2a78d6;   /* blue */
+  --s2: #1baf7a;   /* aqua */
+  --s3: #eda100;   /* yellow */
+  --s4: #008300;   /* green */
+  --s5: #4a3aa7;   /* violet */
+  --s6: #e34948;   /* red */
+  /* status */
+  --good:     #0ca30c;
+  --warning:  #fab219;
+  --serious:  #ec835a;
+  --critical: #d03b3b;
+  /* sequential blue steps for ordinal bars */
+  --b100:#cde2fb; --b200:#9ec5f4; --b300:#6da7ec;
+  --b400:#3987e5; --b500:#256abf; --b600:#184f95; --b700:#0d366b;
+}
+
+/* ── Reset & base ───────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--page);
+  color: var(--text-1);
+  font-size: 14px;
+  line-height: 1.5;
+}
+a { color: var(--s1); }
+
+/* ── Layout ─────────────────────────────────────────────────────────── */
+.page-wrap  { max-width: 1080px; margin: 0 auto; padding: 40px 24px 80px; }
+.card       { background: var(--surface-1); border-radius: 12px; padding: 28px 32px;
+               box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 0 0 1px var(--border); }
+.grid-2     { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.grid-3     { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+.grid-4     { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.grid-5     { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.gap-20     { gap: 20px; }
+.mt-20      { margin-top: 20px; }
+.mt-28      { margin-top: 28px; }
+.mt-40      { margin-top: 40px; }
+.mb-6       { margin-bottom: 6px; }
+.mb-12      { margin-bottom: 12px; }
+.mb-20      { margin-bottom: 20px; }
+
+/* ── Report header ──────────────────────────────────────────────────── */
+.report-header {
+  background: var(--surface-1);
+  border-radius: 12px;
+  padding: 36px 40px 32px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 0 0 1px var(--border);
+  margin-bottom: 28px;
+  border-top: 4px solid var(--s1);
+}
+.report-eyebrow {
+  font-size: 11px; font-weight: 600; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px;
+}
+.report-title  { font-size: 28px; font-weight: 700; color: var(--text-1); margin-bottom: 6px; }
+.report-sub    { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
+.report-divider { height: 1px; background: var(--gridline); margin-bottom: 20px; }
+.exec-summary  { font-size: 15px; line-height: 1.7; color: var(--text-2); max-width: 820px; }
+
+/* ── Section titles ─────────────────────────────────────────────────── */
+.section-header { margin-bottom: 20px; }
+.section-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px;
+}
+.section-title  { font-size: 20px; font-weight: 700; color: var(--text-1); }
+.section-commentary {
+  margin-top: 10px; font-size: 13px; line-height: 1.65;
+  color: var(--text-2); max-width: 740px;
+}
+
+/* ── Stat tiles ─────────────────────────────────────────────────────── */
+.stat { padding: 20px 22px; }
+.stat-label { font-size: 11px; font-weight: 600; letter-spacing: 0.7px;
+  text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
+.stat-value { font-size: 28px; font-weight: 700; color: var(--text-1); }
+.stat-detail { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+.stat-delta  { font-size: 12px; font-weight: 600; margin-top: 4px; }
+.stat-delta.good { color: var(--good); }
+.stat-delta.warn { color: var(--critical); }
+
+/* ── Bar charts (custom CSS) ────────────────────────────────────────── */
+.bar-list    { display: flex; flex-direction: column; gap: 10px; }
+.bar-row     { display: flex; align-items: center; gap: 10px; }
+.bar-label   { font-size: 12px; color: var(--text-2); width: 164px; flex-shrink: 0;
+  text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bar-track   { flex: 1; background: var(--surface-2); border-radius: 0 4px 4px 0;
+  height: 20px; position: relative; }
+.bar-fill    { height: 100%; border-radius: 0 4px 4px 0; position: relative;
+  min-width: 2px; }
+.bar-end-label {
+  position: absolute; left: calc(100% + 7px); top: 50%; transform: translateY(-50%);
+  font-size: 11px; font-weight: 600; color: var(--text-2); white-space: nowrap;
+}
+.bar-row.ordinal .bar-fill { border-radius: 0 4px 4px 0; }
+
+/* ── Chart canvas wrappers ──────────────────────────────────────────── */
+.chart-wrap  { position: relative; }
+
+/* ── Card sub-titles ────────────────────────────────────────────────── */
+.card-title  {
+  font-size: 13px; font-weight: 600; color: var(--text-2);
+  text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px;
+}
+.card-divider { height: 1px; background: var(--gridline); margin: 20px 0; }
+
+/* ── Insight callouts ───────────────────────────────────────────────── */
+.insight { border-radius: 6px; padding: 12px 16px; font-size: 13px;
+  line-height: 1.55; display: flex; gap: 10px; align-items: flex-start; }
+.insight + .insight { margin-top: 10px; }
+.insight-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+.insight-text strong { font-weight: 600; }
+.insight.positive { background: #edf7ee; color: #1a4d1c; }
+.insight.caution  { background: #fef8e7; color: #5c3d00; }
+.insight.alert    { background: #fdf1f1; color: #6b1212; }
+.insight.info     { background: #eef4fd; color: #1a3a6b; }
+
+/* ── Table ──────────────────────────────────────────────────────────── */
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead th {
+  background: var(--surface-2); color: var(--text-muted);
+  font-size: 11px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;
+  padding: 9px 14px; text-align: left;
+}
+thead th.num { text-align: right; }
+tbody td { padding: 9px 14px; border-bottom: 1px solid var(--gridline); color: var(--text-2); }
+tbody tr:last-child td { border-bottom: none; }
+tbody td.num { text-align: right; font-variant-numeric: tabular-nums; }
+tbody tr:hover td { background: var(--surface-2); }
+.badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600;
+}
+.badge-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── Invoice status cards ───────────────────────────────────────────── */
+.inv-status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.inv-card        { border-radius: 8px; padding: 18px 20px; }
+.inv-card-label  { font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.8px; margin-bottom: 8px; }
+.inv-card-amount { font-size: 24px; font-weight: 700; color: var(--text-1); }
+.inv-card-count  { font-size: 12px; margin-top: 4px; }
+.inv-card.paid        { background: #edf7ee; }
+.inv-card.paid .inv-card-label   { color: #1a4d1c; }
+.inv-card.paid .inv-card-count   { color: #2e7d32; }
+.inv-card.posted      { background: #eef4fd; }
+.inv-card.posted .inv-card-label { color: #1a3a6b; }
+.inv-card.posted .inv-card-count { color: #1565c0; }
+.inv-card.draft       { background: #fef8e7; }
+.inv-card.draft .inv-card-label  { color: #5c3d00; }
+.inv-card.draft .inv-card-count  { color: #e65100; }
+.inv-card.cancelled   { background: #fdf1f1; }
+.inv-card.cancelled .inv-card-label { color: #6b1212; }
+.inv-card.cancelled .inv-card-count { color: #b71c1c; }
+
+/* ── Key Takeaways ──────────────────────────────────────────────────── */
+.takeaways-card { background: var(--s1); color: #fff; border-radius: 12px;
+  padding: 32px 36px; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+.takeaways-title { font-size: 16px; font-weight: 700; margin-bottom: 20px;
+  opacity: 0.85; text-transform: uppercase; letter-spacing: 0.8px; font-size: 12px; }
+.takeaway-list { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+.takeaway-list li {
+  display: flex; gap: 14px; align-items: flex-start;
+  font-size: 14px; line-height: 1.6;
+}
+.ta-num {
+  flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%;
+  background: rgba(255,255,255,0.2); display: flex; align-items: center;
+  justify-content: center; font-size: 12px; font-weight: 700; margin-top: 1px;
+}
+.ta-text strong { font-weight: 700; }
+
+/* ── Tooltip (custom) ───────────────────────────────────────────────── */
+.chart-tooltip {
+  position: absolute; background: var(--text-1); color: #fff;
+  border-radius: 6px; padding: 8px 12px; font-size: 12px; pointer-events: none;
+  white-space: nowrap; opacity: 0; transition: opacity 0.1s; z-index: 10;
+}
+
+/* ── Footnote ───────────────────────────────────────────────────────── */
+.footnote { font-size: 11px; color: var(--text-muted); margin-top: 32px;
+  padding-top: 16px; border-top: 1px solid var(--gridline); }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     REPORT HEADER
+═════════════════════════════════════════════════════════════════════ -->
+<div class="report-header">
+  <div class="report-eyebrow">Carta · CRM Data Analysis · Confidential</div>
+  <div class="report-title">Revenue &amp; Collections Report</div>
+  <div class="report-sub">PROD_DB.CLAUDE_TRAINING_SALESFORCE &nbsp;·&nbsp; 12 months ending July 13, 2026 &nbsp;·&nbsp; Prepared July 13, 2026</div>
+  <div class="report-divider"></div>
+  <div class="exec-summary">
+    Carta's sales motion is performing well: the business closed <strong>$20.1M</strong> in revenue over the past 12 months at an <strong>88.6% win rate</strong>, with a healthy <strong>$56M open pipeline</strong> and $18.3M in late-stage deals ready to convert. Cap Table leads ARR by volume while Fund Admin and Fund Tax carry the highest per-deal values—a duality that should inform where capacity is invested. Collections present a mixed picture: 80% of invoiced revenue has been collected, but <strong>$4.3M in cancellations</strong> and <strong>$2.2M in slow-moving open AR</strong> warrant active follow-up to protect the revenue already won.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     SECTION 1 — PIPELINE HEALTH
+═════════════════════════════════════════════════════════════════════ -->
+<div class="mt-40">
+  <div class="section-header card" style="padding:24px 32px 20px">
+    <div class="section-label">Section 1 of 3</div>
+    <div class="section-title">Sales Pipeline Health</div>
+    <div class="section-commentary">
+      The pipeline is both active and selective. An 88.6% win rate on 255 closed opportunities (226 won, 29 lost) points to a well-qualified funnel — reps are working the right deals. The $56M open pipeline provides strong forward coverage, with Discovery ($12.4M) and Contract Signed ($10.5M) representing the two largest stages. The primary loss driver is <em>No Decision</em> — eight deals lost not to a competitor but to organizational inertia — suggesting the biggest lever for improving win rate is coaching reps to create urgency earlier in the sales cycle, not outcompeting on price or features. Note: closed-won data is dense through November 2025; Q1 and Q2 2026 figures reflect early-closing deals only, as most opportunities with 2026 close dates remain active in the pipeline.
+    </div>
+  </div>
+</div>
+
+<!-- KPI row -->
+<div class="grid-5 mt-20">
+  <div class="card stat">
+    <div class="stat-label">Won Revenue (12mo)</div>
+    <div class="stat-value">$20.1M</div>
+    <div class="stat-detail">226 deals closed won</div>
+  </div>
+  <div class="card stat">
+    <div class="stat-label">Win Rate</div>
+    <div class="stat-value">88.6%</div>
+    <div class="stat-detail">226 won · 29 lost</div>
+  </div>
+  <div class="card stat">
+    <div class="stat-label">Open Pipeline</div>
+    <div class="stat-value">$56.2M</div>
+    <div class="stat-detail">495 active opportunities</div>
+  </div>
+  <div class="card stat">
+    <div class="stat-label">Avg Won Deal Size</div>
+    <div class="stat-value">$88.8K</div>
+    <div class="stat-detail">across 226 won deals</div>
+  </div>
+  <div class="card stat">
+    <div class="stat-label">Late-Stage Pipeline</div>
+    <div class="stat-value">$18.3M</div>
+    <div class="stat-detail">Contract Signed + Negotiation</div>
+  </div>
+</div>
+
+<div class="grid-2 mt-20">
+  <!-- Open pipeline by stage -->
+  <div class="card">
+    <div class="card-title">Open Pipeline by Stage</div>
+    <div class="bar-list" id="pipeline-bars"></div>
+  </div>
+
+  <!-- Quarterly won revenue -->
+  <div class="card">
+    <div class="card-title">Quarterly Won Revenue — Last 12 Months</div>
+    <div class="chart-wrap" style="height:200px">
+      <canvas id="quarterChart"></canvas>
+    </div>
+    <div style="margin-top:8px;font-size:11px;color:var(--text-muted)">
+      * Q1/Q2 2026 bars are lighter — most 2026-dated deals are still open pipeline; figures reflect early-close deals only.
+    </div>
+    <div class="card-divider"></div>
+    <div class="card-title">Loss Reasons (Last 12 Months)</div>
+    <div class="bar-list" id="loss-bars"></div>
+  </div>
+</div>
+
+<div class="grid-3 mt-20">
+  <div class="insight positive">
+    <div class="insight-icon">✓</div>
+    <div class="insight-text"><strong>88.6% win rate</strong> — reps are closing the right deals. High selectivity in qualification is working: 226 wins vs. just 29 losses over 12 months.</div>
+  </div>
+  <div class="insight caution">
+    <div class="insight-icon">⚠</div>
+    <div class="insight-text"><strong>No Decision is the #1 loss driver</strong> — 8 deals (more than competitors, price, or features combined). The primary fix is urgency creation and stakeholder alignment earlier in the cycle.</div>
+  </div>
+  <div class="insight info">
+    <div class="insight-icon">→</div>
+    <div class="insight-text"><strong>$18.3M in late-stage coverage</strong> in Contract Signed and Negotiation/Review. If conversion rates hold, near-term quarters have strong revenue support already in the funnel.</div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     SECTION 2 — ARR BY PRODUCT
+═════════════════════════════════════════════════════════════════════ -->
+<div class="mt-40">
+  <div class="section-header card" style="padding:24px 32px 20px">
+    <div class="section-label">Section 2 of 3</div>
+    <div class="section-title">ARR by Product &amp; Customer Type</div>
+    <div class="section-commentary">
+      Two distinct growth motions are running in parallel. The first is a high-volume, moderate-ACV motion anchored in Cap Table and 409A — sold primarily to Corporations and LLCs — that generates deal count and market penetration. The second is a high-ACV enterprise motion in Fund Admin and Fund Tax — sold to LPs, VC Firms, and PE Firms — that generates outsized revenue per deal. Fund Admin to VC Firms averages $124K ACV across 14 deals, the highest-value repeatable segment in the book. The strategic question is whether to treat these as independent sales motions or as a land-and-expand sequence: win on Cap Table, then upsell into Fund products as the customer grows.
+    </div>
+  </div>
+</div>
+
+<div class="grid-5 mt-20">
+  <div class="card stat">
+    <div class="stat-label">Total ARR (12mo)</div>
+    <div class="stat-value">$20.4M</div>
+    <div class="stat-detail">Across 8 products</div>
+  </div>
+  <div class="card stat">
+    <div class="stat-label">Cap Table ARR</div>
+    <div class="stat-value">$8.3M</div>
+    <div class="stat-detail">40% of total · 110 deals</div>
+  </div>
+  <div class="card stat">
+    <div class="stat-label">Fund Admin ARR</div>
+    <div class="stat-value">$4.6M</div>
+    <div class="stat-detail">44 deals · avg $77K ACV</div>
+  </div>
+  <div class="card stat">
+    <div class="stat-label">Highest ACV Segment</div>
+    <div class="stat-value">$169K</div>
+    <div class="stat-detail">Fund Tax · Angel/GP</div>
+  </div>
+  <div class="card stat">
+    <div class="stat-label">Fund Admin × VC ACV</div>
+    <div class="stat-value">$124K</div>
+    <div class="stat-detail">Top repeatable segment</div>
+  </div>
+</div>
+
+<div class="grid-2 mt-20">
+  <!-- Product ARR bars -->
+  <div class="card">
+    <div class="card-title">ARR by Product (Won Opps, Last 12 Months)</div>
+    <div class="bar-list" id="product-bars"></div>
+  </div>
+
+  <!-- Segment breakdown table -->
+  <div class="card">
+    <div class="card-title">ARR by Product × Customer Segment</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Customer Type</th>
+          <th class="num">Deals</th>
+          <th class="num">Total ARR</th>
+          <th class="num">Avg ACV</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Cap Table</td>
+          <td><span class="badge" style="background:#eef4fd;color:#1a3a6b"><span class="badge-dot" style="background:#2a78d6"></span>Corporation</span></td>
+          <td class="num">78</td><td class="num">$6.38M</td><td class="num">$64K</td>
+        </tr>
+        <tr>
+          <td>Fund Admin</td>
+          <td><span class="badge" style="background:#edf7ee;color:#1a4d1c"><span class="badge-dot" style="background:#1baf7a"></span>LP</span></td>
+          <td class="num">23</td><td class="num">$2.38M</td><td class="num">$85K</td>
+        </tr>
+        <tr>
+          <td>Fund Admin</td>
+          <td><span class="badge" style="background:#fef8e7;color:#5c3d00"><span class="badge-dot" style="background:#eda100"></span>VC Firm</span></td>
+          <td class="num">14</td><td class="num">$1.99M</td><td class="num"><strong>$124K</strong></td>
+        </tr>
+        <tr>
+          <td>Cap Table</td>
+          <td><span class="badge" style="background:#f5f2ff;color:#2d1f7a"><span class="badge-dot" style="background:#4a3aa7"></span>LLC</span></td>
+          <td class="num">32</td><td class="num">$1.90M</td><td class="num">$53K</td>
+        </tr>
+        <tr>
+          <td>409A</td>
+          <td><span class="badge" style="background:#eef4fd;color:#1a3a6b"><span class="badge-dot" style="background:#2a78d6"></span>Corporation</span></td>
+          <td class="num">34</td><td class="num">$1.86M</td><td class="num">$55K</td>
+        </tr>
+        <tr>
+          <td>Fund Tax</td>
+          <td><span class="badge" style="background:#edf7ee;color:#1a4d1c"><span class="badge-dot" style="background:#1baf7a"></span>LP</span></td>
+          <td class="num">15</td><td class="num">$1.59M</td><td class="num">$89K</td>
+        </tr>
+        <tr>
+          <td>QSBS</td>
+          <td><span class="badge" style="background:#eef4fd;color:#1a3a6b"><span class="badge-dot" style="background:#2a78d6"></span>Corporation</span></td>
+          <td class="num">16</td><td class="num">$962K</td><td class="num">$60K</td>
+        </tr>
+        <tr>
+          <td>Fund Tax</td>
+          <td><span class="badge" style="background:#fff3e0;color:#5c3d00"><span class="badge-dot" style="background:#eda100"></span>Angel/GP</span></td>
+          <td class="num">2</td><td class="num">$338K</td><td class="num"><strong>$169K</strong></td>
+        </tr>
+        <tr>
+          <td>Analytics</td>
+          <td><span class="badge" style="background:#fdf1f1;color:#6b1212"><span class="badge-dot" style="background:#e34948"></span>PE Firm</span></td>
+          <td class="num">1</td><td class="num">$113K</td><td class="num">$113K</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="grid-2 mt-20">
+  <div class="insight positive">
+    <div class="insight-icon">✓</div>
+    <div class="insight-text"><strong>Two motions, both healthy.</strong> Volume motion (Cap Table + 409A → Corps/LLCs) drives deal count and market coverage. Enterprise motion (Fund Admin + Fund Tax → LP/VC/PE) drives high ACVs. Neither is cannibalizing the other.</div>
+  </div>
+  <div class="insight info">
+    <div class="insight-icon">→</div>
+    <div class="insight-text"><strong>Fund Admin × VC Firms is the highest-ACV repeatable segment</strong> at $124K avg over 14 deals. This is a proven, scalable motion — dedicated capacity here likely has the highest revenue-per-rep return in the book.</div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     SECTION 3 — INVOICE COLLECTIONS
+═════════════════════════════════════════════════════════════════════ -->
+<div class="mt-40">
+  <div class="section-header card" style="padding:24px 32px 20px">
+    <div class="section-label">Section 3 of 3</div>
+    <div class="section-title">Invoice Collections</div>
+    <div class="section-commentary">
+      The overall collection rate is solid at 80% — $42.5M collected of $52.9M invoiced — but two signals require attention. First, $2.2M of open AR is aged 61–180 days and needs active outreach to prevent migration into bad debt. Second, $4.3M in cancelled invoices (8.1% of total billed) is unusually large: at this magnitude the cause matters, whether that's billing errors, contract disputes, or credit memos, each pointing to a different remediation. A positive note: there is currently zero 180+ day exposure in open (Posted) invoices — the live AR book is cleaner than historical patterns suggest it once was.
+    </div>
+  </div>
+</div>
+
+<div class="grid-5 mt-20">
+  <div class="card stat">
+    <div class="stat-label">Total Invoiced</div>
+    <div class="stat-value">$52.9M</div>
+    <div class="stat-detail">783 invoices · all statuses</div>
+  </div>
+  <div class="card stat">
+    <div class="stat-label">Collected (Paid)</div>
+    <div class="stat-value">$42.5M</div>
+    <div class="stat-detail">80.3% of total · 606 invoices</div>
+    <div class="stat-delta good">✓ Strong baseline</div>
+  </div>
+  <div class="card stat">
+    <div class="stat-label">Open AR (Posted)</div>
+    <div class="stat-value">$3.6M</div>
+    <div class="stat-detail">59 invoices pending</div>
+    <div class="stat-delta warn">$2.2M aged 61–180 days</div>
+  </div>
+  <div class="card stat">
+    <div class="stat-label">Draft (Not Posted)</div>
+    <div class="stat-value">$2.5M</div>
+    <div class="stat-detail">46 invoices · billings pending</div>
+  </div>
+  <div class="card stat">
+    <div class="stat-label">Cancelled</div>
+    <div class="stat-value">$4.3M</div>
+    <div class="stat-detail">72 invoices · 8.1% of billed</div>
+    <div class="stat-delta warn">⚠ Needs investigation</div>
+  </div>
+</div>
+
+<div class="grid-2 mt-20">
+  <!-- Invoice status breakdown -->
+  <div class="card">
+    <div class="card-title">Invoice Status Breakdown</div>
+    <div class="inv-status-grid">
+      <div class="inv-card paid">
+        <div class="inv-card-label">Paid</div>
+        <div class="inv-card-amount">$42.5M</div>
+        <div class="inv-card-count">606 invoices</div>
+      </div>
+      <div class="inv-card posted">
+        <div class="inv-card-label">Open (Posted)</div>
+        <div class="inv-card-amount">$3.6M</div>
+        <div class="inv-card-count">59 invoices</div>
+      </div>
+      <div class="inv-card draft">
+        <div class="inv-card-label">Draft</div>
+        <div class="inv-card-amount">$2.5M</div>
+        <div class="inv-card-count">46 invoices</div>
+      </div>
+      <div class="inv-card cancelled">
+        <div class="inv-card-label">Cancelled</div>
+        <div class="inv-card-amount">$4.3M</div>
+        <div class="inv-card-count">72 invoices</div>
+      </div>
+    </div>
+
+    <div class="card-divider"></div>
+    <div class="card-title">Aging of Open (Posted) AR — by Invoice Date</div>
+    <div class="bar-list" id="aging-bars"></div>
+    <div style="margin-top:10px;font-size:11px;color:var(--text-muted)">
+      Aging = days from invoice date to July 13, 2026. No open invoice is 180+ days — current AR book is clean.
+    </div>
+  </div>
+
+  <!-- Insights -->
+  <div class="card" style="display:flex;flex-direction:column;gap:0">
+    <div class="card-title">Collections Signals</div>
+    <div class="insight positive">
+      <div class="insight-icon">✓</div>
+      <div class="insight-text"><strong>No 180+ day open exposure.</strong> Every current Posted invoice is within 180 days of issue — a meaningfully cleaner AR profile than historical paid-invoice aging data suggests Carta has carried before.</div>
+    </div>
+    <div class="insight caution mt-20">
+      <div class="insight-icon">⚠</div>
+      <div class="insight-text"><strong>$2.2M in the 61–180 day bucket</strong> needs active collections outreach now. At the historical rate, some of this will eventually pay — but the window to prevent write-off is closing.</div>
+    </div>
+    <div class="insight alert mt-20">
+      <div class="insight-icon">⚑</div>
+      <div class="insight-text"><strong>$4.3M in cancellations (8.1%) is the biggest unknown.</strong> Billing errors and credit memos have different treatments than disputes or churn. Without knowing the root cause split, this number is a liability that looks like it already happened.</div>
+    </div>
+    <div class="insight positive mt-20">
+      <div class="insight-icon">✓</div>
+      <div class="insight-text"><strong>$2.5M in drafts is near-term runway.</strong> Forty-six invoices are drafted and ready to post — a concrete short-term conversion opportunity for the AR team.</div>
+    </div>
+    <div class="insight info mt-20">
+      <div class="insight-icon">→</div>
+      <div class="insight-text"><strong>Historically slow, eventually paid.</strong> The paid-invoice aging shows $32M was collected at 180+ days from invoice — suggesting the collection process has been slow but durable. The question is whether current DSO is improving.</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     KEY TAKEAWAYS
+═════════════════════════════════════════════════════════════════════ -->
+<div class="mt-40 takeaways-card">
+  <div class="takeaways-title">Key Takeaways</div>
+  <ul class="takeaway-list">
+    <li>
+      <div class="ta-num">1</div>
+      <div class="ta-text"><strong>The sales motion is working — protect the win rate, fix the "No Decision" leakage.</strong> An 88.6% win rate with $20.1M won in 12 months is strong. The only structural gap is 8 deals lost to indecision — a coaching and urgency problem, not a product or pricing problem. Addressing it could convert 2–3 additional deals per quarter at the current average deal size.</div>
+    </li>
+    <li>
+      <div class="ta-num">2</div>
+      <div class="ta-text"><strong>Fund Admin × VC Firms is the highest-return capacity investment.</strong> At $124K average ACV across 14 proven deals, this segment has more than double the per-deal value of the Cap Table motion. Allocating dedicated headcount here — or building a playbook from the 14 wins — would likely generate disproportionate ARR relative to rep count.</div>
+    </li>
+    <li>
+      <div class="ta-num">3</div>
+      <div class="ta-text"><strong>Cap Table + 409A form a durable volume base that may be an upsell channel.</strong> Corporations and LLCs buying Cap Table (110 deals) and 409A (48 deals) represent a substantial installed base. If any of these customers are growing into fund structures, there's a natural expansion path into Fund Admin, Fund Tax, and QSBS — worth mapping against the customer list.</div>
+    </li>
+    <li>
+      <div class="ta-num">4</div>
+      <div class="ta-text"><strong>Open AR is manageable but needs immediate attention in the 61–180 day bucket.</strong> $2.2M of the $3.6M open AR is already in the slow-pay zone. Proactive outreach now — before any of it ages past 180 days — is the highest-leverage collections action available to the team this quarter.</div>
+    </li>
+    <li>
+      <div class="ta-num">5</div>
+      <div class="ta-text"><strong>The $4.3M cancellation figure needs a root-cause audit before the next planning cycle.</strong> At 8.1% of total invoiced value, cancellations are large enough to materially affect revenue recognition and DSO metrics. Understanding whether the driver is billing process errors, contract disputes, or customer churn will determine whether the fix sits in Billing, Legal, or Customer Success.</div>
+    </li>
+  </ul>
+</div>
+
+<div class="footnote">
+  Data source: PROD_DB.CLAUDE_TRAINING_SALESFORCE (OPPORTUNITY, OPPORTUNITY_LINE_ITEM, ACCOUNT, INVOICE) &nbsp;·&nbsp;
+  12-month window: July 13, 2025 – July 13, 2026 (pipeline + ARR analysis) &nbsp;·&nbsp;
+  Collections: all invoices, aged to July 13, 2026 &nbsp;·&nbsp;
+  Q1/Q2 2026 closed-won figures are sparse — most 2026 close-date opportunities remain open pipeline &nbsp;·&nbsp;
+  ARR defined as OPPORTUNITY_LINE_ITEM rows where IS_ARR_C = TRUE on Closed Won opportunities
+</div>
+
+</div><!-- /page-wrap -->
+
+<script>
+/* ── Data ──────────────────────────────────────────────────────────── */
+const pipeline = [
+  { label: 'Discovery',            amount: 12436569, count: 118 },
+  { label: 'Contract Signed',      amount: 10476005, count: 98  },
+  { label: 'Needs Qualification',  amount:  8199642, count: 93  },
+  { label: 'Solution Selection',   amount:  8343719, count: 83  },
+  { label: 'Proposal & Negot.',    amount:  6045504, count: 95  },
+  { label: 'Prospecting',          amount:  3799926, count: 26  },
+  { label: 'Qualification',        amount:  3781817, count: 26  },
+  { label: 'Negotiation/Review',   amount:  1824299, count: 26  },
+  { label: 'Proposal/Price Quote', amount:  1281445, count: 26  },
+];
+const losses = [
+  { label: 'No Decision',         count: 8, amount: 617927  },
+  { label: 'Competitor',          count: 5, amount: 121007  },
+  { label: 'Timing',              count: 4, amount: 446073  },
+  { label: 'Budget Freeze',       count: 3, amount: 218484  },
+  { label: 'Feature Gap',         count: 3, amount:  34569  },
+  { label: 'Price',               count: 3, amount:  52256  },
+  { label: 'Champion Left',       count: 2, amount: 1375355 },
+  { label: 'Went w/ Incumbent',   count: 1, amount: 538644  },
+];
+const products = [
+  { label: 'Cap Table',  arr: 8276398, deals: 110, acv: 64641 },
+  { label: 'Fund Admin', arr: 4606825, deals:  44, acv: 77201 },
+  { label: '409A',       arr: 2336513, deals:  48, acv: 49719 },
+  { label: 'Fund Tax',   arr: 2028136, deals:  19, acv: 92188 },
+  { label: 'QSBS',       arr: 1437296, deals:  23, acv: 62100 },
+  { label: 'CTC',        arr:  698554, deals:  30, acv: 21267 },
+  { label: 'Analytics',  arr:  312692, deals:   8, acv: 39087 },
+  { label: 'CRM',        arr:  196926, deals:   6, acv: 32821 },
+  { label: 'Valuations', arr:  194135, deals:   2, acv: 97068 },
+];
+const aging = [
+  { label: '0–30 days',    amount:  928500, color: '#0ca30c' },
+  { label: '31–60 days',   amount: 1096300, color: '#1baf7a' },
+  { label: '61–90 days',   amount: 1078400, color: '#fab219' },
+  { label: '91–180 days',  amount:  522600, color: '#ec835a' },
+  { label: '180+ days',    amount:       0, color: '#e34948' },
+];
+
+/* ── Helper ────────────────────────────────────────────────────────── */
+const fmt = n => n >= 1e6
+  ? '$' + (n/1e6).toFixed(1) + 'M'
+  : '$' + Math.round(n/1000) + 'K';
+
+function renderBars(containerId, items, valueKey, maxVal, colorFn, labelFn) {
+  const el = document.getElementById(containerId);
+  items.forEach(item => {
+    const pct = Math.max(2, (item[valueKey] / maxVal) * 100);
+    const row = document.createElement('div');
+    row.className = 'bar-row';
+    row.innerHTML = `
+      <div class="bar-label" title="${item.label}">${item.label}</div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:${pct}%;background:${colorFn(item)}">
+          <span class="bar-end-label">${labelFn(item)}</span>
+        </div>
+      </div>`;
+    el.appendChild(row);
+  });
+}
+
+/* ── Pipeline bars ─────────────────────────────────────────────────── */
+// ordinal: single hue, steps from dark→light for Discovery→small
+const pipelineColors = ['#0d366b','#184f95','#1c5cab','#256abf','#2a78d6','#3987e5','#5598e7','#86b6ef','#b7d3f6'];
+const maxPipe = Math.max(...pipeline.map(d => d.amount));
+renderBars('pipeline-bars', pipeline, 'amount', maxPipe,
+  (_, i) => (d => pipelineColors[pipeline.indexOf(d)] ?? '#cde2fb'),
+  d => `${fmt(d.amount)} · ${d.count} opps`
+);
+// fix the colorFn (needs index)
+document.getElementById('pipeline-bars').innerHTML = '';
+pipeline.forEach((d, i) => {
+  const pct = Math.max(2, (d.amount / maxPipe) * 100);
+  const row = document.createElement('div');
+  row.className = 'bar-row';
+  const color = pipelineColors[Math.min(i, pipelineColors.length-1)];
+  row.innerHTML = `
+    <div class="bar-label" title="${d.label}">${d.label}</div>
+    <div class="bar-track">
+      <div class="bar-fill" style="width:${pct}%;background:${color}">
+        <span class="bar-end-label">${fmt(d.amount)} · ${d.count}</span>
+      </div>
+    </div>`;
+  document.getElementById('pipeline-bars').appendChild(row);
+});
+
+/* ── Loss bars ─────────────────────────────────────────────────────── */
+const maxLoss = Math.max(...losses.map(d => d.count));
+losses.forEach((d, i) => {
+  const pct = Math.max(4, (d.count / maxLoss) * 100);
+  const row = document.createElement('div');
+  row.className = 'bar-row';
+  row.innerHTML = `
+    <div class="bar-label" title="${d.label}">${d.label}</div>
+    <div class="bar-track">
+      <div class="bar-fill" style="width:${pct}%;background:#e34948">
+        <span class="bar-end-label">${d.count} deal${d.count>1?'s':''} · ${fmt(d.amount)}</span>
+      </div>
+    </div>`;
+  document.getElementById('loss-bars').appendChild(row);
+});
+
+/* ── Product bars ──────────────────────────────────────────────────── */
+const maxProd = Math.max(...products.map(d => d.arr));
+products.forEach((d, i) => {
+  const pct = Math.max(2, (d.arr / maxProd) * 100);
+  const color = pipelineColors[Math.min(i, pipelineColors.length-1)];
+  const row = document.createElement('div');
+  row.className = 'bar-row';
+  row.innerHTML = `
+    <div class="bar-label" title="${d.label}">${d.label}</div>
+    <div class="bar-track">
+      <div class="bar-fill" style="width:${pct}%;background:${color}">
+        <span class="bar-end-label">${fmt(d.arr)} · ${d.deals} deals · avg ${fmt(d.acv)}</span>
+      </div>
+    </div>`;
+  document.getElementById('product-bars').appendChild(row);
+});
+
+/* ── Aging bars ────────────────────────────────────────────────────── */
+const maxAging = Math.max(...aging.map(d => d.amount), 1);
+aging.forEach(d => {
+  const pct = d.amount > 0 ? Math.max(2, (d.amount / maxAging) * 100) : 0;
+  const row = document.createElement('div');
+  row.className = 'bar-row';
+  const fill = d.amount > 0
+    ? `<div class="bar-fill" style="width:${pct}%;background:${d.color}">
+        <span class="bar-end-label">${fmt(d.amount)}</span></div>`
+    : `<div style="padding-left:8px;font-size:12px;font-weight:600;color:var(--good)">✓ None</div>`;
+  row.innerHTML = `
+    <div class="bar-label">${d.label}</div>
+    <div class="bar-track" style="display:flex;align-items:center">${fill}</div>`;
+  document.getElementById('aging-bars').appendChild(row);
+});
+
+/* ── Quarterly chart ───────────────────────────────────────────────── */
+const ctx = document.getElementById('quarterChart').getContext('2d');
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: ['Q3 2025\n(Jul–Sep)', 'Q4 2025\n(Oct–Dec)', 'Q1 2026 *\n(Jan–Mar)', 'Q2 2026 *\n(Apr–Jun)'],
+    datasets: [{
+      label: 'Won Revenue',
+      data: [8274719, 9317481, 1423971, 1059305],
+      backgroundColor: ['#0d366b', '#184f95', '#9ec5f4', '#cde2fb'],
+      borderRadius: 4,
+      borderSkipped: 'bottom',
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: ctx => fmt(ctx.raw),
+          afterLabel: ctx => ctx.dataIndex >= 2 ? '* Early-close deals only' : ''
+        },
+        backgroundColor: '#0b0b0b',
+        titleFont: { size: 12 },
+        bodyFont:  { size: 12 },
+        padding: 10,
+        cornerRadius: 6,
+      }
+    },
+    scales: {
+      y: {
+        ticks: {
+          callback: v => '$' + (v/1e6).toFixed(0) + 'M',
+          font: { size: 11 }, color: '#898781'
+        },
+        grid: { color: '#e1e0d9' },
+        border: { display: false }
+      },
+      x: {
+        grid: { display: false },
+        ticks: { font: { size: 11 }, color: '#898781' },
+        border: { display: false }
+      }
+    }
+  }
+});
+</script>
+</body>
+</html>
