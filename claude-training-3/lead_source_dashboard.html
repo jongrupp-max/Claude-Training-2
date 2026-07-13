@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lead Source ARR Dashboard · Carta · July 2026</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+/* ── Design tokens ──────────────────────────────────── */
+:root {
+  --surface-1: #fcfcfb;
+  --surface-2: #f4f3f0;
+  --page:      #f0efec;
+  --text-1:    #0b0b0b;
+  --text-2:    #52514e;
+  --muted:     #898781;
+  --grid:      #e1e0d9;
+  --border:    rgba(11,11,11,0.09);
+  --s1: #2a78d6; /* blue – slot 1, drives all single-series bars */
+  --s2: #1baf7a;
+  --s3: #eda100;
+  --s4: #008300;
+  --s5: #4a3aa7;
+  --s6: #e34948;
+  --s7: #e87ba4;
+  --s8: #eb6834;
+}
+
+/* ── Reset ──────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--page); color: var(--text-1); font-size: 14px; line-height: 1.5;
+}
+
+/* ── Layout ─────────────────────────────────────────── */
+.wrap   { max-width: 1100px; margin: 0 auto; padding: 36px 24px 72px; }
+.card   { background: var(--surface-1); border-radius: 12px; padding: 24px 28px;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 0 0 1px var(--border); }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.mt-20  { margin-top: 20px; }
+.mt-32  { margin-top: 32px; }
+
+/* ── Page header ────────────────────────────────────── */
+.ph { padding: 28px 32px 24px; border-top: 4px solid var(--s1); margin-bottom: 24px; }
+.ph-eye  { font-size: 11px; font-weight: 600; letter-spacing: 1px;
+           text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.ph-title { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+.ph-sub  { font-size: 13px; color: var(--muted); }
+
+/* ── Stat tiles ─────────────────────────────────────── */
+.stat { padding: 20px 22px; }
+.stat-label { font-size: 11px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.7px; color: var(--muted); margin-bottom: 8px; }
+.stat-value { font-size: 30px; font-weight: 700; }
+.stat-detail { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.stat-tag { display: inline-block; margin-top: 6px; font-size: 11px; font-weight: 600;
+  padding: 2px 8px; border-radius: 20px; }
+.tag-blue   { background: #eef4fd; color: #1a3a6b; }
+.tag-green  { background: #edf7ee; color: #1a4d1c; }
+.tag-yellow { background: #fef8e7; color: #5c3d00; }
+
+/* ── Card titles ────────────────────────────────────── */
+.ct { font-size: 12px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.6px; color: var(--muted); margin-bottom: 18px; }
+
+/* ── Horizontal bar charts ──────────────────────────── */
+.bar-list { display: flex; flex-direction: column; gap: 9px; }
+.bar-row  { display: flex; align-items: center; gap: 10px; position: relative; }
+.bl       { font-size: 12px; color: var(--text-2); width: 140px; flex-shrink: 0;
+            text-align: right; }
+.bt       { flex: 1; height: 22px; background: var(--surface-2);
+            border-radius: 0 4px 4px 0; position: relative; overflow: visible; }
+.bf       { height: 100%; border-radius: 0 4px 4px 0;
+            background: var(--s1); position: relative; }
+.bv       { position: absolute; left: calc(100% + 7px); top: 50%;
+            transform: translateY(-50%); font-size: 11px; font-weight: 600;
+            color: var(--text-2); white-space: nowrap; }
+/* ACV bar uses a second sequential shade */
+.bf.acv   { background: #184f95; }
+
+/* ── Insight strip ──────────────────────────────────── */
+.insights { display: flex; gap: 14px; }
+.ins { flex: 1; border-radius: 8px; padding: 13px 16px;
+       font-size: 13px; line-height: 1.55; display: flex; gap: 9px; }
+.ins-icon { font-size: 15px; flex-shrink: 0; }
+.ins.pos  { background: #edf7ee; color: #1a4d1c; }
+.ins.cau  { background: #fef8e7; color: #5c3d00; }
+.ins.inf  { background: #eef4fd; color: #1a3a6b; }
+
+/* ── Table ──────────────────────────────────────────── */
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead th { background: var(--surface-2); padding: 9px 14px; text-align: left;
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.5px; color: var(--muted); }
+thead th.r { text-align: right; }
+tbody td  { padding: 9px 14px; border-bottom: 1px solid var(--grid); color: var(--text-2); }
+tbody tr:last-child td { border-bottom: none; }
+tbody td.r { text-align: right; font-variant-numeric: tabular-nums; }
+tbody tr:hover td { background: var(--surface-2); }
+.dot { display: inline-block; width: 9px; height: 9px; border-radius: 50;
+       border-radius: 50%; margin-right: 7px; vertical-align: middle; }
+
+/* ── Tooltip ────────────────────────────────────────── */
+#tip { position: fixed; background: #0b0b0b; color: #fff; padding: 9px 13px;
+  border-radius: 7px; font-size: 12px; pointer-events: none; opacity: 0;
+  transition: opacity .12s; white-space: nowrap; z-index: 100; line-height: 1.6; }
+
+/* ── Footnote ───────────────────────────────────────── */
+.fn { font-size: 11px; color: var(--muted); margin-top: 28px;
+  padding-top: 14px; border-top: 1px solid var(--grid); }
+</style>
+</head>
+<body>
+<div id="tip"></div>
+<div class="wrap">
+
+<!-- Header -->
+<div class="card ph">
+  <div class="ph-eye">Carta · CRM Analysis · Lead Source Efficiency</div>
+  <div class="ph-title">Which Lead Sources Generate the Most Closed-Won ARR?</div>
+  <div class="ph-sub">Won opportunities · IS_ARR_C = TRUE · Close dates Jul 13 2025 – Jul 13 2026 · PROD_DB.CLAUDE_TRAINING_SALESFORCE</div>
+</div>
+
+<!-- KPI tiles -->
+<div class="grid-3">
+  <div class="card stat">
+    <div class="stat-label">Total ARR from All Sources</div>
+    <div class="stat-value">$20.1M</div>
+    <div class="stat-detail">226 won deals · 9 lead sources</div>
+    <span class="stat-tag tag-blue">Last 12 months</span>
+  </div>
+  <div class="card stat">
+    <div class="stat-label">Highest-Volume Source</div>
+    <div class="stat-value">Web</div>
+    <div class="stat-detail">$5.0M ARR · 50 deals · $65K avg ACV</div>
+    <span class="stat-tag tag-blue">#1 by total ARR</span>
+  </div>
+  <div class="card stat">
+    <div class="stat-label">Highest-ACV Source</div>
+    <div class="stat-value">Content/SEO</div>
+    <div class="stat-detail">$107K avg ACV · $3.8M ARR · 23 deals</div>
+    <span class="stat-tag tag-green">Best deal quality</span>
+  </div>
+</div>
+
+<!-- Bar charts: ARR + ACV side by side -->
+<div class="grid-2 mt-20">
+  <div class="card">
+    <div class="ct">Total ARR by Lead Source</div>
+    <div class="bar-list" id="arr-bars"></div>
+  </div>
+  <div class="card">
+    <div class="ct">Average ACV by Lead Source</div>
+    <div class="bar-list" id="acv-bars"></div>
+  </div>
+</div>
+
+<!-- Bubble chart -->
+<div class="card mt-20">
+  <div class="ct">Efficiency View — Deal Count vs Avg ACV (bubble size = Total ARR)</div>
+  <div style="position:relative;height:340px">
+    <canvas id="bubble"></canvas>
+  </div>
+  <div style="margin-top:10px;font-size:11px;color:var(--muted)">
+    Bubble area is proportional to total ARR. Hover a bubble for details. Top-right quadrant = high volume + high ACV (most desirable).
+  </div>
+</div>
+
+<!-- Insights -->
+<div class="card mt-20">
+  <div class="ct">Key Signals</div>
+  <div class="insights">
+    <div class="ins pos">
+      <div class="ins-icon">✓</div>
+      <div><strong>Web leads in volume but Content/SEO wins on quality.</strong> Web drives the most ARR ($5.0M, 50 deals) but at a mid-range $65K ACV. Content/SEO buyers close at $107K avg — 64% higher — in 23 deals, suggesting self-educated, high-intent prospects.</div>
+    </div>
+    <div class="ins inf">
+      <div class="ins-icon">→</div>
+      <div><strong>Referral is the most efficient low-cost channel.</strong> 41 deals at $3.2M ARR with near-zero acquisition cost. At $54K ACV it's below average, but the CAC efficiency makes it one of the best ROI channels in the mix.</div>
+    </div>
+    <div class="ins cau">
+      <div class="ins-icon">⚠</div>
+      <div><strong>Outbound SDR punches below its weight.</strong> 21 deals at $1.3M ARR and a $44K ACV — the second-lowest per-deal value. For a resource-intensive channel, the yield relative to Paid Search (12 deals, same ARR) raises a targeting question.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Data table -->
+<div class="card mt-20">
+  <div class="ct">Full Data Table</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Lead Source</th>
+        <th class="r">Won Deals</th>
+        <th class="r">Total ARR</th>
+        <th class="r">Avg ACV</th>
+        <th class="r">Unique Accounts</th>
+        <th class="r">ARR Share</th>
+      </tr>
+    </thead>
+    <tbody id="table-body"></tbody>
+  </table>
+</div>
+
+<div class="fn">
+  Source: PROD_DB.CLAUDE_TRAINING_SALESFORCE · OPPORTUNITY JOIN OPPORTUNITY_LINE_ITEM JOIN ACCOUNT ·
+  Filter: IS_WON = TRUE, IS_ARR_C = TRUE, CLOSE_DATE ≥ Jul 13 2025 ·
+  Q1/Q2 2026 closed-won data is sparse — most 2026 close-date opportunities remain open pipeline
+</div>
+</div>
+
+<script>
+/* ── Data ─────────────────────────────────────────── */
+const SOURCES = [
+  { name:'Web',          arr:4972236,  deals:50, acv:65424,  accounts:48, color:'#2a78d6' },
+  { name:'Content/SEO',  arr:3761673,  deals:23, acv:107476, accounts:23, color:'#1baf7a' },
+  { name:'Referral',     arr:3209513,  deals:41, acv:54399,  accounts:40, color:'#eda100' },
+  { name:'Event',        arr:1958331,  deals:28, acv:40799,  accounts:28, color:'#008300' },
+  { name:'Inbound Demo', arr:1933481,  deals:29, acv:53708,  accounts:29, color:'#4a3aa7' },
+  { name:'Partner',      arr:1517712,  deals:16, acv:68987,  accounts:16, color:'#e34948' },
+  { name:'Outbound SDR', arr:1328928,  deals:21, acv:44298,  accounts:19, color:'#e87ba4' },
+  { name:'Paid Search',  arr:1296151,  deals:12, acv:64808,  accounts:12, color:'#eb6834' },
+  { name:'Direct',       arr:97452,    deals:6,  acv:16242,  accounts:6,  color:'#898781' },
+];
+const totalARR = SOURCES.reduce((s,d) => s+d.arr, 0);
+
+/* ── Helpers ──────────────────────────────────────── */
+const fmt  = n => n >= 1e6 ? '$'+(n/1e6).toFixed(1)+'M' : '$'+Math.round(n/1e3)+'K';
+const fmtK = n => '$'+Math.round(n/1e3)+'K';
+const tip  = document.getElementById('tip');
+
+function showTip(e, html) {
+  tip.innerHTML = html; tip.style.opacity = 1;
+  moveTip(e);
+}
+function moveTip(e) {
+  tip.style.left = (e.clientX + 14)+'px';
+  tip.style.top  = (e.clientY - 10)+'px';
+}
+function hideTip() { tip.style.opacity = 0; }
+
+/* ── ARR bars ─────────────────────────────────────── */
+const maxArr = Math.max(...SOURCES.map(d=>d.arr));
+const arrEl  = document.getElementById('arr-bars');
+[...SOURCES].sort((a,b)=>b.arr-a.arr).forEach(d => {
+  const pct = Math.max(2, (d.arr/maxArr)*100);
+  const row = document.createElement('div');
+  row.className = 'bar-row';
+  row.innerHTML = `
+    <div class="bl">${d.name}</div>
+    <div class="bt">
+      <div class="bf" style="width:${pct}%">
+        <span class="bv">${fmt(d.arr)}</span>
+      </div>
+    </div>`;
+  row.addEventListener('mousemove', e => showTip(e,
+    `<strong>${d.name}</strong><br>ARR: ${fmt(d.arr)}<br>Deals: ${d.deals}<br>Avg ACV: ${fmtK(d.acv)}`));
+  row.addEventListener('mouseleave', hideTip);
+  arrEl.appendChild(row);
+});
+
+/* ── ACV bars ─────────────────────────────────────── */
+const maxAcv = Math.max(...SOURCES.map(d=>d.acv));
+const acvEl  = document.getElementById('acv-bars');
+[...SOURCES].sort((a,b)=>b.acv-a.acv).forEach(d => {
+  const pct = Math.max(2, (d.acv/maxAcv)*100);
+  const row = document.createElement('div');
+  row.className = 'bar-row';
+  row.innerHTML = `
+    <div class="bl">${d.name}</div>
+    <div class="bt">
+      <div class="bf acv" style="width:${pct}%">
+        <span class="bv">${fmtK(d.acv)}</span>
+      </div>
+    </div>`;
+  row.addEventListener('mousemove', e => showTip(e,
+    `<strong>${d.name}</strong><br>Avg ACV: ${fmtK(d.acv)}<br>ARR: ${fmt(d.arr)}<br>Deals: ${d.deals}`));
+  row.addEventListener('mouseleave', hideTip);
+  acvEl.appendChild(row);
+});
+
+/* ── Bubble chart ─────────────────────────────────── */
+const maxBubArr = Math.max(...SOURCES.map(d=>d.arr));
+const bctx = document.getElementById('bubble').getContext('2d');
+new Chart(bctx, {
+  type: 'bubble',
+  data: {
+    datasets: SOURCES.map(d => ({
+      label: d.name,
+      data: [{ x: d.deals, y: d.acv/1000, r: Math.max(8, Math.sqrt(d.arr/maxBubArr)*46) }],
+      backgroundColor: d.color + 'cc',
+      borderColor: d.color,
+      borderWidth: 1.5,
+    }))
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: { font: { size: 11 }, color: '#52514e', boxWidth: 10, padding: 14,
+          generateLabels: chart => chart.data.datasets.map((ds, i) => ({
+            text: ds.label, fillStyle: ds.backgroundColor,
+            strokeStyle: ds.borderColor, lineWidth: 1.5,
+            datasetIndex: i, hidden: false,
+          }))
+        }
+      },
+      tooltip: {
+        callbacks: {
+          label: ctx => {
+            const d = SOURCES[ctx.datasetIndex];
+            return [
+              `ARR: ${fmt(d.arr)}`,
+              `Deals: ${d.deals}`,
+              `Avg ACV: ${fmtK(d.acv)}`,
+              `Accounts: ${d.accounts}`,
+            ];
+          }
+        },
+        backgroundColor: '#0b0b0b',
+        titleFont: { size: 12, weight: 'bold' },
+        bodyFont: { size: 12 },
+        padding: 11, cornerRadius: 6,
+        titleColor: '#fff', bodyColor: '#c3c2b7',
+      },
+    },
+    scales: {
+      x: {
+        title: { display: true, text: 'Won Deals', color: '#898781', font: { size: 12 } },
+        ticks: { color: '#898781', font: { size: 11 } },
+        grid: { color: '#e1e0d9' },
+        border: { display: false },
+        min: 0,
+      },
+      y: {
+        title: { display: true, text: 'Avg ACV ($K)', color: '#898781', font: { size: 12 } },
+        ticks: { callback: v => '$'+v+'K', color: '#898781', font: { size: 11 } },
+        grid: { color: '#e1e0d9' },
+        border: { display: false },
+        min: 0,
+      }
+    }
+  }
+});
+
+/* ── Table ────────────────────────────────────────── */
+const tbody = document.getElementById('table-body');
+[...SOURCES].sort((a,b)=>b.arr-a.arr).forEach(d => {
+  const share = ((d.arr/totalARR)*100).toFixed(1);
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><span class="dot" style="background:${d.color}"></span>${d.name}</td>
+    <td class="r">${d.deals}</td>
+    <td class="r">${fmt(d.arr)}</td>
+    <td class="r">${fmtK(d.acv)}</td>
+    <td class="r">${d.accounts}</td>
+    <td class="r">${share}%</td>`;
+  tbody.appendChild(tr);
+});
+</script>
+</body>
+</html>
